@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\Services;
+use Illuminate\Http\Request;
+
+class ServicesController extends Controller
+{
+    public function create_service(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => 'no permession']);
+        }
+
+        $new_service = Services::create(
+            [
+                'name' => $request->input('name'),
+                'price' => $request->input('price'),
+                'package' => $request->input('package'),
+                'description' => $request->input('description'),
+            ]
+        );
+        return $new_service;
+    }
+
+    public function show_all_services(Request $request)
+    {
+        // $emp = $request->user();
+        // if ($emp->rank != 'super') {
+        //     return response()->json(['status' => false, 'details' => 'no permission']);
+        // }
+
+        $customer = Services::all();
+        if ($customer) {
+            return response()->json(['status' => true, 'details' => $customer]);
+        }
+    }
+
+    public function update_service(Request $request,$id)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => 'no permession']);
+        }
+
+        $service = Services::where('id', $id)->first();
+        if ($service) {
+            $service->name = $request->input('name');
+            $service->price = $request->input('price');
+            $service->package = $request->input('package');
+            $service->description = $request->input('description');
+            $service->save();
+            return response()->json(['status'=>true,'details'=>$service]);
+        }
+        
+    }
+}
