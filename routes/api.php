@@ -34,4 +34,9 @@ Route::get('/get_customer/{id}',[CustomersController::class, 'get_customer'])->m
 Route::get('/get_payment/{id}',[PaymentsController::class, 'get_payment'])->middleware('auth:sanctum');
 Route::get('/get_payments/{id}',[PaymentsController::class, 'get_payments'])->middleware('auth:sanctum');
 
+Route::get('/get_unpaid_renews',[RenewsController::class, 'get_unpaid_renews'])->middleware('auth:sanctum');
+Route::get('/get_customer_renews_from_to/{id}',[RenewsController::class, 'get_customer_renews_from_to'])->middleware('auth:sanctum');
+Route::get('/get_unrenewed_customers',[CustomersController::class, 'get_unrenewed_customers'])->middleware('auth:sanctum');
+
+
 Route::post('/login',[EmployeesController::class,'login']);

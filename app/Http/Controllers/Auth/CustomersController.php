@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
@@ -101,6 +102,18 @@ class CustomersController extends Controller
                     ->Orwhere('location', 'LIKE', "%{$search}%")
                     ->Orwhere('number', 'LIKE', "%{$search}%");
             })
+            ->get();
+        if ($customers) {
+            return response()->json(['status' => true, 'details' => $customers]);
+        }
+    }
+
+    public function get_unrenewed_customers(Request $request)
+    {
+        $currentDate = Carbon::now()->toDateString(); // Outputs: YYYY-MM-DD
+
+        $customers = Customers::query()
+            ->where('expiry','>=',$currentDate)
             ->get();
         if ($customers) {
             return response()->json(['status' => true, 'details' => $customers]);
