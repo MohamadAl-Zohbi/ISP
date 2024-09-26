@@ -1,54 +1,59 @@
 <script>
 import axios from 'axios';
-// import vue from 'vue'
-// import TheWelcome from '../components/TheWelcome.vue';
-import WarningMessage from './WarningMessage.vue';
+import WarningMessage from '../components/WarningMessage.vue';
+import Loading from '../components/LoadingBox.vue';
 export default {
   data() {
     return {
       username: '',
       password: '',
-      waiting: false
+      is_loading: false,
+      is_closed_warning: false,
+      details: '',
     };
   },
   components: {
-WarningMessage
-  }, 
+    WarningMessage,
+    Loading
+  },
   methods: {
     async login() {
-      this.waiting = true;
+      this.is_loading = true;
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/login', {
           username: this.username,
           password: this.password,
         });
-        this.waiting = false
+        this.is_loading = false
 
         console.log('Post created:', response.data);
         if (response.data.status == true) {
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('name', response.data.details.name);
           location.replace('/');
+        } else {
+          this.is_closed_warning = true
+          this.details = response.data.details
         }
 
       } catch (error) {
-        this.waiting = false
+        this.is_loading = false
+        this.is_closed_warning = true
+          this.details = response.data.details
 
         console.error("There was an error creating the post:", error);
       }
+    },
+    closeWarning() {
+      this.is_closed_warning = false
     }
+
   }
 };
 </script>
 
-<!-- ./src/components/Login.vue -->
 <template>
-
-
-  <!-- <TheWelcome/> -->
-
-  <WarningMessage/>
-  <div v-if="waiting" style="background-color: red;">waiting...</div>
-
+  <Loading v-if="is_loading"/>
 
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -72,7 +77,19 @@ WarningMessage
         <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-500">
           Login
         </button>
+  
       </form>
+      <transition
+      enter-active-class="transition-opacity ease-out duration-500"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity ease-in duration-500"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+  <WarningMessage v-if="is_closed_warning" :msg="closeWarning" :details="details" />
+</transition>
     </div>
+    
   </div>
 </template>

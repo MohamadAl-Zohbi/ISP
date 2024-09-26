@@ -92,7 +92,7 @@ class CustomersController extends Controller
     public function search_customer(Request $request)
     {
         $customers = Customers::query()
-            ->whereBetween('expiry', [request('from'), request('to')])
+            // ->whereBetween('expiry', [request('from'), request('to')])
             ->where(function ($query) {
                 $search = request('search');
                 $query->where('name', 'LIKE', "%{$search}%")
