@@ -207,14 +207,14 @@ export default {
             }
         },
         async search() {
-            if(!(location.pathname == '/search')){
+            // if(!(location.pathname == '/search')){
                 location.replace('/search?search=' + this.searchQuery.toLowerCase().trim());
-            }else{
-                this.is_loading = true;
-                await search(this.searchQuery.toLowerCase().trim());
-                this.is_loading = false;
-            }
-            // this.is_loading = true;
+            // }else{
+            //     this.is_loading = true;
+            //     await search(this.searchQuery.toLowerCase().trim());
+            //     this.is_loading = false;
+            // }
+            // // this.is_loading = true;
             // let token = localStorage.getItem('token');
             // try {
             //     const response = await axios.get(`http://localhost:8000/api/search`, {

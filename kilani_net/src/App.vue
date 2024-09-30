@@ -2,7 +2,8 @@
 import {RouterView} from 'vue-router';
 import {ref} from 'vue';
 import Navigation from './components/Navigation.vue';
-
+// import 'vuetify/dist/vuetify.min.css';
+// 
 const login_nav = ref(location.pathname != '/login');
 const position = ref(location.pathname);
 

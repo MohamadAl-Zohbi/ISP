@@ -1,14 +1,20 @@
     <template>
+        <!-- ############## -->
         <LoadingBox v-if="is_loading" />
-
-        <div class="container mx-auto mt-4">
+        <!-- <CustomerDetailsBox v-if="true" :name="name" :created_at="created_at" :expiry="expiry"
+            :description="description" :location="location" :nationality="nationality" :number="number" :user="user" :password="password"/> -->
+        <CustomerDetailsBox v-if="isOpenDetailsCustomer" :isOpen="true" :name="name"
+            :closeFunction="closeCustomerDetailsBox" :created_at="created_at" :expiry="expiry"
+            :description="description" :location="location" :nationality="nationality" :number="number" :user="user"
+            :password="password" />
+        <div class="mx-auto mt-4" style="padding: 10px;">
             <!-- Search Input -->
             <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" autofocus />
 
             <!-- Data Table -->
             <table class="table-auto w-full bg-white shadow-md rounded">
                 <thead>
-                    <tr>
+                    <tr style="border-bottom: 1px solid black;">
                         <th @click="sortBy('name')" class="cursor-pointer p-4">Created</th>
                         <th @click="sortBy('name')" class="cursor-pointer p-4">Name</th>
                         <th @click="sortBy('age')" class="cursor-pointer p-4">Expiry</th>
@@ -18,23 +24,43 @@
                         <th @click="sortBy('city')" class="cursor-pointer p-4">Number</th>
                         <th @click="sortBy('city')" class="cursor-pointer p-4">User</th>
                         <th @click="sortBy('city')" class="cursor-pointer p-4">Password</th>
+                        <th @click="sortBy('city')" class="cursor-pointer p-4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background-color: red" v-for="(customer, index) in filteredSortedData" :key="index"
-                        class="border-b">
+                    <tr v-for="(customer, index) in filteredSortedData" :key="index" class="border-b">
 
-                        <td class="p-4">dd-mm-yyyy <br />{{ new Date(customer.created_at).getDate() }}-{{ new Date(customer.created_at).getMonth() + 1 }}-{{ new Date(customer.created_at).getFullYear() }}</td>
+                        <td class="p-1">dd-mm-yyyy<br />{{ new Date(customer.created_at).getDate() }}-{{ new
+                            Date(customer.created_at).getMonth() + 1 }}-{{ new Date(customer.created_at).getFullYear()
+                            }}</td>
 
 
-                        <td class="p-4">{{ customer.age }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
-                        <td class="p-4">{{ customer.city }}</td>
+                        <td class="p-1">{{ customer.name }}</td>
+                        <td class="p-1">{{ customer.expiry }}</td>
+                        <td class="p-1">{{ customer.description }}</td>
+                        <td class="p-1">{{ customer.location }}</td>
+                        <td class="p-1">{{ customer.nationality }}</td>
+                        <td class="p-1">{{ customer.number }}</td>
+                        <td class="p-1">{{ customer.user }}</td>
+                        <td class="p-1">{{ customer.pass }}</td>
+                        <td class="p-1">
+                            <button
+                                @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass)"
+                                class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                                style="color: #514d4d;margin-right: 1px;">
+                                Show
+                            </button>
+                            <button
+                                class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                                style="color: red;margin-right: 1px;">
+                                Edit
+                            </button>
+                            <button
+                                class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                                style="color: green;">
+                                Details
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -45,6 +71,9 @@
 
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
+import CustomerDetailsBox from '@/components/CustomerDetailsBox.vue';
+// import Vuetify from 'vuetify';
+
 import { search } from '@/utils.js';
 export default {
     data() {
@@ -57,6 +86,16 @@ export default {
             customers: [
 
             ],
+            created_at: '',
+            name: '',
+            expiry: '',
+            description: '',
+            location: '',
+            nationality: '',
+            number: '',
+            user: '',
+            password: '',
+            isOpenDetailsCustomer: false
         };
     },
     computed: {
@@ -64,8 +103,15 @@ export default {
             // Filter based on the search query
             let filteredData = this.customers.filter((customer) => {
                 return (
+                    customer.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.city.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    customer.expiry.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.location.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.nationality.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.number.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.user.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.pass.toLowerCase().includes(this.searchQuery.toLowerCase())
                 );
             });
 
@@ -109,6 +155,22 @@ export default {
             this.customers = this.test.details;
 
             this.is_loading = false;
+        },
+        showCustomerDetails(created_at, name, expiry, description, location, nationality, number, user, password) {
+            this.created_at = created_at;
+            this.name = name;
+            this.expiry = expiry;
+            this.description = description;
+            this.location = location;
+            this.nationality = nationality;
+            this.number = number;
+            this.user = user;
+            this.password = password;
+            this.isOpenDetailsCustomer = !this.isOpenDetailsCustomer;
+            console.log('dd')
+        },
+        closeCustomerDetailsBox() {
+            this.isOpenDetailsCustomer = false
         }
 
     },
@@ -117,7 +179,8 @@ export default {
         this.search()
     },
     components: {
-        LoadingBox
+        LoadingBox,
+        CustomerDetailsBox
     }
 };
 
