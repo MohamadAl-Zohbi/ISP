@@ -124,7 +124,7 @@ class RenewsController extends Controller
         $renews = DB::select(DB::raw("
     SELECT *
     FROM renews
-    LEFT JOIN payments ON renews.id = payments.renew_id WHERE renews.customer_id = $id
+     WHERE customer_id = $id
 "));
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);

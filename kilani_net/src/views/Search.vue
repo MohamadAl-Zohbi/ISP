@@ -28,20 +28,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(customer, index) in filteredSortedData" :key="index" class="border-b">
+                    <tr v-for="(customer, index) in filteredSortedData" :key="index" :class="['border-b',!customer.is_frozen ? '' : 'bg-red-200']" >
 
                         <td class="p-1">dd-mm-yyyy<br />{{ new Date(customer.created_at).getDate() }}-{{ new
                             Date(customer.created_at).getMonth() + 1 }}-{{ new Date(customer.created_at).getFullYear()
                             }}</td>
 
-
                         <td class="p-1">{{ customer.name }}</td>
                         <td class="p-1">{{ customer.expiry }}</td>
-                        <td class="p-1">{{ customer.description }}</td>
+                        <td class="p-1">{{ descriptionFilter(customer.description) }}</td>
                         <td class="p-1">{{ customer.location }}</td>
                         <td class="p-1">{{ customer.nationality }}</td>
                         <td class="p-1">{{ customer.number }}</td>
-                        <td class="p-1">{{ customer.user }}</td>
+                        <td class="p-1">{{ customer.user.substring(0,5) }}...</td>
                         <td class="p-1">{{ customer.pass }}</td>
                         <td class="p-1">
                             <button
@@ -56,6 +55,7 @@
                                 Edit
                             </button>
                             <button
+                            @click="customerDetails(customer.id)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: green;">
                                 Details
@@ -75,6 +75,7 @@ import CustomerDetailsBox from '@/components/CustomerDetailsBox.vue';
 // import Vuetify from 'vuetify';
 
 import { search } from '@/utils.js';
+import CustomerDetails from './CustomerDetails.vue';
 export default {
     data() {
         return {
@@ -106,7 +107,7 @@ export default {
                     customer.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.expiry.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    // customer.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.location.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.nationality.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.number.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -167,10 +168,17 @@ export default {
             this.user = user;
             this.password = password;
             this.isOpenDetailsCustomer = !this.isOpenDetailsCustomer;
-            console.log('dd')
         },
         closeCustomerDetailsBox() {
             this.isOpenDetailsCustomer = false
+        },
+        descriptionFilter(description){
+            if(description != null){
+                return description.substring(0,10) + '...';
+            }
+        },
+        customerDetails(id){
+            window.open('customer-details?id='+id);
         }
 
     },

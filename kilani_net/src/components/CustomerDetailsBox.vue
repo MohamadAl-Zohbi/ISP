@@ -12,18 +12,25 @@
                     Date(created_at).getMonth() + 1 }}-{{ new Date(created_at).getFullYear()
                     }} / {{ new Date(created_at).getHours() }}:{{ new
                         Date(created_at).getMinutes() }}</p>
+                <p class="text-gray-600">Expiry: {{ expiry }}</p>
+                <p class="text-gray-600">Description: {{ description }}</p>
+                <p class="text-gray-600">Location: {{ location }}</p>
+                <p class="text-gray-600">Nationality: {{ nationality }}</p>
+                <p class="text-gray-600">Number: {{ number }}</p>
+                <p class="text-gray-600">User: {{ user }}</p>
+                <p class="text-gray-600">Password: {{ password }}</p>
             </div>
 
 
 
-            <div class="mt-6 flex justify-end space-x-4">
+            <!-- <div class="mt-6 flex justify-end space-x-4">
                 <button @click="closeDialog" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">
                     Cancel
                 </button>
                 <button @click="confirmAction" class="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-900">
                     Confirm
                 </button>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
