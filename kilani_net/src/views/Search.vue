@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(customer, index) in filteredSortedData" :key="index" :class="['border-b',!customer.is_frozen ? '' : 'bg-red-200']" >
+                    <tr v-for="(customer, index) in filteredSortedData" :key="index" :class="['border-b',!customer.is_frozen ? '' : 'bg-red-200','hover:bg-gray-700','hover:!text-white']" >
 
                         <td class="p-1">dd-mm-yyyy<br />{{ new Date(customer.created_at).getDate() }}-{{ new
                             Date(customer.created_at).getMonth() + 1 }}-{{ new Date(customer.created_at).getFullYear()
@@ -46,7 +46,7 @@
                             <button
                                 @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                                style="color: #514d4d;margin-right: 1px;">
+                                style="margin-right: 1px;">
                                 Show
                             </button>
                             <button

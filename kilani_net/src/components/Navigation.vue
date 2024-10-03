@@ -175,7 +175,7 @@
 <script>
 // import { onMounted } from 'vue';
 import LoadingBox from './LoadingBox.vue';
-import {search} from '@/utils';
+import { search } from '@/utils';
 // import axios from 'axios';
 export default {
 
@@ -204,11 +204,13 @@ export default {
                 this.location = "DashBoard";
             } else if (this.position == '/search') {
                 this.location = "Search Reasult";
+            } else if (this.position == '/customer-details') {
+                this.location = "Customer Renews";
             }
         },
         async search() {
             // if(!(location.pathname == '/search')){
-                location.replace('/search?search=' + this.searchQuery.toLowerCase().trim());
+            location.replace('/search?search=' + this.searchQuery.toLowerCase().trim());
             // }else{
             //     this.is_loading = true;
             //     await search(this.searchQuery.toLowerCase().trim());

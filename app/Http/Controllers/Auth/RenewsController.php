@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Models\Customers;
 use App\Models\Renews;
@@ -74,7 +75,7 @@ class RenewsController extends Controller
         if ($emp->rank != 'super') {
             return response()->json(['status' => false, 'details' => 'no permission']);
         }
-        
+
         $currentDate = Carbon::now()->toDateString(); // Outputs: YYYY-MM-DD
 
         $renew = Renews::where('id', $id)->first();
@@ -110,7 +111,7 @@ class RenewsController extends Controller
         return response()->json(['status' => false, 'details' => 'no pay found']);
     }
 
-    public function get_customer_renews_from_to(Request $request,$id)
+    public function get_customer_renews(Request $request, $id)
     {
         // $emp = $request->user();
         // if ($emp->rank != 'super') {
@@ -122,9 +123,12 @@ class RenewsController extends Controller
         //     ->get();
 
         $renews = DB::select(DB::raw("
-    SELECT *
-    FROM renews
-     WHERE customer_id = $id
+    SELECT renews.created_at,renews.id,renews.from,renews.to,employees.name,services.service,renews.checked_by_owner,renews.total,renews.paid,renews.note FROM `renews`,`employees`,`services` WHERE 
+renews.service_id = services.id
+AND
+employees.id = renews.employee_id
+AND 
+renews.customer_id = $id
 "));
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
@@ -151,6 +155,51 @@ class RenewsController extends Controller
 
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
+        }
+        return response()->json(['status' => false, 'details' => 'no pay found']);
+    }
+
+    public function check_renews(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => false, 'details' => 'no permission']);
+        }
+        $ids = $request->validate([
+            'data' => 'required|array',
+        ]);
+        $flatData = Arr::flatten($ids);
+
+        // $ids = json_decode($request->input('ids'), true);
+        $renews = Renews::whereIn('id', $flatData)->update(['checked_by_owner' => 'checked']);
+
+
+        if ($renews) {
+            return response()->json(['status' => true, 'details' => 'done']);
+        }
+        return response()->json(['status' => false, 'details' => 'no pay found']);
+    }
+
+
+    public function delete_renews_as_checked(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => false, 'details' => 'no permission']);
+        }
+
+        $ids = $request->validate([
+            'data' => 'required|array',
+        ]);
+        $flatData = Arr::flatten($ids);
+
+        // $ids = json_decode($request->input('ids'), true);
+        $renews = Renews::whereIn('id', $flatData)->delete();
+
+
+
+        if ($renews) {
+            return response()->json(['status' => true, 'details' => 'done']);
         }
         return response()->json(['status' => false, 'details' => 'no pay found']);
     }
