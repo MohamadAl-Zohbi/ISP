@@ -27,7 +27,7 @@
                 </svg>
             </div>
             <div class="text-white text-2xl font-bold">
-                <a href="#" class="hover:text-gray-400 location">{{ name.substring(0, 5) }}...</a>
+                <a href="/" class="hover:text-gray-400 location">{{ name.substring(0, 5) }}...</a>
             </div>
         </div>
 

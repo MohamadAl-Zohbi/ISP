@@ -3,6 +3,7 @@ import Customers from '../views/Customers.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Search from '../views/Search.vue'
 import CustomerDetails from '../views/CustomerDetails.vue'
+import CreateRenew from '../views/CreateRenew.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,12 @@ const router = createRouter({
       path: '/search',
       name: 'search',
       component: Search
+    },
+
+    {
+      path: '/create-renew',
+      name: 'create-renew',
+      component: CreateRenew
     },
     {
       path: '/login',

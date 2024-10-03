@@ -192,8 +192,6 @@ renews.customer_id = $id
             'data' => 'required|array',
         ]);
         $flatData = Arr::flatten($ids);
-
-        // $ids = json_decode($request->input('ids'), true);
         $renews = Renews::whereIn('id', $flatData)->delete();
 
 
