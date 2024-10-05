@@ -17,7 +17,7 @@ class ServicesController extends Controller
 
         $new_service = Services::create(
             [
-                'name' => $request->input('name'),
+                'service' => $request->input('service'),
                 'price' => $request->input('price'),
                 'package' => $request->input('package'),
                 'description' => $request->input('description'),

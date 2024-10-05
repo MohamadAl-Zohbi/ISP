@@ -64,7 +64,7 @@
                     <a href="#" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Customer
-                    </a><a href="#" style="padding-left:50px ;"
+                    </a><a href="manage-customers?search=" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Customers
                     </a>
@@ -202,15 +202,15 @@ export default {
         setPosition() {
             if (this.position == '/') {
                 this.location = "DashBoard";
-            } else if (this.position == '/search') {
-                this.location = "Search Reasult";
+            } else if (this.position == '/manage-customers') {
+                this.location = "Customers";
             } else if (this.position == '/customer-details') {
                 this.location = "Customer Renews";
             }
         },
         async search() {
             // if(!(location.pathname == '/search')){
-            location.replace('/search?search=' + this.searchQuery.toLowerCase().trim());
+            location.replace('/manage-customers?search=' + this.searchQuery.toLowerCase().trim());
             // }else{
             //     this.is_loading = true;
             //     await search(this.searchQuery.toLowerCase().trim());

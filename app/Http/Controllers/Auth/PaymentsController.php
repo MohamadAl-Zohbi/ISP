@@ -21,10 +21,10 @@ class PaymentsController extends Controller
         $payment = Payments::create([
             'amount' => $request->input('amount'),
             'phone_number' => $request->input('phone_number'),
-            'description' => $request->input('employee_id'),
+            'description' => $request->input('description'),
             'who' => $request->input('who'),
             'payment_method' => $request->input('payment_method'),
-            'employee_id' => $request->input('employee_id'),
+            'employee_id' => $emp->id,
             'renew_id' => $request->input('renew_id'),
         ]);
 

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Customers from '../views/Customers.vue'
 import Dashboard from '../views/Dashboard.vue'
-import Search from '../views/Search.vue'
+import ManageCustomers from '../views/ManageCustomers.vue'
 import CustomerDetails from '../views/CustomerDetails.vue'
 import CreateRenew from '../views/CreateRenew.vue'
 
@@ -24,9 +24,9 @@ const router = createRouter({
       component: CustomerDetails
     }, 
     {
-      path: '/search',
-      name: 'search',
-      component: Search
+      path: '/manage-customers',
+      name: 'manage-customers',
+      component: ManageCustomers
     },
 
     {

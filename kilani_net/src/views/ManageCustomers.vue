@@ -50,6 +50,12 @@
                                 Show
                             </button>
                             <button
+                                @click="customerRenew(customer.id)"
+                                class="text-blue-600 px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                                style="margin-right: 1px;">
+                                Renew
+                            </button>
+                            <button
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: red;margin-right: 1px;">
                                 Edit
@@ -179,6 +185,9 @@ export default {
         },
         customerDetails(id){
             window.open('customer-details?id='+id);
+        },
+        customerRenew(id){
+            window.open('create-renew?id='+id);
         }
 
     },
