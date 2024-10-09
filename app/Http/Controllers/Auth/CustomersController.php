@@ -27,7 +27,7 @@ class CustomersController extends Controller
                 'user' => $request->input('user'),
                 'pass' => $request->input('pass'),
                 // 'service_id' => $request->input('service_id'),
-                'created_by' => $request->input('created_by'),
+                'created_by' => $emp->id,
                 'is_frozen' => $request->input('is_frozen'),
             ]
         );

@@ -29,6 +29,14 @@
             <div class="text-white text-2xl font-bold">
                 <a href="/" class="hover:text-gray-400 location">{{ name.substring(0, 5) }}...</a>
             </div>
+            <button @click="handleLogout" class="flex items-center p-2 text-gray-600 hover:text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
+                </svg>
+                <span class="ml-2">Logout</span>
+            </button>
         </div>
 
 
@@ -61,7 +69,7 @@
                         &nbsp;&nbsp;
                         Customer
                     </summary>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="create-customer" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Customer
                     </a><a href="manage-customers?search=" style="padding-left:50px ;"
@@ -206,6 +214,8 @@ export default {
                 this.location = "Customers";
             } else if (this.position == '/customer-details') {
                 this.location = "Customer Renews";
+            } else if (this.position == '/create-customer') {
+                this.location = "Create Customer";
             }
         },
         async search() {
@@ -252,6 +262,10 @@ export default {
             let value = urlParams.get('search');
 
             return value;
+        },
+        handleLogout() {
+            localStorage.clear();
+            location.replace('login')
         }
     },
     mounted() {

@@ -40,8 +40,8 @@ return new class extends Migration
                 ->onDelete('cascade');
             // $table->enum('status',['done','waiting']);
             $table->enum('checked_by_owner',['checked','waiting','refuised']);
-            $table->integer('total');
-            $table->integer('paid');
+            $table->float('total',8,2);
+            $table->float('paid',8,2);
             $table->string('note')->nullable();
         });
     }

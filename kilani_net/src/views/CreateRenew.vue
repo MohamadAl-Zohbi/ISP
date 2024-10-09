@@ -1,15 +1,6 @@
 <template>
     <LoadingBox v-if="is_loading" />
-    <!-- <div v-if="is_chosen" class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
-        style="height: 500px; overflow-y: auto">
-        <h2 class="text-2xl font-bold mb-6 text-center">Choose The Name</h2>
-        <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" />
 
-        <div v-for="(customer, index) in filteredSortedData" :key="customer.id" @click="chooseName(index)"
-            class="p-4 mb-2 bg-gray-100 rounded-lg shadow-md" style="cursor: pointer;">
-            <p class="text-lg font-medium text-gray-700">{{ customer.name }}</p>
-        </div>
-    </div> -->
     <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
         <h2 class="text-2xl font-bold mb-6 text-center">Renewal Form</h2>
         <div>
@@ -52,7 +43,7 @@
                     if (!/^\d$/.test(char) && char != '.') {  // Check if the character is not a digit
                         event.preventDefault();  // Prevent non-digit input
                     }
-                }" v-model.number="total" required
+                }" v-model="total" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
@@ -96,7 +87,7 @@
             </button>
         </form>
 
-        <!-- <div v-if="submitted" class="mt-6 p-4 border rounded bg-gray-100">
+        <!-- <div v-if="true" class="mt-6 p-4 border rounded bg-gray-100">
             <h3 class="font-semibold">Renewal Summary</h3>
             <p><strong>From Date:</strong> {{ fromDate }}</p>
             <p><strong>To Date:</strong> {{ toDate }}</p>
@@ -113,9 +104,6 @@ import LoadingBox from '@/components/LoadingBox.vue';
 export default {
     data() {
         return {
-            // fromDate: this.getTodayDate(),
-            toDate: this.getNextMonthDate(),
-            searchQuery: '',
             name: '',
             total: 0.00,
             expiry: '',
@@ -125,26 +113,14 @@ export default {
             to: '',
             who: '',
             customer: '',
-            payOfWho: '',
             number: '',
             paid: 0.00,
-            // customers: [
-
-            // ],
-            services: [
-                // { id: 1, service: "2MB", total: 20 }
-            ],
+            services: [],
             is_loading: false,
-            is_chosen: true
         };
     },
     methods: {
-        // getTodayDate() {
-        //     const expiry = this.customer.expiry;
-        //     // Format date as YYYY-MM-DD
-        //     // return today.toISOString().split('T')[0];
-        //     return expiry;
-        // },
+
         getNextMonthDate() {
             const today = new Date();
             // Add one month
@@ -152,34 +128,7 @@ export default {
             // Format date as YYYY-MM-DD
             return nextMonthDate.toISOString().split('T')[0];
         },
-        // submitForm() {
-        //     this.submitted = true;
 
-        // const renewalData = {
-        //     fromDate: this.fromDate,
-        //     toDate: this.toDate,
-        //     total: this.total,
-        //     service: this.service,
-        //     payAmount: this.payAmount,
-        //     whoPay: this.whoPay,
-        //     payOfWho: this.payOfWho,
-        // };
-
-        // Example: Send data to the server
-        // axios.post('http://localhost:8000/api/renewals', renewalData)
-        //   .then(response => {
-        //     console.log('Renewal submitted:', response.data);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error submitting renewal:', error);
-        //   });
-        // },
-        // chooseName(index) {
-        //     this.customer = this.customers[index].name;
-
-        //     console.log(this.customer, index);
-        //     this.is_chosen = false
-        // },
         getTotal(value) {
             if (!value) {
                 return false;
@@ -189,11 +138,9 @@ export default {
 
             let timeDifference = date2 - date1;
             let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-            console.log(daysDifference);
             //  20$ ===> 30day
             //  ??  <===  1
             this.total = (daysDifference * parseInt(value) / 30).toFixed(2);
-            console.log(document.getElementById('service').value.split(',')[1])
             return true;
         },
         getParam() {
@@ -204,14 +151,16 @@ export default {
             return value;
         },
         async submit() {
+            console.log(this.total)
             let date1 = new Date(this.expiry);
             let date2 = new Date(this.to);
-            if (this.from == '' || date1 >= date2 || this.to == '' || this.service == '' || !this.getTotal(document.getElementById('service').value)) {
+            if (this.from == '' || date1 >= date2 || this.to == '' || this.service == '') {
                 return '';
             }
 
             if (this.paid > 0) {
                 if (this.who == '') {
+                    alert('Who is the payer')
                     return '';
                 }
             }
@@ -255,9 +204,7 @@ export default {
                         this.is_loading = false
 
                         console.log('Post created:', response_payment.data);
-                        if (this.paid != 0) {
-                            alert('ss')
-                        }
+
 
                     } catch (error) {
                         this.is_loading = false
@@ -275,30 +222,9 @@ export default {
 
                 console.error("There was an error creating the post:", error);
             }
+
+            location.replace('manage-customers?search=')
         }
-
-    },
-    computed: {
-        filteredSortedData() {
-            // Filter based on the search query
-            let filteredData = this.customers.filter((customer) => {
-                return (
-                    customer.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-                );
-            });
-
-            // Sort the filtered data
-            // if (this.sortKey) {
-            //     filteredData.sort((a, b) => {
-            //         let result = 0;
-            //         if (a[this.sortKey] > b[this.sortKey]) result = 1;
-            //         if (a[this.sortKey] < b[this.sortKey]) result = -1;
-            //         return result * this.sortDirection;
-            //     });
-            // }
-
-            return filteredData;
-        },
 
     },
     async mounted() {
@@ -313,14 +239,13 @@ export default {
             this.is_loading = false
 
 
-            console.log(response.data);
+            // console.log(response.data);
             this.customer = response.data.details;
             this.name = this.customer.name;
             this.expiry = this.customer.expiry;
             let date = new Date(this.customer.expiry);
             date.setMonth(date.getMonth() + 1);
             this.to = date.toISOString().split('T')[0];
-            console.log(this.to);
         } catch (error) {
             this.is_loading = false
 
@@ -338,9 +263,8 @@ export default {
             this.is_loading = false
 
 
-            console.log(response.data);
+            // console.log(response.data);
             this.services = response.data.details
-            console.log(document.getElementById('service').value)
 
         } catch (error) {
             this.is_loading = false
