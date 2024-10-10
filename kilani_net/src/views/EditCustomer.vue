@@ -13,7 +13,7 @@
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
             <div>
-                <label for="expiry" class="block text-sm font-medium text-gray-700">From Date:mm/dd/yyyy</label>
+                <label for="expiry" class="block text-sm font-medium text-gray-700">Expiry: mm/dd/yyyy</label>
                 <input type="date" v-model="expiry" disabled
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
@@ -41,12 +41,32 @@
                     class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
-            <div>
+            <!-- <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
                 <input type="password" v-model="password" placeholder="password ..." required
                     class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div> -->
+            <div class="relative">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+                <div class="relative">
+                    <input :type="isPasswordVisible ? 'text' : 'password'" v-model="password"
+                    class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                    placeholder="password ..." />
+                <button type="button" @click="togglePasswordVisibility"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg v-if="isPasswordVisible" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm1.618-7.832a9 9 0 00-9.236 0M4.5 8.132a8.976 8.976 0 00-2.488 3.868 9 9 0 0016.976 0 8.978 8.978 0 00-2.488-3.868m-2.62 4.754a9.008 9.008 0 011.236 1.88" />
+                    </svg>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13.875 18.825A10.05 10.05 0 019 19a10 10 0 010-20 10.05 10.05 0 014.875 1.175M9.5 7.5a3 3 0 013 3 3 3 0 01-3 3m0-12a8.933 8.933 0 016.75 3.675m.208 1.36a8.933 8.933 0 01.042 8.248" />
+                    </svg>
+                </button>
+                </div>
             </div>
-
             <div>
                 <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
                 <input type="text" v-model="description" placeholder="description ..."
@@ -80,10 +100,11 @@ export default {
             nationality: '',
             description: ' ',
             password: '',
-            customer:[],
+            customer: [],
             number: '',
             location: '',
             is_loading: false,
+            isPasswordVisible:false,
         };
     },
     methods: {
@@ -108,7 +129,7 @@ export default {
                     name: this.name,
                     number: this.number,
                     location: this.location,
-                    expiry: this.expiryDate(),
+                    expiry: this.expiry,
                     nationality: this.nationality,
                     user: this.username,
                     pass: this.password,
@@ -138,6 +159,9 @@ export default {
 
             return value;
         },
+        togglePasswordVisibility(){
+            this.isPasswordVisible = !this.isPasswordVisible;
+        }
 
     },
     async mounted() {

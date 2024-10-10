@@ -6,6 +6,8 @@ import CustomerDetails from '../views/CustomerDetails.vue'
 import CreateRenew from '../views/CreateRenew.vue'
 import  CreateCustomer from '../views/CreateCustomer.vue'
 import  EditCustomer from '../views/EditCustomer.vue'
+import  CreateEmployee from '../views/CreateEmployee.vue'
+import  ManageEmployees from '../views/ManageEmployees.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,11 +37,21 @@ const router = createRouter({
       name: 'manage-customers',
       component: ManageCustomers
     },
+    {
+      path: '/manage-employees',
+      name: 'manage-employees',
+      component: ManageEmployees
+    },
 
     {
       path: '/create-renew',
       name: 'create-renew',
       component: CreateRenew
+    },
+    {
+      path: '/create-employee',
+      name: 'create-employee',
+      component: CreateEmployee
     },
     {
       path: '/edit-customer',

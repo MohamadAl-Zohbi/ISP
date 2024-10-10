@@ -83,7 +83,7 @@
                         &nbsp;&nbsp;
                         Employees
                     </summary>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="create-employee" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Employee
                     </a><a href="#" style="padding-left:50px ;"
@@ -216,6 +216,8 @@ export default {
                 this.location = "Customer Renews";
             } else if (this.position == '/create-customer') {
                 this.location = "Create Customer";
+            } else if (this.position == '/create-employee') {
+                this.location = "Create Employee";
             }
         },
         async search() {

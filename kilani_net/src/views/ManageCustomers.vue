@@ -15,20 +15,21 @@
             <table class="table-auto w-full bg-white shadow-md rounded">
                 <thead>
                     <tr style="border-bottom: 1px solid black;">
-                        <th @click="sortBy('name')" class="cursor-pointer p-4">Created</th>
+                        <th @click="sortBy('created_at')" class="cursor-pointer p-4">Created</th>
                         <th @click="sortBy('name')" class="cursor-pointer p-4">Name</th>
-                        <th @click="sortBy('age')" class="cursor-pointer p-4">Expiry</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">Description</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">Location</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">Nationality</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">Number</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">User</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">Password</th>
-                        <th @click="sortBy('city')" class="cursor-pointer p-4">Action</th>
+                        <th @click="sortBy('expiry')" class="cursor-pointer p-4">Expiry</th>
+                        <th @click="sortBy('description')" class="cursor-pointer p-4">Description</th>
+                        <th @click="sortBy('location')" class="cursor-pointer p-4">Location</th>
+                        <th @click="sortBy('nationality')" class="cursor-pointer p-4">Nationality</th>
+                        <th @click="sortBy('number')" class="cursor-pointer p-4">Number</th>
+                        <th @click="sortBy('user')" class="cursor-pointer p-4">User</th>
+                        <th @click="sortBy('pass')" class="cursor-pointer p-4">Password</th>
+                        <th class="cursor-pointer p-4">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(customer, index) in filteredSortedData" :key="index" :class="['border-b',!customer.is_frozen ? '' : 'bg-red-200','hover:bg-gray-700','hover:!text-white']" >
+                    <tr v-for="(customer, index) in filteredSortedData" :key="index"
+                        :class="['border-b', !customer.is_frozen ? '' : 'bg-red-200', 'hover:bg-gray-700', 'hover:!text-white']">
 
                         <td class="p-1">dd-mm-yyyy<br />{{ new Date(customer.created_at).getDate() }}-{{ new
                             Date(customer.created_at).getMonth() + 1 }}-{{ new Date(customer.created_at).getFullYear()
@@ -40,7 +41,7 @@
                         <td class="p-1">{{ customer.location }}</td>
                         <td class="p-1">{{ customer.nationality }}</td>
                         <td class="p-1">{{ customer.number }}</td>
-                        <td class="p-1">{{ customer.user.substring(0,5) }}...</td>
+                        <td class="p-1">{{ customer.user.substring(0, 5) }}...</td>
                         <td class="p-1">{{ customer.pass }}</td>
                         <td class="p-1">
                             <button
@@ -49,19 +50,17 @@
                                 style="margin-right: 1px;">
                                 Show
                             </button>
-                            <button
-                                @click="customerRenew(customer.id)"
+                            <button @click="customerRenew(customer.id)"
                                 class="text-blue-600 px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="margin-right: 1px;">
                                 Renew
                             </button>
-                            <button
+                            <button @click="editCustomer(customer.id)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: red;margin-right: 1px;">
                                 Edit
                             </button>
-                            <button
-                            @click="customerDetails(customer.id)"
+                            <button @click="customerDetails(customer.id)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: green;">
                                 Details
@@ -82,13 +81,14 @@ import CustomerDetailsBox from '@/components/CustomerDetailsBox.vue';
 
 import { search } from '@/utils.js';
 import CustomerDetails from './CustomerDetails.vue';
+import EditCustomer from './EditCustomer.vue';
 export default {
     data() {
         return {
             searchQuery: '', // Search query for filtering
             sortKey: '', // Key by which to sort
             sortDirection: 1, // 1 for ascending, -1 for descending
-            is_loading: true,
+            is_loading: false,
             test: '',
             customers: [
 
@@ -178,16 +178,19 @@ export default {
         closeCustomerDetailsBox() {
             this.isOpenDetailsCustomer = false
         },
-        descriptionFilter(description){
-            if(description != null){
-                return description.substring(0,10) + '...';
+        descriptionFilter(description) {
+            if (description != null) {
+                return description.substring(0, 10) + '...';
             }
         },
-        customerDetails(id){
-            window.open('customer-details?id='+id);
+        customerDetails(id) {
+            window.open('customer-details?id=' + id);
         },
-        customerRenew(id){
-            window.open('create-renew?id='+id);
+        customerRenew(id) {
+            window.open('create-renew?id=' + id);
+        },
+        editCustomer(id) {
+            window.location.assign('edit-customer?id='+id);
         }
 
     },
