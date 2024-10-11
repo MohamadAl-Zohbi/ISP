@@ -9,6 +9,7 @@ import  EditCustomer from '../views/EditCustomer.vue'
 import  EditEmployee from '../views/EditEmployee.vue'
 import  CreateEmployee from '../views/CreateEmployee.vue'
 import  ManageEmployees from '../views/ManageEmployees.vue'
+import DailyEmployeesLogs from '@/views/DailyEmployeesLogs.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +64,11 @@ const router = createRouter({
       path: '/edit-employee',
       name: 'edit-employee',
       component: EditEmployee
+    },
+    {
+      path: '/daily-employees-logs',
+      name: 'daily-employees-logs',
+      component: DailyEmployeesLogs
     },
     {
       path: '/login',
