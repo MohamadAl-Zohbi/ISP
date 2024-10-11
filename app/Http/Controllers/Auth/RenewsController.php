@@ -96,15 +96,15 @@ class RenewsController extends Controller
             return response()->json(['status' => false, 'details' => 'no permission']);
         }
 
-        // $renews = Renews::query()
-        //     ->whereBetween('created_at', [request('from'), request('to')])
-        //     ->get();
+        $renews = Renews::query()
+            ->whereBetween('created_at', [request('from'), request('to')])
+            ->get();
 
-        $renews = DB::select(DB::raw("
-    SELECT *
-    FROM renews
-    LEFT JOIN payments ON renews.id = payments.renew_id
-"));
+//         $renews = DB::select(DB::raw("
+//     SELECT *
+//     FROM renews
+//     LEFT JOIN payments ON renews.id = payments.renew_id
+// "));
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
         }

@@ -72,7 +72,15 @@
                 <input type="text" v-model="description" placeholder="description ..."
                     class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-
+            <div>
+                <label for="freez" class="block text-sm font-medium text-gray-700">Freez:</label>
+                <select v-model="is_frozen" required value=""
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <option disabled value="">Select an option</option>
+                    <option value="0">Active</option>
+                    <option value="1">UnActive</option>
+                </select>
+            </div>
             <div>
                 <label for="location" class="block text-sm font-medium text-gray-700">Location:</label>
                 <textarea required type="text" v-model="location" style="border: none; background-color: #f7f7f7"
@@ -105,6 +113,7 @@ export default {
             location: '',
             is_loading: false,
             isPasswordVisible:false,
+            is_frozen:''
         };
     },
     methods: {
@@ -125,7 +134,7 @@ export default {
             try {
                 this.is_loading = true;
 
-                const response = await axios.post('http://localhost:8000/api/create_customer', {
+                const response = await axios.put('http://localhost:8000/api/update_customer/'+this.getParam(), {
                     name: this.name,
                     number: this.number,
                     location: this.location,
@@ -134,7 +143,7 @@ export default {
                     user: this.username,
                     pass: this.password,
                     description: this.description,
-                    is_frozen: '0',
+                    is_frozen: this.is_frozen,
                 }, {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -145,8 +154,6 @@ export default {
             } catch (error) {
                 this.is_loading = false
                 this.is_closed_warning = true
-                this.details = response.data.details
-
                 console.error("There was an error creating the post:", error);
             }
 
@@ -186,6 +193,7 @@ export default {
             this.password = this.customer.pass;
             this.description = this.customer.description;
             this.location = this.customer.location;
+            this.is_frozen = this.customer.is_frozen;
         } catch (error) {
             this.is_loading = false
 

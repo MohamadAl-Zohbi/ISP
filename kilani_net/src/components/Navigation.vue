@@ -86,7 +86,7 @@
                     <a href="create-employee" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Employee
-                    </a><a href="#" style="padding-left:50px ;"
+                    </a><a href="manage-employees" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Employees
                     </a>

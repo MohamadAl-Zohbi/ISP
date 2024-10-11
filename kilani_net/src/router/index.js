@@ -6,6 +6,7 @@ import CustomerDetails from '../views/CustomerDetails.vue'
 import CreateRenew from '../views/CreateRenew.vue'
 import  CreateCustomer from '../views/CreateCustomer.vue'
 import  EditCustomer from '../views/EditCustomer.vue'
+import  EditEmployee from '../views/EditEmployee.vue'
 import  CreateEmployee from '../views/CreateEmployee.vue'
 import  ManageEmployees from '../views/ManageEmployees.vue'
 
@@ -57,6 +58,11 @@ const router = createRouter({
       path: '/edit-customer',
       name: 'edit-customer',
       component: EditCustomer
+    },
+    {
+      path: '/edit-employee',
+      name: 'edit-employee',
+      component: EditEmployee
     },
     {
       path: '/login',

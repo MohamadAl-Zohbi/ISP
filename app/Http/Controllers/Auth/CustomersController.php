@@ -54,7 +54,7 @@ class CustomersController extends Controller
             $customer->user = $request->input('user');
             $customer->pass = $request->input('pass');
             // $customer->service_id = $request->input('service_id');
-            $customer->created_by = $request->input('created_by');
+            $customer->created_by = $emp->id;
             $customer->description = $request->input('description');
             $customer->is_frozen = $request->input('is_frozen');
             $customer->save();

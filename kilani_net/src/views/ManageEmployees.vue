@@ -23,45 +23,28 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(customer, index) in filteredSortedData" :key="index"
-                    :class="['border-b', !customer.is_frozen ? '' : 'bg-red-200', 'hover:bg-gray-700', 'hover:!text-white']">
+                <tr v-for="(employee, index) in filteredSortedData" :key="index"
+                    :class="['border-b', !employee.is_frozen ? '' : 'bg-red-200', 'hover:bg-gray-700', 'hover:!text-white']">
 
-                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(customer.created_at).getDate() }}-{{ new
-                        Date(customer.created_at).getMonth() + 1 }}-{{ new Date(customer.created_at).getFullYear()
+                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(employee.created_at).getDate() }}-{{ new
+                        Date(employee.created_at).getMonth() + 1 }}-{{ new Date(employee.created_at).getFullYear()
                         }}</td>
-                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(customer.updated_at).getDate() }}-{{ new
-                        Date(customer.updated_at).getMonth() + 1 }}-{{ new Date(customer.updated_at).getFullYear()
+                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(employee.updated_at).getDate() }}-{{ new
+                        Date(employee.updated_at).getMonth() + 1 }}-{{ new Date(employee.updated_at).getFullYear()
                         }}</td>
 
-                    <td class="p-1">{{ customer.name }}</td>
-                    <td class="p-1">{{ customer.expiry }}</td>
-                    <td class="p-1">{{ descriptionFilter(customer.description) }}</td>
-                    <td class="p-1">{{ customer.location }}</td>
-                    <td class="p-1">{{ customer.nationality }}</td>
-                    <td class="p-1">{{ customer.number }}</td>
-                    <td class="p-1">{{ customer.user }}...</td>
-                    <td class="p-1">{{ customer.pass }}</td>
+                    <td class="p-1">{{ employee.name }}</td>
+                    <td class="p-1">{{ employee.username }}</td>
+                    <td class="p-1">{{ employee.password }}</td>
+                    <td class="p-1">{{ employee.rank }}</td>
+
                     <td class="p-1">
-                        <button
-                            @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass)"
-                            class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                            style="margin-right: 1px;">
-                            Show
-                        </button>
-                        <button @click="customerRenew(customer.id)"
-                            class="text-blue-600 px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                            style="margin-right: 1px;">
-                            Renew
-                        </button>
-                        <button @click="editCustomer(customer.id)"
+
+
+                        <button @click="editEmployee(employee.id)"
                             class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                             style="color: red;margin-right: 1px;">
                             Edit
-                        </button>
-                        <button @click="customerDetails(customer.id)"
-                            class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                            style="color: green;">
-                            Details
                         </button>
                     </td>
                 </tr>
@@ -85,7 +68,7 @@ export default {
             sortDirection: 1, // 1 for ascending, -1 for descending
             is_loading: false,
             test: '',
-            customers: [
+            employee: [
 
             ],
             created_at: '',
@@ -103,7 +86,7 @@ export default {
     computed: {
         filteredSortedData() {
             // Filter based on the search query
-            let filteredData = this.customers.filter((customer) => {
+            let filteredData = this.employee.filter((customer) => {
                 return (
                     customer.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.updated_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -153,7 +136,7 @@ export default {
                 });
 
                 console.log(response.data);
-            this.customers = response.data.details;
+                this.employee = response.data.details;
 
             } catch (error) {
                 console.error("There was an error during the search:", error);
@@ -161,44 +144,16 @@ export default {
 
             this.is_loading = false;
         },
-        showCustomerDetails(created_at, name, expiry, description, location, nationality, number, user, password) {
-            this.created_at = created_at;
-            this.name = name;
-            this.expiry = expiry;
-            this.description = description;
-            this.location = location;
-            this.nationality = nationality;
-            this.number = number;
-            this.user = user;
-            this.password = password;
-            this.isOpenDetailsCustomer = !this.isOpenDetailsCustomer;
-        },
-        closeCustomerDetailsBox() {
-            this.isOpenDetailsCustomer = false
-        },
-        descriptionFilter(description) {
-            if (description != null) {
-                return description.substring(0, 10) + '...';
-            }
-        },
-        customerDetails(id) {
-            window.open('customer-details?id=' + id);
-        },
-        customerRenew(id) {
-            window.open('create-renew?id=' + id);
-        },
-        editCustomer(id) {
-            window.location.assign('edit-customer?id=' + id);
+        editEmployee(id) {
+            window.location.assign('edit-employee?id='+id);
         }
 
     },
     mounted() {
-        // this.searchQuery = this.getParam();
         this.getEmployees();
     },
     components: {
         LoadingBox,
-        // CustomerDetailsBox
     }
 };
 

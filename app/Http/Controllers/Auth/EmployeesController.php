@@ -55,6 +55,7 @@ class EmployeesController extends Controller
             $employee->password = $request->input('password');
             $employee->username = $request->input('username');
             $employee->rank = $request->input('rank');
+            $employee->is_frozen = $request->input('is_frozen');
             $employee->save();
             return response()->json(['status'=>true,'details'=>$employee]);
         }
