@@ -105,11 +105,11 @@
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Services
                     </a>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="daily-services-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Daily Services
                     </a>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="monthly-services-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Monthly Services
                     </a>
@@ -120,10 +120,8 @@
                         &nbsp;&nbsp;
                         Renews
                     </summary>
+                    
                     <a href="#" style="padding-left:50px ;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        Create Renew
-                    </a><a href="#" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Monthly Report
                     </a><a href="#" style="padding-left:50px ;"

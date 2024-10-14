@@ -1,16 +1,28 @@
 <template>
     <LoadingBox v-if="is_loading" />
     <div>
-        <label for="fromDate" class="block text-sm font-medium text-gray-700">From Date:mm/dd/yyyy</label>
-        <input type="date" v-model="date1"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+        <div style="text-align: center;">
+            <div style="border-radius: 5px; border: 1px solid;display: inline-block;">
+                <label for="fromDate" class="text-sm font-medium text-gray-700" style="margin-right: 20px;">From Date:
+                    mm/dd/yyyy</label>
+                <input type="date" v-model="date1"
+                    class="mt-1   border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+
+            </div>
+            <div style="border-radius: 5px; border: 1px solid;display: inline-block; margin: 10px;">
+                <label for="to" class=" text-sm font-medium text-gray-700" style="margin-right: 20px;">To Date:
+                    mm/dd/yyyy</label>
+                <input type="date" v-model="date2"
+                    class="mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+
+            </div>
+        </div>
+        <button @click="getTodayRenew()"
+            class="w-full py-2 px-4 bg-gray-600 text-white font-semibold rounded-md shadow hover:bg-gray-700 transition duration-200">
+            Search
+        </button>
     </div>
 
-    <div>
-        <label for="to" class="block text-sm font-medium text-gray-700">To Date:</label>
-        <input type="date" v-model="date2"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-    </div>
 
     <table class="table-auto w-full bg-white shadow-md rounded" style="text-align: center;">
         <thead>
@@ -24,11 +36,14 @@
             </tr>
         </tbody>
     </table>
+    <p v-if="results.length === 0" class="mt-4 text-gray-500">No results found.</p>
+
 </template>
 
 
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
+import { search } from '@/utils';
 // import RenewsDetailsCard from '@/components/RenewsDetailsCard.vue';
 import axios from 'axios';
 
@@ -72,6 +87,10 @@ export default {
                 console.log(response.data)
                 this.results = response.data.details;
                 this.is_loading = false
+                if (this.results == 'no result') {
+                    this.results = []
+                }
+
             } catch (error) {
 
                 console.log(error)
@@ -82,16 +101,16 @@ export default {
         },
         getDate1() {
             let date1 = new Date();
-            date1.setDate(6);
-            date1.setMonth(date1.getMonth());
+            date1.setDate(5);
+            date1.setMonth(date1.getMonth() - 1);
             date1 = date1.toISOString().split('T')[0];
             console.log(date1)
             return date1
         },
         getDate2() {
             let date2 = new Date();
-            date2.setDate(6);
-            date2.setMonth(date2.getMonth() + 1);
+            date2.setDate(6); // 6 the 6 day will not be because the interval between [5:6[
+            date2.setMonth(date2.getMonth());
             date2 = date2.toISOString().split('T')[0];
             console.log(date2)
             return date2

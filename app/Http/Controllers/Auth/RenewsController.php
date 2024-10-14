@@ -103,12 +103,12 @@ class RenewsController extends Controller
         //     ->get();
 
         $renews = DB::select(DB::raw("  
-        SELECT COUNT(service) as count,service from renews,services WHERE services.id = renews.service_id AND renews.checked_by_owner = 'checked' AND renews.created_at BETWEEN '$from' AND '$to' GROUP BY service,DATE(renews.created_at)
+        SELECT COUNT(service) as count,service from renews,services WHERE services.id = renews.service_id AND renews.checked_by_owner = 'checked' AND renews.created_at BETWEEN '$from' AND '$to' GROUP BY service
 "));
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
         }
-        return response()->json(['status' => false, 'details' => 'no pay found']);
+        return response()->json(['status' => false, 'details' => 'no result']);
     }
 
     public function get_customer_renews(Request $request, $id)
@@ -133,7 +133,7 @@ renews.customer_id = $id
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
         }
-        return response()->json(['status' => false, 'details' => 'no pay found']);
+        return response()->json(['status' => false, 'details' => 'no result']);
     }
 
 
