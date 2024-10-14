@@ -9,7 +9,11 @@ import  EditCustomer from '../views/EditCustomer.vue'
 import  EditEmployee from '../views/EditEmployee.vue'
 import  CreateEmployee from '../views/CreateEmployee.vue'
 import  ManageEmployees from '../views/ManageEmployees.vue'
-import DailyEmployeesLogs from '@/views/DailyEmployeesLogs.vue'
+import DailyServicesReport from '@/views/DailyServicesReport.vue'
+import CreateService from '@/views/CreateService.vue'
+import ManageServices from '@/views/ManageServices.vue'
+import EditService from '@/views/EditService.vue'
+import MonthlyServicesReport from '@/views/MonthlyServicesReport.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +44,11 @@ const router = createRouter({
       component: ManageCustomers
     },
     {
+      path: '/manage-services',
+      name: 'manage-services',
+      component: ManageServices
+    },
+    {
       path: '/manage-employees',
       name: 'manage-employees',
       component: ManageEmployees
@@ -49,6 +58,11 @@ const router = createRouter({
       path: '/create-renew',
       name: 'create-renew',
       component: CreateRenew
+    },
+    {
+      path: '/create-service',
+      name: 'create-service',
+      component: CreateService
     },
     {
       path: '/create-employee',
@@ -66,9 +80,19 @@ const router = createRouter({
       component: EditEmployee
     },
     {
-      path: '/daily-employees-logs',
-      name: 'daily-employees-logs',
-      component: DailyEmployeesLogs
+      path: '/edit-service',
+      name: 'edit-service',
+      component: EditService
+    },
+    {
+      path: '/daily-services-report',
+      name: 'daily-services-report',
+      component: DailyServicesReport
+    },
+    {
+      path: '/monthly-services-report',
+      name: 'monthly-services-report',
+      component: MonthlyServicesReport
     },
     {
       path: '/login',

@@ -48,7 +48,7 @@ class ServicesController extends Controller
 
         $service = Services::where('id', $id)->first();
         if ($service) {
-            $service->name = $request->input('name');
+            $service->service = $request->input('service');
             $service->price = $request->input('price');
             $service->package = $request->input('package');
             $service->description = $request->input('description');
@@ -57,4 +57,18 @@ class ServicesController extends Controller
         }
         
     }
+    public function get_service(Request $request, $id)
+    {
+        // $emp = $request->user();
+        // if ($emp->rank != 'super') {
+        //     return response()->json(['status' => false, 'details' => 'no permission']);
+        // }
+
+        $service = Services::find($id);
+        if ($service) {
+            return response()->json(['status' => true, 'details' => $service]);
+        }
+        return response()->json(['status' => false, 'details' => 'no service found']);
+    }
+
 }

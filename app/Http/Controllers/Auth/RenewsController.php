@@ -102,9 +102,8 @@ class RenewsController extends Controller
         //     ->whereBetween('created_at', [request('from'), request('to')])
         //     ->get();
 
-        $renews = DB::select(DB::raw("
-        SELECT renews.id FROM `renews` LEFT JOIN  employees on employees.id = renews.employee_id 
-        WHERE renews.created_at BETWEEN '$from' AND '$to'
+        $renews = DB::select(DB::raw("  
+        SELECT COUNT(service) as count,service from renews,services WHERE services.id = renews.service_id AND renews.checked_by_owner = 'checked' AND renews.created_at BETWEEN '$from' AND '$to' GROUP BY service,DATE(renews.created_at)
 "));
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);

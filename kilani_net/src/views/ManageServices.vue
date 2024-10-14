@@ -14,34 +14,34 @@
                 <tr style="border-bottom: 1px solid black;">
                     <th @click="sortBy('created_at')" class="cursor-pointer p-4">Created At</th>
                     <th @click="sortBy('updated_at')" class="cursor-pointer p-4">Updated At</th>
-                    <th @click="sortBy('name')" class="cursor-pointer p-4">Name</th>
-                    <th @click="sortBy('username')" class="cursor-pointer p-4">userName</th>
-                    <th @click="sortBy('password')" class="cursor-pointer p-4">Password</th>
-                    <th @click="sortBy('rank')" class="cursor-pointer p-4">Rank</th>
+                    <th @click="sortBy('serive')" class="cursor-pointer p-4">Serive Name</th>
+                    <th @click="sortBy('price')" class="cursor-pointer p-4">Price</th>
+                    <th @click="sortBy('package')" class="cursor-pointer p-4">Package</th>
+                    <th @click="sortBy('description')" class="cursor-pointer p-4">Description</th>
 
                     <th class="cursor-pointer p-4">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(employee, index) in filteredSortedData" :key="index"
-                    :class="['border-b', !employee.is_frozen ? '' : 'bg-red-200', 'hover:bg-gray-700', 'hover:!text-white']">
+                <tr v-for="(service, index) in filteredSortedData" :key="index"
+                    :class="['border-b', 'hover:bg-gray-700', 'hover:!text-white']">
 
-                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(employee.created_at).getDate() }}-{{ new
-                        Date(employee.created_at).getMonth() + 1 }}-{{ new Date(employee.created_at).getFullYear()
+                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(service.created_at).getDate() }}-{{ new
+                        Date(service.created_at).getMonth() + 1 }}-{{ new Date(service.created_at).getFullYear()
                         }}</td>
-                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(employee.updated_at).getDate() }}-{{ new
-                        Date(employee.updated_at).getMonth() + 1 }}-{{ new Date(employee.updated_at).getFullYear()
+                    <td class="p-1">dd-mm-yyyy<br />{{ new Date(service.updated_at).getDate() }}-{{ new
+                        Date(service.updated_at).getMonth() + 1 }}-{{ new Date(service.updated_at).getFullYear()
                         }}</td>
 
-                    <td class="p-1">{{ employee.name }}</td>
-                    <td class="p-1">{{ employee.username }}</td>
-                    <td class="p-1">{{ employee.password }}</td>
-                    <td class="p-1">{{ employee.rank }}</td>
+                    <td class="p-1">{{ service.service }}</td>
+                    <td class="p-1">{{ service.price }}</td>
+                    <td class="p-1">{{ service.package }}</td>
+                    <td class="p-1">{{ service.description }}</td>
 
                     <td class="p-1">
 
 
-                        <button @click="editEmployee(employee.id)"
+                        <button @click="editService(service.id)"
                             class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                             style="color: red;margin-right: 1px;">
                             Edit
@@ -67,25 +67,23 @@ export default {
             sortKey: '', // Key by which to sort
             sortDirection: 1, // 1 for ascending, -1 for descending
             is_loading: false,
-            test: '',
-            employees: [
+            services: [
 
             ],
-
             isOpenDetailsCustomer: false
         };
     },
     computed: {
         filteredSortedData() {
             // Filter based on the search query
-            let filteredData = this.employees.filter((customer) => {
+            let filteredData = this.services.filter((customer) => {
                 return (
                     customer.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.updated_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.username.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.password.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.rank.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    customer.service.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.price.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.package.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    customer.description.toLowerCase().includes(this.searchQuery.toLowerCase())
                 );
             });
 
@@ -116,11 +114,11 @@ export default {
             }
         },
 
-        async getEmployees() {
+        async getServices() {
             this.is_loading = true;
             let token = localStorage.getItem('token');
             try {
-                const response = await axios.get(`http://localhost:8000/api/show_all`, {
+                const response = await axios.get(`http://localhost:8000/api/show_all_services`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -128,7 +126,7 @@ export default {
                 });
 
                 console.log(response.data);
-                this.employees = response.data.details;
+                this.services = response.data.details;
 
             } catch (error) {
                 console.error("There was an error during the search:", error);
@@ -136,13 +134,13 @@ export default {
 
             this.is_loading = false;
         },
-        editEmployee(id) {
-            window.location.assign('edit-employee?id='+id);
+        editService(id) {
+            window.location.assign('edit-service?id='+id);
         }
 
     },
     mounted() {
-        this.getEmployees();
+        this.getServices();
     },
     components: {
         LoadingBox,

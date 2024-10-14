@@ -2,7 +2,7 @@
     <LoadingBox v-if="is_loading" />
 
     <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-6 text-center">Customer Form</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">Employee Form</h2>
 
 
         <form @submit.prevent="submitForm" class="space-y-4">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\PaymentsController;
 use App\Http\Controllers\Auth\RenewsController;
 use App\Http\Controllers\Auth\ServicesController;
 use App\Models\Renews;
+use App\Models\Services;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/create_employee',[EmployeesController::class, 'create_employee'])->middleware('auth:sanctum');
@@ -31,6 +32,7 @@ Route::get('/show_all_customers',[CustomersController::class, 'show_all_customer
 Route::get('/show_all_services',[ServicesController::class, 'show_all_services'])->middleware('auth:sanctum');
 Route::get('/search',[CustomersController::class, 'search_customer'])->middleware('auth:sanctum');
 Route::get('/get_renews_from_to',[RenewsController::class, 'get_renews_from_to'])->middleware('auth:sanctum');
+Route::get('/get_service/{id}',[ServicesController::class, 'get_service'])->middleware('auth:sanctum');
 
 Route::get('/show/{id}',[EmployeesController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/get_customer/{id}',[CustomersController::class, 'get_customer'])->middleware('auth:sanctum');

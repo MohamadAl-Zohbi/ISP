@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('price');
             $table->string('package');
-            $table->text('description');
+            $table->text('description')->nullable();
         });
     }
 

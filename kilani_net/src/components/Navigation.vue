@@ -90,10 +90,7 @@
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Employees
                     </a>
-                    <a href="#" style="padding-left:50px ;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        Daily Logs
-                    </a>
+
                 </details>
 
                 <details style="margin-bottom: 10px;">
@@ -101,10 +98,10 @@
                         &nbsp;&nbsp;
                         Services
                     </summary>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="create-service" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Service
-                    </a><a href="#" style="padding-left:50px ;"
+                    </a><a href="manage-services" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Services
                     </a>
