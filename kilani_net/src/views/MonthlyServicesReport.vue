@@ -17,7 +17,7 @@
 
             </div>
         </div>
-        <button @click="getTodayRenew()"
+        <button @click="getMonthlyRenew()"
             class="w-full py-2 px-4 bg-gray-600 text-white font-semibold rounded-md shadow hover:bg-gray-700 transition duration-200">
             Search
         </button>
@@ -58,7 +58,7 @@ export default {
         };
     },
     methods: {
-        async getTodayRenew() {
+        async getMonthlyRenew() {
             this.is_loading = true;
             // let date2 = new Date();
 
@@ -121,7 +121,7 @@ export default {
 
     },
     mounted() {
-        this.getTodayRenew()
+        this.getMonthlyRenew()
 
     },
     components: {

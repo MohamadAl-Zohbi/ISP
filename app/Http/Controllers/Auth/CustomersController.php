@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomersController extends Controller
 {
@@ -113,10 +114,28 @@ class CustomersController extends Controller
         $currentDate = Carbon::now()->toDateString(); // Outputs: YYYY-MM-DD
 
         $customers = Customers::query()
-            ->where('expiry','>=',$currentDate)
+            ->where('expiry', '>=', $currentDate)
             ->get();
         if ($customers) {
             return response()->json(['status' => true, 'details' => $customers]);
         }
+    }
+
+    public function get_expired_frozen_customers(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => false, 'details' => 'no permission']);
+        }
+
+
+
+        $customers = DB::select(DB::raw("
+    SELECT COUNT(*) as count,is_frozen as data FROM `customers` WHERE expiry <= CURDATE() GROUP BY is_frozen
+"));
+        if ($customers) {
+            return response()->json(['status' => true, 'details' => $customers]);
+        }
+        return response()->json(['status' => false, 'details' => 'no result']);
     }
 }

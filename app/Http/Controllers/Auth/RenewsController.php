@@ -201,4 +201,32 @@ renews.customer_id = $id
         }
         return response()->json(['status' => false, 'details' => 'no pay found']);
     }
+
+    // get waiting and checked renews 
+    public function get_renews_waiting_checked_from_to(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => false, 'details' => 'no permission']);
+        }
+
+        $from = request('from');
+        $to = request('to');
+        // $renews = Renews::query()
+        //     ->whereBetween('created_at', [request('from'), request('to')])
+        //     ->get();
+
+        $renews = DB::select(DB::raw(" 
+    SELECT COUNT(*) as count,checked_by_owner as data FROM renews,customers WHERE renews.customer_id = customers.id
+AND
+renews.created_at BETWEEN '$from' AND '$to'
+GROUP BY checked_by_owner
+"));
+        if ($renews) {
+            return response()->json(['status' => true, 'details' => $renews]);
+        }
+        return response()->json(['status' => false, 'details' => 'no result']);
+    }
 }
+
+// frozen  // unrenewed // renewed // waiting // #refused# 

@@ -1,29 +1,5 @@
-# kilani_net
+SELECT COUNT(*),checked_by_owner FROM renews,customers WHERE renews.customer_id = customers.id
+AND
+renews.created_at BETWEEN '2024-10-13' AND '2024-10-14'
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+GROUP BY checked_by_owner

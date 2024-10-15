@@ -32,6 +32,7 @@ Route::get('/show_all_customers',[CustomersController::class, 'show_all_customer
 Route::get('/show_all_services',[ServicesController::class, 'show_all_services'])->middleware('auth:sanctum');
 Route::get('/search',[CustomersController::class, 'search_customer'])->middleware('auth:sanctum');
 Route::get('/get_renews_from_to',[RenewsController::class, 'get_renews_from_to'])->middleware('auth:sanctum');
+Route::get('/get_renews_waiting_checked_from_to',[RenewsController::class, 'get_renews_waiting_checked_from_to'])->middleware('auth:sanctum');
 Route::get('/get_service/{id}',[ServicesController::class, 'get_service'])->middleware('auth:sanctum');
 
 Route::get('/show/{id}',[EmployeesController::class, 'show'])->middleware('auth:sanctum');
@@ -42,6 +43,7 @@ Route::get('/get_payments/{id}',[PaymentsController::class, 'get_payments'])->mi
 Route::get('/get_unpaid_renews',[RenewsController::class, 'get_unpaid_renews'])->middleware('auth:sanctum');
 Route::get('/get_customer_renews/{id}',[RenewsController::class, 'get_customer_renews'])->middleware('auth:sanctum');
 Route::get('/get_unrenewed_customers',[CustomersController::class, 'get_unrenewed_customers'])->middleware('auth:sanctum');
+Route::get('/get_expired_frozen_customers',[CustomersController::class, 'get_expired_frozen_customers'])->middleware('auth:sanctum');
 
 
 Route::post('/login',[EmployeesController::class,'login']);
