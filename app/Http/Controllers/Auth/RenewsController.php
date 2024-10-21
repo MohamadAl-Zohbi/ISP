@@ -111,6 +111,31 @@ class RenewsController extends Controller
         return response()->json(['status' => false, 'details' => 'no result']);
     }
 
+    public function get_renews_details_from_to(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => false, 'details' => 'no permission']);
+        }
+
+        $from = request('from');
+        $to = request('to');
+        // $renews = Renews::query()
+        //     ->whereBetween('created_at', [request('from'), request('to')])
+        //     ->get();
+
+        $renews = DB::select(DB::raw("  
+    SELECT renews.created_at as created_at, renews.from,renews.to,customers.name as customer_name,employees.name as employee_name,services.service as service,renews.checked_by_owner as status , total,paid,renews.note as note , renews.id as id FROM renews,services,employees,customers WHERE renews.service_id = services.id AND
+    renews.employee_id = employees.id AND
+    renews.customer_id = customers.id AND
+    renews.created_at BETWEEN '$from' AND '$to';
+        "));
+        if ($renews) {
+            return response()->json(['status' => true, 'details' => $renews]);
+        }
+        return response()->json(['status' => false, 'details' => 'no result']);
+    }
+
     public function get_customer_renews(Request $request, $id)
     {
         // $emp = $request->user();

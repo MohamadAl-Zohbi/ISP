@@ -10,6 +10,7 @@ import  EditEmployee from '../views/EditEmployee.vue'
 import  CreateEmployee from '../views/CreateEmployee.vue'
 import  ManageEmployees from '../views/ManageEmployees.vue'
 import DailyServicesReport from '@/views/DailyServicesReport.vue'
+import DailyRenewsReport from '@/views/DailyRenewsReport.vue'
 import CreateService from '@/views/CreateService.vue'
 import ManageServices from '@/views/ManageServices.vue'
 import EditService from '@/views/EditService.vue'
@@ -88,6 +89,11 @@ const router = createRouter({
       path: '/daily-services-report',
       name: 'daily-services-report',
       component: DailyServicesReport
+    },
+    {
+      path: '/daily-renews-report',
+      name: 'daily-renews-report',
+      component: DailyRenewsReport
     },
     {
       path: '/monthly-services-report',
