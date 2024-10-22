@@ -121,7 +121,7 @@
                         Renews
                     </summary>
                     
-                    <a href="daili-renews-report" style="padding-left:50px ;"
+                    <a href="daily-renews-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Daily Report
                     </a>

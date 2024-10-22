@@ -5,7 +5,7 @@
     <table class="table-auto w-full bg-white shadow-md rounded" style="text-align: center;">
         <thead>
             <tr style="border-bottom: 1px solid black;">
-                <th class="cursor-pointer p-4">Created</th>
+                <th class="cursor-pointer p-4">Created<br>yyyy-mm-dd</th>
                 <th class="cursor-pointer p-4">From</th>
                 <th class="cursor-pointer p-4">To</th>
                 <th class="cursor-pointer p-4">Created By</th>
@@ -33,9 +33,9 @@
                 <td class="p-1">{{ getDateTime(renew.created_at)[0]
                     }} <br> {{ getDateTime(renew.created_at)[1] }}</td>
 
-                <td class="p-1 center">{{ renew.from}}</td>
+                <td class="p-1 center">{{ renew.from }}</td>
 
-                <td class="p-1">{{renew.to}}</td>
+                <td class="p-1">{{ renew.to }}</td>
 
                 <td class="p-1">{{ renew.employee_name }}</td>
                 <td class="p-1">{{ renew.customer_name }}</td>
@@ -64,6 +64,8 @@
                 </td>
             </tr>
             <p v-if="no_renew" class="mt-4 text-gray-500">No results found.</p>
+            <p class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
+            <p class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
 
         </tbody>
     </table>
@@ -113,8 +115,8 @@ export default {
                         Authorization: `Bearer ${this.token}`,
                     },
                     params: {
-                        from:today,
-                        to:tomorrow
+                        from: today,
+                        to: tomorrow
                     },
                 });
                 this.is_loading = false
@@ -131,10 +133,12 @@ export default {
 
                 console.error("There was an error during the search:", error);
             }
+            console.log(this.getTotal())
+
             // console.log(this.getDateTime(this.renews[0].created_at))
 
         },
-       
+
         prepareIdsForCheck(id) {
             let index = this.ids.indexOf(id);
             if (index !== -1) {
@@ -219,13 +223,33 @@ export default {
             }
 
         },
-        getDateTime(data){
+        getDateTime(data) {
             return data.split(' ');
+        },
+        getTotal() {
+            let total = 0;
+            for (let index = 0; index < this.renews.length; index++) {
+                total += this.renews[index].total;
+            }
+            return total;
+        },
+        getPaid() {
+            let paid = 0;
+            for (let index = 0; index < this.renews.length; index++) {
+                paid += this.renews[index].paid;
+            }
+            return paid;
         }
     },
     mounted() {
-        this.token = localStorage.getItem('token');
+        this.token = localStorage.getItem('token')
         this.search();
+        // let total = 0;
+        // for (let index = 0; index < this.renews.length; index++) {
+        //     // total += this.renews[index].total
+        // console.log(total)
+
+        // }
     },
     components: {
         LoadingBox,
