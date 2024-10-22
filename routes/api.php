@@ -13,7 +13,7 @@ Route::post('/create_employee',[EmployeesController::class, 'create_employee'])-
 Route::post('/create_customer',[CustomersController::class, 'create_customer'])->middleware('auth:sanctum');
 Route::post('/create_service',[ServicesController::class, 'create_service'])->middleware('auth:sanctum');
 Route::post('/create_renew',[RenewsController::class, 'create_renew'])->middleware('auth:sanctum');
-Route::post('/create_payment',[PaymentsController::class, 'create_payment'])->middleware('auth:sanctum');
+Route::post('/create_payment/{id}',[PaymentsController::class, 'create_payment'])->middleware('auth:sanctum');
 
 Route::put('/update_employee/{id}',[EmployeesController::class, 'update_employee'])->middleware('auth:sanctum');
 Route::put('/update_customer/{id}',[CustomersController::class, 'update_customer'])->middleware('auth:sanctum');

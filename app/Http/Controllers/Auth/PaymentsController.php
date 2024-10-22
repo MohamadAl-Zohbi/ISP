@@ -10,7 +10,7 @@ use App\Models\Renews;
 
 class PaymentsController extends Controller
 {
-    public function create_payment(Request $request)
+    public function create_payment(Request $request,$id)
     {
         $emp = $request->user();
 
@@ -25,10 +25,10 @@ class PaymentsController extends Controller
             'who' => $request->input('who'),
             'payment_method' => $request->input('payment_method'),
             'employee_id' => $emp->id,
-            'renew_id' => $request->input('renew_id'),
+            'renew_id' => $id,
         ]);
 
-        $renew = Renews::where('id', $request->input('renew_id'))->first();
+        $renew = Renews::where('id', $id)->first();
         $renew->paid += $request->input('amount');
         $renew->save();
         return $payment;
