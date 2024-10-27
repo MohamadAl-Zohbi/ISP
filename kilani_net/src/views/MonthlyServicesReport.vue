@@ -17,7 +17,7 @@
 
             </div>
         </div>
-        <button @click="getMonthlyRenew()"
+        <button @click="getMonthlyServices()"
             class="w-full py-2 px-4 bg-gray-600 text-white font-semibold rounded-md shadow hover:bg-gray-700 transition duration-200">
             Search
         </button>
@@ -58,7 +58,7 @@ export default {
         };
     },
     methods: {
-        async getMonthlyRenew() {
+        async getMonthlyServices() {
             this.is_loading = true;
             // let date2 = new Date();
 
@@ -71,11 +71,11 @@ export default {
 
             // 5/09
             // 5/10
-
+console.log(this.date1,this.date2)
 
             let token = localStorage.getItem('token')
             try {
-                const response = await axios.get('http://localhost:8000/api/get_renews_from_to', {
+                const response = await axios.get('http://localhost:8000/api/get_renews_details_from_to', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -121,7 +121,7 @@ export default {
 
     },
     mounted() {
-        this.getMonthlyRenew()
+        this.getMonthlyServices()
 
     },
     components: {

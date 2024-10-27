@@ -128,7 +128,7 @@ class RenewsController extends Controller
     SELECT renews.created_at as created_at, renews.from,renews.to,customers.name as customer_name,employees.name as employee_name,services.service as service,renews.checked_by_owner as status , total,paid,renews.note as note , renews.id as id FROM renews,services,employees,customers WHERE renews.service_id = services.id AND
     renews.employee_id = employees.id AND
     renews.customer_id = customers.id AND
-    renews.created_at BETWEEN '$from' AND '$to';
+    renews.created_at BETWEEN '$from' AND '$to' ORDER BY renews.created_at;
         "));
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);

@@ -15,6 +15,7 @@ import CreateService from '@/views/CreateService.vue'
 import ManageServices from '@/views/ManageServices.vue'
 import EditService from '@/views/EditService.vue'
 import MonthlyServicesReport from '@/views/MonthlyServicesReport.vue'
+import MonthlyRenewsReport from '@/views/MonthlyRenewsReport.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -99,6 +100,11 @@ const router = createRouter({
       path: '/monthly-services-report',
       name: 'monthly-services-report',
       component: MonthlyServicesReport
+    },
+    {
+      path: '/monthly-renews-report',
+      name: 'monthly-renews-report',
+      component: MonthlyRenewsReport
     },
     {
       path: '/login',
