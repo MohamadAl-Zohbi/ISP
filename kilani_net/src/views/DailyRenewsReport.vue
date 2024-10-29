@@ -99,7 +99,7 @@ export default {
             this.is_loading = true
             let today = new Date();
             let tomorrow = new Date();
-            today.setDate(today.getDate() + 1);
+            today.setDate(today.getDate());
             // today = today.toISOString().split('T')[0];
             tomorrow.setDate(today.getDate() + 1);
             today = today.toISOString().split('T')[0];

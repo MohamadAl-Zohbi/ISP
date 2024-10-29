@@ -3,7 +3,7 @@
     <AlertBox v-if="isAlertBox" :isOpen="true" :title="title" :message="message" :closeFunction="closeAlertBox"
         :check="check" :delete="delete" :action="action" />
 
-        <div>
+    <div>
         <div style="text-align: center;">
             <div style="border-radius: 5px; border: 1px solid;display: inline-block;">
                 <label for="fromDate" class="text-sm font-medium text-gray-700" style="margin-right: 20px;">From Date:
@@ -86,9 +86,9 @@
                     <input type="checkbox" @click="prepareIdsForCheck(renew.id)">
                 </td>
             </tr>
-            <p v-if="no_renew" class="mt-4 text-gray-500">No results found.</p>
-            <p class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
-            <p class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
+            <p v-if="!renews.length" class="mt-4 text-gray-500">No results found.</p>
+            <p v-if="renews.length" class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
+            <p v-if="renews.length" class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
 
         </tbody>
     </table>
@@ -116,12 +116,23 @@ export default {
             message: '',
             action: '',
             date1:this.getDate1(),
-            date2:this.getDate2(),
+            date2:this.getDate2()
         };
     },
     methods: {
         async search() {
-      this.is_loading = true
+            this.is_loading = true
+            // let today = new Date();
+            // let tomorrow = new Date();
+            // today.setDate(today.getDate());
+            // // today = today.toISOString().split('T')[0];
+            // tomorrow.setDate(today.getDate() + 1);
+            // today = today.toISOString().split('T')[0];
+
+            // tomorrow = tomorrow.toISOString().split('T')[0];
+            console.log(this.date1)
+            console.log(this.date2)
+
 
             try {
                 const response = await axios.get(`http://localhost:8000/api/get_renews_details_from_to`, {
@@ -138,11 +149,7 @@ export default {
                 console.log(response.data);
                 if (response.data.details == 'no result') {
                     this.no_renew = true
-                    this.renews = [];
-
                 } else {
-                    this.no_renew = false
-
                     this.renews = response.data.details;
                 }
                 // return JSON.stringify(response.data); // You can return the response to be used later
