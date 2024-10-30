@@ -49,6 +49,11 @@ export default {
         // if (this.results == 'no result') {
         //     this.results = []
         // }
+        if(response.data.details == 'no permission'){
+          location.replace('no-permission')
+
+        }
+
 
       } catch (error) {
 
@@ -71,9 +76,12 @@ export default {
         // if (this.results == 'no result') {
         //     this.results = []
         // }
+        if(response.data.details == 'no permission'){
+          location.replace('no-permission')
+
+        }
 
       } catch (error) {
-
         console.log(error)
       }
 console.log(this.data,"ss")

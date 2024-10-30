@@ -189,13 +189,13 @@ export default {
                 if (this.paid > 0) {
                     try {
                         // console.log(this.paid)
-                        let response_payment = await axios.post('http://localhost:8000/api/create_payment', {
+                        let response_payment = await axios.post('http://localhost:8000/api/create_payment/'+response_renew.data.id, {
                             amount: this.paid,
                             phone_number: this.number,
                             description: this.description,
                             who: this.who,
                             payment_method: 'cash',
-                            renew_id: response_renew.data.id,
+                            // renew_id: response_renew.data.id,
                         }, {
                             headers: {
                                 Authorization: `Bearer ${token}`

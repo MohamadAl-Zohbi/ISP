@@ -50,21 +50,24 @@
                                 style="margin-right: 1px;">
                                 Show
                             </button>
-                            <button @click="customerRenew(customer.id)"
+                            <a 
+                            :href="'create-renew?id='+customer.id"
                                 class="text-blue-600 px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="margin-right: 1px;">
                                 Renew
-                            </button>
+                            </a>
                             <button @click="editCustomer(customer.id)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: red;margin-right: 1px;">
                                 Edit
                             </button>
-                            <button @click="customerDetails(customer.id)"
+                            <a 
+                            :href="'customer-details?id='+customer.id"
+
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: green;">
                                 Details
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 </tbody>

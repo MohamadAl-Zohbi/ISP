@@ -174,14 +174,42 @@ renews.customer_id = $id
         //     ->get();
 
         $renews = DB::select(DB::raw("
-    SELECT *
-    FROM renews where paid != total
+    SELECT renews.created_at as created_at, renews.from,renews.to,customers.name as customer_name,employees.name as employee_name,services.service as service,renews.checked_by_owner as status , total,paid,renews.note as note , renews.id as id FROM renews,services,employees,customers WHERE renews.service_id = services.id AND
+    renews.employee_id = employees.id AND
+    renews.customer_id = customers.id AND
+    total != paid
+    ORDER BY renews.created_at;
 "));
 
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
         }
         return response()->json(['status' => false, 'details' => 'no pay found']);
+    }
+
+    public function get_checked_renews(Request $request)
+    {
+        $emp = $request->user();
+        // if ($emp->rank != 'super') {
+        //     return response()->json(['status' => false, 'details' => 'no permission']);
+        // }
+
+        // $renews = Renews::query()
+        //     ->whereBetween('created_at', [request('from'), request('to')])
+        //     ->get();
+
+        $renews = DB::select(DB::raw("
+    SELECT renews.created_at as created_at, renews.from,renews.to,customers.name as customer_name,employees.name as employee_name,services.service as service,renews.checked_by_owner as status , total,paid,renews.note as note , renews.id as id FROM renews,services,employees,customers WHERE renews.service_id = services.id AND
+    renews.employee_id = employees.id AND
+    renews.customer_id = customers.id AND
+    checked_by_owner != 'checked'
+    ORDER BY renews.created_at;
+"));
+
+        if ($renews) {
+            return response()->json(['status' => true, 'details' => $renews]);
+        }
+        return response()->json(['status' => false, 'details' => 'no result']);
     }
 
     public function check_renews(Request $request)

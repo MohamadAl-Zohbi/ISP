@@ -16,6 +16,12 @@ import ManageServices from '@/views/ManageServices.vue'
 import EditService from '@/views/EditService.vue'
 import MonthlyServicesReport from '@/views/MonthlyServicesReport.vue'
 import MonthlyRenewsReport from '@/views/MonthlyRenewsReport.vue'
+import ManageUnpaidRenews from '@/views/ManageUnpaidRenews.vue'
+import ManageUncheckedRenews from '@/views/ManageUncheckedRenews.vue'
+import NoPermission from '@/views/NoPermission.vue'
+import CreatePayment from '@/views/CreatePayment.vue'
+import EditRenew from '@/views/EditRenew.vue'
+import RenewDetails from '@/views/RenewDetails.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +30,11 @@ const router = createRouter({
       path: '/',
       name: 'dashboard',
       component: Dashboard
+    },
+    {
+      path: '/no-permission',
+      name: 'no-permission',
+      component: NoPermission
     },
     {
       path: '/customers',
@@ -39,6 +50,11 @@ const router = createRouter({
       path: '/customer-details',
       name: 'customer-details',
       component: CustomerDetails
+    }, 
+    {
+      path: '/renew-details',
+      name: 'renew-details',
+      component: RenewDetails
     }, 
     {
       path: '/manage-customers',
@@ -72,6 +88,11 @@ const router = createRouter({
       component: CreateEmployee
     },
     {
+      path: '/create-payment',
+      name: 'create-payment',
+      component: CreatePayment
+    },
+    {
       path: '/edit-customer',
       name: 'edit-customer',
       component: EditCustomer
@@ -85,6 +106,11 @@ const router = createRouter({
       path: '/edit-service',
       name: 'edit-service',
       component: EditService
+    },
+    {
+      path: '/edit-renew',
+      name: 'edit-renew',
+      component: EditRenew
     },
     {
       path: '/daily-services-report',
@@ -105,6 +131,16 @@ const router = createRouter({
       path: '/monthly-renews-report',
       name: 'monthly-renews-report',
       component: MonthlyRenewsReport
+    },
+    {
+      path: '/unpaid-renews',
+      name: 'unpaid-renews',
+      component: ManageUnpaidRenews
+    },
+    {
+      path: '/unchecked-renews',
+      name: 'unchecked-renews',
+      component: ManageUncheckedRenews
     },
     {
       path: '/login',

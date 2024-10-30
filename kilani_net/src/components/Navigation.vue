@@ -129,22 +129,19 @@
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Monthly Report
                     </a>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="unpaid-renews" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Unpaid Renews
                     </a>
-                    <a href="#" style="padding-left:50px ;"
+                    <a href="unchecked-renews" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         UnChecked Renews
                     </a>
                     
-                    <a href="#" style="padding-left:50px ;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        History
-                    </a>
+                    
                 </details>
 
-                <details style="margin-bottom: 10px;">
+                <!-- <details style="margin-bottom: 10px;">
                     <summary style="cursor: pointer;">
                         &nbsp;&nbsp;
                         Payments
@@ -164,14 +161,31 @@
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Yearly Report
                     </a>
+                </details> -->
+                <details style="margin-bottom: 10px;">
+                    <summary style="cursor: pointer;color: red;">
+                        &nbsp;&nbsp;
+                        Settings
+                    </summary>
+                    <a href="#" style="padding-left:50px ;"
+                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
+                        Add Payment
+                    </a>
+                  
                 </details>
-
 
                 <div style="height: 0.5px;background-color: white;">
 
                 </div>
+              
                 <a href="#" class="block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                     Contact
+                </a>
+                <a href="#" class="block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
+                    Help
+                </a>
+                <a href="#" class="block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
+                    History
                 </a>
             </nav>
         </aside>

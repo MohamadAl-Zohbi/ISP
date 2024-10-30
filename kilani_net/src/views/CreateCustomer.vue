@@ -32,8 +32,8 @@
 
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700">UserName:</label>
-                <input type="text" v-model="username" placeholder="userName ..."
-                  required  class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                <input type="text" v-model="username" placeholder="userName ..." required
+                    class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
             <div>
@@ -113,6 +113,10 @@ export default {
                 });
                 this.is_loading = false
                 console.log('Post created:', response.data);
+                if (response.data.details == 'no permission') {
+                    location.replace('no-permission')
+
+                }
             } catch (error) {
                 this.is_loading = false
                 this.is_closed_warning = true

@@ -13,7 +13,7 @@
             </tr>
         </tbody>
     </table>
-    <p v-if="results" class="mt-4 text-gray-500">No results found.</p>
+    <p v-if="!results" class="mt-4 text-gray-500">No results found.</p>
 
 </template>
 

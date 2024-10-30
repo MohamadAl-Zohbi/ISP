@@ -14,7 +14,7 @@ export async function search(searchQuery) {
         });
 
         console.log(response.data);
-        return JSON.stringify(response.data); // You can return the response to be used later
+            return JSON.stringify(response.data); // You can return the response to be used later
     } catch (error) {
         console.error("There was an error during the search:", error);
     }

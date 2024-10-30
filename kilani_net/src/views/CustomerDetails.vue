@@ -58,11 +58,13 @@
                         style="color: red;margin-right: 1px;">
                         Edit
                     </button>
-                    <button
+                    <a
+                    :href="'renew-details?id='+renew.id"
+
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="color: green;">
                         Details
-                    </button>
+                    </a>
                     <input type="checkbox" @click="prepareIdsForCheck(renew.id)">
                 </td>
             </tr>
@@ -118,9 +120,10 @@ export default {
                 });
                 this.is_loading = false
 
-                console.log(response.data);
-                if (response.data.details == 'no pay found') {
-                    this.no_renew = true
+                if (response.data.details == 'no result') {
+                    this.no_renew = true;
+                    this.renews = [];
+
                 } else {
                     this.renews = response.data.details;
                 }
@@ -131,27 +134,25 @@ export default {
                 console.error("There was an error during the search:", error);
             }
         },
-        getRenewPayments(renew_id) {
+        // getRenewPayments(renew_id) {
 
-            axios.get('http://localhost:8000/api/get_payments/1', {
-                headers: {
-                    Authorization: `Bearer ${this.token}`,
-                },
-            })
-                .then(function (response) {
-                    // Handle success
-                    console.log(response.data);
-                })
-                .catch(function (error) {
-                    // Handle error
-                    console.error(error);
-                })
-                .finally(function () {
-                    // Always runs after .then() or .catch()
-                    console.log('Request completed');
-                });
+        //     axios.get('http://localhost:8000/api/get_payments/1', {
+        //         headers: {
+        //             Authorization: `Bearer ${this.token}`,
+        //         },
+        //     })
+        //         .then(function (response) {
+        //             // Handle success
+        //         })
+        //         .catch(function (error) {
+        //             // Handle error
+        //             console.error(error);
+        //         })
+        //         .finally(function () {
+        //             // Always runs after .then() or .catch()
+        //         });
 
-        },
+        // },
         prepareIdsForCheck(id) {
             let index = this.ids.indexOf(id);
             if (index !== -1) {
@@ -160,7 +161,6 @@ export default {
                 this.ids.push(id);
             }
 
-            console.log(this.ids)
         },
 
         check() {
@@ -180,7 +180,6 @@ export default {
                         },
                     })
                     .then(response => {
-                        console.log('Response:', response.data);
                         location.reload()
                     })
                     .catch(error => {
@@ -195,7 +194,6 @@ export default {
                 this.title = 'Alert';
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
-                console.log(token)
                 axios.delete('http://localhost:8000/api/delete_renews_as_checked', {
                     headers: {
                         Authorization: `Bearer ${token}`, // Include the token in headers
@@ -206,7 +204,6 @@ export default {
                     }
                 })
                     .then(response => {
-                        console.log('Response:', response.data);
                         location.reload()
                     })
                     .catch(error => {
@@ -254,7 +251,6 @@ export default {
     mounted() {
         this.customer_id = this.getParam();
         this.token = localStorage.getItem('token');
-        console.log(this.customer_id, this.token);
 
         this.search(this.customer_id);
 
