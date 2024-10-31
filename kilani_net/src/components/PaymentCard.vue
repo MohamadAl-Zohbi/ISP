@@ -1,5 +1,142 @@
 <template>
-    <div style="margin:20px auto;max-width: 500px;box-sizing: border-box;box-shadow: 4px 4px 10px 0px black;border-radius: 5px;">
-        <h1>hi</h1>
+    <div
+        style="margin:20px auto;max-width: 350px;box-sizing: border-box;box-shadow: 4px 4px 10px 0px black;border-radius: 5px;">
+        <div>
+            <img style="margin: auto;" width="150" src="../assets/cloudsp.jpg" alt="CloudSp">
+
+            <div>
+                <!-- <div>
+                    <p><b>Name:</b> <span>Mohamad</span></p>
+                    <p><b>Total:</b> <span>50$</span></p>
+                    <p><b>Paid:</b> <span>40$</span></p>
+                    <p><b>Amount:</b> <span>10$</span></p>
+                </div> -->
+                <h1 style="text-align: center;font-size: 17px;font-weight: bold;">{{ name }}</h1>
+                <table style="width: 350px;">
+                    <tbody>
+                        <tr>
+                            <td>Total</td>
+                            <td>Paid</td>
+                            <td>Amount</td>
+                        </tr>
+                        <tr>
+                            <td>{{ total }}$</td>
+                            <td>{{ paid }}$</td>
+                            <td>{{ total - paid }}$</td>
+                        </tr>
+                        <tr>
+                            <td>service</td>
+                            <td colspan="2">{{ service }}</td>
+                        </tr>
+                        <tr>
+                            <td>from</td>
+                            <td colspan="2"><span>{{ from }}<sub>dd/mm/yyyy</sub></span></td>
+                        </tr>
+                        <tr>
+                            <td>to</td>
+                            <td colspan="2"><span>{{ to }}<sub>dd/mm/yyyy</sub></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <p style="padding: 10px;">
+                    <span>
+                        <b>Note:</b>
+                    </span>
+                </p> -->
+                <!-- <div style="padding: 5px;">
+                    <p>
+                        <b style="">from: </b><span>10/01/2024<sub>dd/mm/yyyy</sub></span>
+
+                    </p>
+                    <p>
+                        <b style="">to: </b><span>10/01/2024<sub>dd/mm/yyyy</sub></span>
+
+                    </p>
+                </div> -->
+                <div style="text-align: center;">
+                    <pre><p>CloudSp شكرا لاستخدامكم انترنت</p>TEL: 70 577 959</pre>
+
+                </div>
+                <div style="text-align: center; font-weight: bold; font-size: 13px;">
+                    <!-- 30/10/2024 &nbsp;14:23:21 -->
+                     {{ created_at }}
+                    <!-- <div style="display: inline-block; float: left; margin: 0px 0px" >ccc</div> -->
+                    <!-- <div style="display: inline-block; float: right; margin: 0px 0px" >ccc</div> -->
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="action">
+            <button style="width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: orange"
+                class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Edit</button>
+            <button style="width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: red"
+                class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Delete</button>
+            <button style="width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: green"
+                class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Print</button>
+
+
+        </div>
     </div>
+
 </template>
+<script>
+export default {
+    data() {
+        return {
+
+        };
+    },
+    props: {
+        name: {
+            type: String,
+            required: true
+        },
+        total: {
+            type: String,
+            required: true
+        },
+        paid: {
+            type: String,
+            required: true
+        },
+        service: {
+            type: String,
+            required: true
+        },
+        from: {
+            type: String,
+            required: true
+        },
+        to: {
+            type: String,
+            required: true
+        },
+        created_at: {
+            type: String,
+            required: true
+        },
+        id: {
+            type: String,
+            required: true
+        }
+    },
+    methods: {
+
+    },
+    mounted() {
+
+    },
+
+};
+</script>
+<style scoped>
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+td {
+    text-align: center;
+    border: 1px solid;
+}
+</style>
