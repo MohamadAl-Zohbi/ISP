@@ -1,7 +1,8 @@
 <template>
     <LoadingBox v-if="is_loading" />
-    <PaymentCard id="1" name="Mohamad Saliba" total="50" paid="40" from="12/03/2024" to="13/09/2025" service="2Mb"
-        created_at="12/09/2024" />
+
+    <PaymentCard v-for="payment in payments" :id="payment.id" :name="name" :amount="payment.amount" :from="from"
+        :to="to" :service="service" :created_at="payment.created_at" :note="payment.description"/>
 </template>
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
@@ -11,6 +12,10 @@ export default {
     data() {
         return {
             payments: '',
+            service: '',
+            from: '',
+            to: '',
+            name: '',
             is_loading: false
         }
     },
@@ -32,7 +37,12 @@ export default {
                 });
 
                 console.log(response.data);
-                this.services = response.data.details;
+                this.payments = response.data.details;
+                // console.log(this.payments);
+                this.service = response.data.service;
+                this.from = response.data.renew.from;
+                this.to = response.data.renew.to;
+                this.name = response.data.name;
 
             } catch (error) {
                 console.error("There was an error during the search:", error);

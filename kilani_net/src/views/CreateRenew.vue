@@ -138,6 +138,8 @@ export default {
 
             let timeDifference = date2 - date1;
             let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+            
+            console.log(daysDifference)
             //  20$ ===> 30day
             //  ??  <===  1
             this.total = (daysDifference * parseInt(value) / 30).toFixed(2);

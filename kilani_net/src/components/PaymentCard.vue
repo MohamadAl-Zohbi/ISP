@@ -15,27 +15,23 @@
                 <table style="width: 350px;">
                     <tbody>
                         <tr>
-                            <td>Total</td>
-                            <td>Paid</td>
                             <td>Amount</td>
+                            <td colspan="2"><b>{{ amount }}$</b></td>
                         </tr>
-                        <tr>
-                            <td>{{ total }}$</td>
-                            <td>{{ paid }}$</td>
-                            <td>{{ total - paid }}$</td>
-                        </tr>
+                       
                         <tr>
                             <td>service</td>
                             <td colspan="2">{{ service }}</td>
                         </tr>
                         <tr>
                             <td>from</td>
-                            <td colspan="2"><span>{{ from }}<sub>dd/mm/yyyy</sub></span></td>
+                            <td colspan="2"><span>{{ from }}<sub>yyyy/mm/dd</sub></span></td>
                         </tr>
                         <tr>
                             <td>to</td>
-                            <td colspan="2"><span>{{ to }}<sub>dd/mm/yyyy</sub></span></td>
+                            <td colspan="2"><span>{{ to }}<sub>yyyy/mm/dd</sub></span></td>
                         </tr>
+                        <tr><td colspan="3">{{ note }}</td></tr>
                     </tbody>
                 </table>
                 <!-- <p style="padding: 10px;">
@@ -59,7 +55,7 @@
                 </div>
                 <div style="text-align: center; font-weight: bold; font-size: 13px;">
                     <!-- 30/10/2024 &nbsp;14:23:21 -->
-                     {{ created_at }}
+                     {{ created_at.toString().split('T')[0] }} &nbsp;{{ created_at.toString().split('T')[1].split('.')[0] }}
                     <!-- <div style="display: inline-block; float: left; margin: 0px 0px" >ccc</div> -->
                     <!-- <div style="display: inline-block; float: right; margin: 0px 0px" >ccc</div> -->
                 </div>
@@ -91,12 +87,12 @@ export default {
             type: String,
             required: true
         },
-        total: {
+        note: {
             type: String,
             required: true
         },
-        paid: {
-            type: String,
+        amount: {
+            type: Number,
             required: true
         },
         service: {
@@ -116,7 +112,7 @@ export default {
             required: true
         },
         id: {
-            type: String,
+            type: Number,
             required: true
         }
     },

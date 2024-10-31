@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customers;
 use Illuminate\Http\Request;
 use App\Models\Payments;
 use App\Models\Renews;
-
+use App\Models\Services;
 
 class PaymentsController extends Controller
 {
-    public function create_payment(Request $request,$id)
+    public function create_payment(Request $request, $id)
     {
         $emp = $request->user();
 
@@ -105,8 +106,11 @@ class PaymentsController extends Controller
         $payment = Payments::query()
             ->where('renew_id', '=', "{$id}")
             ->get();
+        $renew = Renews::find($id);
+        $service = Services::find($renew['service_id']);
+        $customer = Customers::find($renew['customer_id']);
         if ($payment) {
-            return response()->json(['status' => true, 'details' => $payment]);
+            return response()->json(['status' => true, 'details' => $payment,'renew'=>$renew,'name'=>$customer['name'],'service'=>$service['service']]);
         }
         return response()->json(['status' => false, 'details' => 'no pay found']);
     }
