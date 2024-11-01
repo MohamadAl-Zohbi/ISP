@@ -3,3 +3,8 @@ AND
 renews.created_at BETWEEN '2024-10-13' AND '2024-10-14'
 
 GROUP BY checked_by_owner
+
+
+
+
+who in the table payment cannot be null

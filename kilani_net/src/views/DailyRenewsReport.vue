@@ -63,14 +63,14 @@
                     <input type="checkbox" @click="prepareIdsForCheck(renew.id)">
                 </td>
             </tr>
-            
+
 
         </tbody>
-        
+
     </table>
     <p v-if="no_renew" class="mt-4 text-gray-500">No results found.</p>
-            <p class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
-            <p class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
+    <p class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
+    <p class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
 </template>
 
 

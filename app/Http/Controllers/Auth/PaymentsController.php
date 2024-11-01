@@ -18,7 +18,13 @@ class PaymentsController extends Controller
         if ($emp->rank != 'super' && $emp->rank != 'admin') {
             return response()->json(['status' => 'no permession']);
         }
+        $renew = Renews::find($id);
+        if (($request->input('amount') + $renew['paid']) > $renew['total']) {
+            return response()->json(['status' => 'err']);
+        }
 
+
+        // done checking 
         $payment = Payments::create([
             'amount' => $request->input('amount'),
             'phone_number' => $request->input('phone_number'),
@@ -110,7 +116,7 @@ class PaymentsController extends Controller
         $service = Services::find($renew['service_id']);
         $customer = Customers::find($renew['customer_id']);
         if ($payment) {
-            return response()->json(['status' => true, 'details' => $payment,'renew'=>$renew,'name'=>$customer['name'],'service'=>$service['service']]);
+            return response()->json(['status' => true, 'details' => $payment, 'renew' => $renew, 'name' => $customer['name'], 'service' => $service['service']]);
         }
         return response()->json(['status' => false, 'details' => 'no pay found']);
     }

@@ -39,6 +39,19 @@ class RenewsController extends Controller
         );
         return $new_service;
     }
+    public function get_renew_for_payment(Request $request, $id)
+    {
+        // $emp = $request->user();
+        // if ($emp->rank != 'super') {
+        //     return response()->json(['status' => false,'details'=>'no permission']);
+        // }       
+        $renew = Renews::find($id);
+        $customer = Customers::find($renew['customer_id']);
+        if ($renew) {
+            return response()->json(['status' => true, 'renew' => $renew,'customer'=>$customer]);
+        }
+        return response()->json(['status' => false, 'details' => 'no result']);
+    }
 
     public function update_renew(Request $request, $id)
     {
