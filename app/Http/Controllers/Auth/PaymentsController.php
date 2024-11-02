@@ -20,10 +20,13 @@ class PaymentsController extends Controller
         }
         $renew = Renews::find($id);
         if (($request->input('amount') + $renew['paid']) > $renew['total']) {
-            return response()->json(['status' => 'err']);
+            return response()->json(['status' => false, 'details' => 'the amount is too higher then the total please pay as the total']);
         }
 
-
+        if ($request->input('amount') <= 0) {
+            return response()->json(['status' => false, 'details' => 'wrong amount']);
+            
+        }
         // done checking 
         $payment = Payments::create([
             'amount' => $request->input('amount'),

@@ -54,11 +54,13 @@
                         style="margin-right: 1px;">
                         Pay
                     </a>
-                    <button
+                    <a
+                    :href="'edit-renew?id='+renew.id"
+
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="color: red;margin-right: 1px;">
                         Edit
-                    </button>
+                    </a>
                     <a
                     :href="'renew-details?id='+renew.id"
 

@@ -1,6 +1,12 @@
 <template>
     <LoadingBox v-if="is_loading" />
-
+    <div class="p-4" style="display: inline-block;position: fixed;right: 0px; top: 50px">
+        <transition name="slide-right" @after-enter="startTimeout">
+            <div v-if="success" class="bg-green-100 border border-green-300 text-green-700 p-4 rounded mb-4">
+                <p>Item successfully deleted!</p>
+            </div>
+        </transition>
+    </div>
     <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
         <h2 class="text-2xl font-bold mb-6 text-center">Payment Form</h2>
         <div>
@@ -93,6 +99,7 @@ export default {
             method: 'cash',
             name: '',
             is_loading: false,
+            success: false,
         }
     },
     methods: {
@@ -127,27 +134,38 @@ export default {
                 console.error("There was an error creating the post:", error);
             }
         },
+        startTimeout() {
+            // Hide the message after 2 seconds
+            setTimeout(() => {
+                this.success = false;
+                location.replace('/')
+            }, 1000);
+        },
         async submit() {
-            if(!this.who || !this.amount || this.amount <=0){
+            if (!this.who || !this.amount || this.amount <= 0 ) {
                 alert('wrong info')
                 return false
             }
-            
-            let token = localStorage.getItem('token');
-            if (this.amount > this.total) {
-                return false;
+
+            if ((this.paid + this.amount) > this.total ) {
+                alert('you are paying more then the total please check your info')
+                return false
             }
+            let token = localStorage.getItem('token');
+            // if (this.amount > this.total) {
+            //     return false;
+            // }
             try {
                 this.is_loading = true;
-                const payment_response = await axios.post('http://localhost:8000/api/create_payment/' + this.getParam(), 
-                {
-                    amount: this.amount,
-                    phone_number: this.number,
-                    description: this.description,
-                    who: this.who,
-                    payment_method: this.method,
+                const payment_response = await axios.post('http://localhost:8000/api/create_payment/' + this.getParam(),
+                    {
+                        amount: this.amount,
+                        phone_number: this.number,
+                        description: this.description,
+                        who: this.who,
+                        payment_method: this.method,
 
-                }, {
+                    }, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -155,11 +173,14 @@ export default {
                 this.is_loading = false
 
                 console.log('Post created:', payment_response.data);
-               
+                if (payment_response.data.status == false) {
+                    alert(payment_response.data.details)
+                }
+                this.success = true
 
             } catch (error) {
                 this.is_loading = false
-    
+
 
                 console.error("There was an error creating the post:", error);
             }
@@ -175,3 +196,18 @@ export default {
     }
 }
 </script>
+<style scoped>
+/* Slide-in from the right and slide-out to the right */
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: transform 2s ease;
+}
+
+.slide-right-enter {
+    transform: translateX(100%);
+}
+
+.slide-right-leave-to {
+    transform: translateX(100%);
+}
+</style>
