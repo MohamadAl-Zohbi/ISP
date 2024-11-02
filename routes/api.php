@@ -40,6 +40,7 @@ Route::get('/get_customer/{id}',[CustomersController::class, 'get_customer'])->m
 Route::get('/get_payment/{id}',[PaymentsController::class, 'get_payment'])->middleware('auth:sanctum');
 Route::get('/get_payments/{id}',[PaymentsController::class, 'get_payments'])->middleware('auth:sanctum');
 
+Route::get('/get_renew_for_edit/{id}',[RenewsController::class, 'get_renew_for_edit'])->middleware('auth:sanctum');
 Route::get('/get_unpaid_renews',[RenewsController::class, 'get_unpaid_renews'])->middleware('auth:sanctum');
 Route::get('/get_unchecked_renews',[RenewsController::class, 'get_checked_renews'])->middleware('auth:sanctum');
 Route::get('/get_customer_renews/{id}',[RenewsController::class, 'get_customer_renews'])->middleware('auth:sanctum');

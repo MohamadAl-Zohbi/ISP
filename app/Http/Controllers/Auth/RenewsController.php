@@ -48,7 +48,7 @@ class RenewsController extends Controller
         $renew = Renews::find($id);
         $customer = Customers::find($renew['customer_id']);
         if ($renew) {
-            return response()->json(['status' => true, 'renew' => $renew,'customer'=>$customer]);
+            return response()->json(['status' => true, 'renew' => $renew, 'customer' => $customer]);
         }
         return response()->json(['status' => false, 'details' => 'no result']);
     }
@@ -293,6 +293,22 @@ GROUP BY checked_by_owner
         }
         return response()->json(['status' => false, 'details' => 'no result']);
     }
-}
+    // frozen  // unrenewed // renewed // waiting // #refused# 
 
-// frozen  // unrenewed // renewed // waiting // #refused# 
+    public function get_renew_for_edit(Request $request, $id)
+    {
+        // $emp = $request->user();
+        // if ($emp->rank != 'super') {
+        //     return response()->json(['status' => false,'details'=>'no permission']);
+        // }
+
+        $renew = Renews::find($id);
+        $customer = Customers::find($renew['customer_id']);
+        if ($renew && $customer) {
+            return response()->json(['status' => true, 'renew' => $renew,'customer' => $customer]);
+        }
+
+
+        return response()->json(['status' => false, 'details' => 'no pay found']);
+    }
+}
