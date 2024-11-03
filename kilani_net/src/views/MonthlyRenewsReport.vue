@@ -130,7 +130,7 @@ export default {
 
             // tomorrow = tomorrow.toISOString().split('T')[0];
             console.log(this.date1)
-            console.log(this.date2)
+            console.log(this.costomizeDate2(this.date2))
 
 
             try {
@@ -161,6 +161,11 @@ export default {
 
             // console.log(this.getDateTime(this.renews[0].created_at))
 
+        },
+        costomizeDate2(date){
+            let fixed_date = date.split('-');
+            // this.date2 =  `${fixed_date[0]}-${fixed_date[1]}-${fixed_date[2] -1}`
+            return `${fixed_date[0]}-${fixed_date[1]}-${parseInt(fixed_date[2])+ 1}`
         },
 
         prepareIdsForCheck(id) {

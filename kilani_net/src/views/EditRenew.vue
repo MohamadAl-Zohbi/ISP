@@ -5,7 +5,7 @@
         <h2 class="text-2xl font-bold mb-6 text-center">Renewal Form</h2>
         <div>
             <label for="customer" class="block text-sm font-medium text-gray-700">Customer:</label>
-            <input type="text" v-model="name" required
+            <input type="text" v-model="name"
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 readonly>
         </div>
@@ -13,7 +13,7 @@
         <form @submit.prevent="submitForm" class="space-y-4">
             <div>
                 <label for="fromDate" class="block text-sm font-medium text-gray-700">From Date:mm/dd/yyyy</label>
-                <input type="date" @change="getTotal(service)" v-model="expiry" required
+                <input type="date" @change="getTotal(service)" v-model="from" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
@@ -30,14 +30,14 @@
                 }" v-model="service" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <option disabled value="">Select an option</option>
-                    <option v-for="service in services" :key="service.id" :value="[service.price, service.id]">{{
+                    <option v-for="service in services" :key="service.id" :value="service.service">{{
                         service.service }}
                     </option>
                 </select>
             </div>
             <br>
             <div>
-                <label for="total" class="block text-sm font-medium text-gray-700">Total Amount: $$</label>
+                <label for="total" class="block text-sm font-medium text-gray-700">Total: $$</label>
                 <input type="text" @keypress="(event) => {
                     const char = String.fromCharCode(event.keyCode); // Get the pressed key
                     if (!/^\d$/.test(char) && char != '.') {  // Check if the character is not a digit
@@ -47,7 +47,7 @@
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
             <div>
-                <label for="paid" class="block text-sm font-medium text-gray-700">Paid Amount: $$</label>
+                <label for="paid" class="block text-sm font-medium text-gray-700">Paid: $$</label>
                 <input type="text" @keypress="(event) => {
                     const char = String.fromCharCode(event.keyCode); // Get the pressed key   
                     if (!/^\d$/.test(char) && char != '.') {  // Check if the character is not a digit
@@ -115,15 +115,19 @@ export default {
     data() {
         return {
             service: '',
+            services: '',
             description: ' ',
             note: ' ',
             from: '',
+            total:'',
+            amount:'',
             to: '',
             who: '',
             customer: '',
+            name: '',
             number: '',
             paid: 0.00,
-            services: [],
+            renew: '',
             is_loading: false,
         };
     },
@@ -173,7 +177,7 @@ export default {
                 if (this.paid > 0) {
                     try {
                         // console.log(this.paid)
-                        let response_payment = await axios.post('http://localhost:8000/api/create_payment/'+response_renew.data.id, {
+                        let response_payment = await axios.post('http://localhost:8000/api/create_payment/' + response_renew.data.id, {
                             amount: this.paid,
                             phone_number: this.number,
                             description: this.description,
@@ -208,54 +212,59 @@ export default {
             }
 
             location.replace('manage-customers?search=')
+        },
+        async getInfo(id) {
+            this.is_loading = true;
+            let token = localStorage.getItem('token');
+
+            try {
+                const response = await axios.get(`http://localhost:8000/api/get_renew_for_edit/${this.getParam()}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+                this.is_loading = false
+
+                this.customer = response.data.customer;
+                this.renew = response.data.renew;
+                // this.service = response.data.service;
+                this.name = this.customer.name
+                this.from = this.renew.from
+                this.to = this.renew.to
+                this.total = this.renew.total
+                this.paid = this.renew.paid
+                this.note = this.renew.note
+                this.service = response.data.service.service;
+            } catch (error) {
+                this.is_loading = false;
+
+                console.error("There was an error during the search:", error);
+            };
+        },
+        async getServices() {
+            try {
+                this.is_loading = true
+                let token = localStorage.getItem("token");
+                const response = await axios.get(`http://localhost:8000/api/show_all_services`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
+                this.is_loading = false
+                this.services = response.data.details
+
+            } catch (error) {
+                this.is_loading = false
+
+                console.error("There was an error during the search:", error);
+            };
         }
 
     },
     async mounted() {
-        // this.is_loading = true
-        // let token = localStorage.getItem('token');
-        // try {
-        //     const response = await axios.get(`http://localhost:8000/api/get_customer/${this.getParam()}`, {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         }
-        //     });
-        //     this.is_loading = false
-
-
-        //     // console.log(response.data);
-        //     this.customer = response.data.details;
-        //     this.name = this.customer.name;
-        //     this.expiry = this.customer.expiry;
-        //     let date = new Date(this.customer.expiry);
-        //     date.setMonth(date.getMonth() + 1);
-        //     this.to = date.toISOString().split('T')[0];
-        // } catch (error) {
-        //     this.is_loading = false
-
-        //     console.error("There was an error during the search:", error);
-        // };
-
-        // try {
-        //     this.is_loading = true
-
-        //     const response = await axios.get(`http://localhost:8000/api/show_all_services`, {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`,
-        //         }
-        //     });
-        //     this.is_loading = false
-
-
-        //     // console.log(response.data);
-        //     this.services = response.data.details
-
-        // } catch (error) {
-        //     this.is_loading = false
-
-        //     console.error("There was an error during the search:", error);
-        // };
-
+        this.getInfo()
+        this.getServices()
+        
     },
     components: {
         LoadingBox

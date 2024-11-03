@@ -22,6 +22,12 @@
                 <input type="date" @change="getTotal(service)" v-model="to" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
+            <!-- number of days  -->
+            <div>
+                <label for="days" class="block text-sm font-medium text-gray-700">Days</label>
+                <input type="text" v-model="number_of_days" readonly
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
 
             <div>
                 <label for="service" class="block text-sm font-medium text-gray-700">Service:</label>
@@ -114,6 +120,7 @@ export default {
             who: '',
             customer: '',
             number: '',
+            number_of_days:'',
             paid: 0.00,
             services: [],
             is_loading: false,
@@ -128,6 +135,20 @@ export default {
             // Format date as YYYY-MM-DD
             return nextMonthDate.toISOString().split('T')[0];
         },
+        getDays(){
+            let date1 = new Date(this.expiry);// ms -> sec -> min -> hour -> 1day
+            let date2 = new Date(this.to);
+
+            let timeDifference = date1;
+            // let daysDifference = timeDifference + 30;
+            let daysDifference =((timeDifference / (1000 * 60 * 60 * 24)) + 30) * (1000 * 60 * 60 * 24);
+
+            console.log(new Date(daysDifference).toISOString().split('T')[0])
+            this.number_of_days = daysDifference;
+        },
+        monthesValidation(){
+
+        },
 
         getTotal(value) {
             if (!value) {
@@ -138,7 +159,7 @@ export default {
 
             let timeDifference = date2 - date1;
             let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-            
+
             console.log(daysDifference)
             //  20$ ===> 30day
             //  ??  <===  1
@@ -273,7 +294,7 @@ export default {
 
             console.error("There was an error during the search:", error);
         };
-
+this.getDays()
     },
     components: {
         LoadingBox

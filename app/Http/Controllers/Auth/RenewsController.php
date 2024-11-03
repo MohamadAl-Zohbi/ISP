@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use App\Http\Controllers\Controller;
 use App\Models\Customers;
 use App\Models\Renews;
+use App\Models\Services;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -304,8 +305,9 @@ GROUP BY checked_by_owner
 
         $renew = Renews::find($id);
         $customer = Customers::find($renew['customer_id']);
+        $service = Services::find($renew['service_id']);
         if ($renew && $customer) {
-            return response()->json(['status' => true, 'renew' => $renew,'customer' => $customer]);
+            return response()->json(['status' => true, 'renew' => $renew, 'customer' => $customer, 'service' => $service]);
         }
 
 
