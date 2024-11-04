@@ -19,7 +19,7 @@
                 <p class="text-gray-600">Number: {{ number }}</p>
                 <p class="text-gray-600">User: {{ user }}</p>
                 <p class="text-gray-600">Password: {{ password }}</p>
-                <button style="float: right; background-color: white; color:red;padding: 5px; border-radius: 5px;box-shadow: 1px 1px 10px 0px black;">
+                <button class="transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none" style="float: right; background-color: white; color:blue;padding: 5px; border-radius: 5px;box-shadow: 1px 1px 10px 0px black;">
                  fastCharge
                 </button>
             </div>

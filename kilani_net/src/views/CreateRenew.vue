@@ -22,12 +22,6 @@
                 <input type="date" @change="getTotal(service)" v-model="to" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-            <!-- number of days  -->
-            <div>
-                <label for="days" class="block text-sm font-medium text-gray-700">Days</label>
-                <input type="text" v-model="number_of_days" readonly
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-            </div>
 
             <div>
                 <label for="service" class="block text-sm font-medium text-gray-700">Service:</label>
@@ -132,33 +126,20 @@ export default {
             let expiry = this.expiry;
             // Add one month
             let date = new Date(this.expiry);
-            // expiry = expiry.toString().split('T')[0].split('-'); // month 0 -> 11
-            // console.log(expiry)
-            // console.log(parseInt(expiry[2]), parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`)))
-            // // let check_year = this.checkYear(expiry[0], expiry[1]);
-            // // // console.log(check_year)
-            // // if (check_year) {
-            // //     expiry[0] = check_year.split()[0];
-            // // }
-            // console.log(`${parseInt(expiry[1]) + 1}`)
-            // console.log('hello: ', this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`));
-            // if (parseInt(expiry[2]) <= parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`))) {
-            //     date.setMonth(expiry[1]) // next month (to)
-            //     this.to = date.toISOString().split('T')[0];
-            // } else {
-            //     date.setDate(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`));
-            //     date.setMonth(expiry[1]);
-            //     this.to = date.toISOString().split('T')[0];
-            // }
-      
-            date.setMonth(10);
-            console.log(date.toISOString().split('T')[0])
-        },
-        checkYear(year, month) {
-            if (month == '12') {
-                return `${parseInt(year) + 1} ${0}`;
+            expiry = expiry.toString().split('T')[0].split('-'); // month 0 -> 11
+            console.log(expiry)
+            console.log(parseInt(expiry[2]), parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`)))
+            console.log(`${parseInt(expiry[1]) + 1}`)
+            console.log('hello: ', this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`));
+            if (parseInt(expiry[2]) <= parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`))) {
+                date.setMonth(expiry[1]) // next month (to)
+                this.to = date.toISOString().split('T')[0];
+            } else {
+                date.setDate(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`));
+                date.setMonth(expiry[1]);
+                this.to = date.toISOString().split('T')[0];
             }
-            return false;
+
         },
 
         getLastDayOfMonth(year, month) {
@@ -175,10 +156,13 @@ export default {
             let timeDifference = date2 - date1;
             let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
 
-            console.log(daysDifference)
+            console.log(value)
             //  20$ ===> 30day
             //  ??  <===  1
             this.total = (daysDifference * parseInt(value) / 30).toFixed(2);
+            if (daysDifference == 29 || daysDifference == 30 || daysDifference == 31) {
+                this.total = parseFloat(value);
+            }
             return true;
         },
         getParam() {
@@ -281,9 +265,7 @@ export default {
             this.customer = response.data.details;
             this.name = this.customer.name;
             this.expiry = this.customer.expiry;
-            let date = new Date(this.customer.expiry);
-            date.setMonth(date.getMonth() + 1);
-            this.to = date.toISOString().split('T')[0];
+            this.getNextMonthDate()
         } catch (error) {
             this.is_loading = false
 
