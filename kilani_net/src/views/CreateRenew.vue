@@ -13,7 +13,7 @@
         <form @submit.prevent="submitForm" class="space-y-4">
             <div>
                 <label for="fromDate" class="block text-sm font-medium text-gray-700">From Date:mm/dd/yyyy</label>
-                <input type="date" @change="getTotal(service)" v-model="expiry" required
+                <input type="date" @change="getNextMonthDate()" v-model="expiry" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
@@ -120,7 +120,7 @@ export default {
             who: '',
             customer: '',
             number: '',
-            number_of_days:'',
+            number_of_days: '',
             paid: 0.00,
             services: [],
             is_loading: false,
@@ -129,27 +129,42 @@ export default {
     methods: {
 
         getNextMonthDate() {
-            const today = new Date();
+            let expiry = this.expiry;
             // Add one month
-            const nextMonthDate = new Date(today.setMonth(today.getMonth() + 1));
-            // Format date as YYYY-MM-DD
-            return nextMonthDate.toISOString().split('T')[0];
+            let date = new Date(this.expiry);
+            // expiry = expiry.toString().split('T')[0].split('-'); // month 0 -> 11
+            // console.log(expiry)
+            // console.log(parseInt(expiry[2]), parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`)))
+            // // let check_year = this.checkYear(expiry[0], expiry[1]);
+            // // // console.log(check_year)
+            // // if (check_year) {
+            // //     expiry[0] = check_year.split()[0];
+            // // }
+            // console.log(`${parseInt(expiry[1]) + 1}`)
+            // console.log('hello: ', this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`));
+            // if (parseInt(expiry[2]) <= parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`))) {
+            //     date.setMonth(expiry[1]) // next month (to)
+            //     this.to = date.toISOString().split('T')[0];
+            // } else {
+            //     date.setDate(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`));
+            //     date.setMonth(expiry[1]);
+            //     this.to = date.toISOString().split('T')[0];
+            // }
+      
+            date.setMonth(10);
+            console.log(date.toISOString().split('T')[0])
         },
-        getDays(){
-            let date1 = new Date(this.expiry);// ms -> sec -> min -> hour -> 1day
-            let date2 = new Date(this.to);
-
-            let timeDifference = date1;
-            // let daysDifference = timeDifference + 30;
-            let daysDifference =((timeDifference / (1000 * 60 * 60 * 24)) + 30) * (1000 * 60 * 60 * 24);
-
-            console.log(new Date(daysDifference).toISOString().split('T')[0])
-            this.number_of_days = daysDifference;
-        },
-        monthesValidation(){
-
+        checkYear(year, month) {
+            if (month == '12') {
+                return `${parseInt(year) + 1} ${0}`;
+            }
+            return false;
         },
 
+        getLastDayOfMonth(year, month) {
+            // Month is 0-based in JavaScript, so January is 0, December is 11
+            return new Date(year, month, 0).getDate();
+        },
         getTotal(value) {
             if (!value) {
                 return false;
@@ -190,7 +205,7 @@ export default {
 
             this.is_loading = true;
             let token = localStorage.getItem('token');
-            let service_id = document.getElementById('service').value.split(',')[1];
+            let service_id = document.getElementById('service').value.split(',')[1];// 203-dd-fdde [202,dd,fdde]  dd
             try {
                 const response_renew = await axios.post('http://localhost:8000/api/create_renew', {
                     from: this.expiry,
@@ -212,7 +227,7 @@ export default {
                 if (this.paid > 0) {
                     try {
                         // console.log(this.paid)
-                        let response_payment = await axios.post('http://localhost:8000/api/create_payment/'+response_renew.data.id, {
+                        let response_payment = await axios.post('http://localhost:8000/api/create_payment/' + response_renew.data.id, {
                             amount: this.paid,
                             phone_number: this.number,
                             description: this.description,
@@ -294,7 +309,6 @@ export default {
 
             console.error("There was an error during the search:", error);
         };
-this.getDays()
     },
     components: {
         LoadingBox
