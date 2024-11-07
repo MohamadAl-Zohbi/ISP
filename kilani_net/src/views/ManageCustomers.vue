@@ -1,12 +1,14 @@
     <template>
         <!-- ############## -->
+         <!-- <LiteSuccessBox v-if="success"/> -->
+         <LiteSuccessBox v-if="done"/>
         <LoadingBox v-if="is_loading" />
         <!-- <CustomerDetailsBox v-if="true" :name="name" :created_at="created_at" :expiry="expiry"
             :description="description" :location="location" :nationality="nationality" :number="number" :user="user" :password="password"/> -->
         <CustomerDetailsBox v-if="isOpenDetailsCustomer" :isOpen="true" :name="name"
             :closeFunction="closeCustomerDetailsBox" :created_at="created_at" :expiry="expiry"
             :description="description" :location="location" :nationality="nationality" :number="number" :user="user"
-            :password="password" />
+            :password="password" :id="id" :isDone="isDone"/>
         <div class="mx-auto mt-4" style="padding: 10px;">
             <!-- Search Input -->
             <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" autofocus />
@@ -45,7 +47,7 @@
                         <td class="p-1">{{ customer.pass }}</td>
                         <td class="p-1">
                             <button
-                                @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass)"
+                                @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass,customer.id)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="margin-right: 1px;">
                                 Show
@@ -83,8 +85,9 @@ import CustomerDetailsBox from '@/components/CustomerDetailsBox.vue';
 // import Vuetify from 'vuetify';
 
 import { search } from '@/utils.js';
-import CustomerDetails from './CustomerDetails.vue';
-import EditCustomer from './EditCustomer.vue';
+// import CustomerDetails from './CustomerDetails.vue';
+// import EditCustomer from './EditCustomer.vue';
+import LiteSuccessBox from '@/components/LiteSuccessBox.vue';
 export default {
     data() {
         return {
@@ -105,7 +108,9 @@ export default {
             number: '',
             user: '',
             password: '',
-            isOpenDetailsCustomer: false
+            id:'',
+            isOpenDetailsCustomer: false,
+            done:false
         };
     },
     computed: {
@@ -166,7 +171,7 @@ export default {
 
             this.is_loading = false;
         },
-        showCustomerDetails(created_at, name, expiry, description, location, nationality, number, user, password) {
+        showCustomerDetails(created_at, name, expiry, description, location, nationality, number, user, password,id) {
             this.created_at = created_at;
             this.name = name;
             this.expiry = expiry;
@@ -176,6 +181,7 @@ export default {
             this.number = number;
             this.user = user;
             this.password = password;
+            this.id = id;
             this.isOpenDetailsCustomer = !this.isOpenDetailsCustomer;
         },
         closeCustomerDetailsBox() {
@@ -194,8 +200,13 @@ export default {
         },
         editCustomer(id) {
             window.location.assign('edit-customer?id='+id);
+        },
+        isDone() {
+            setTimeout(() => {
+                this.done = !this.done
+            }, 1000);
+            this.done = false;
         }
-
     },
     mounted() {
         this.searchQuery = this.getParam();
@@ -203,7 +214,8 @@ export default {
     },
     components: {
         LoadingBox,
-        CustomerDetailsBox
+        CustomerDetailsBox,
+        LiteSuccessBox
     }
 };
 

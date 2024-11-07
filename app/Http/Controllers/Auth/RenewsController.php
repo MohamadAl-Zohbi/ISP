@@ -313,4 +313,23 @@ GROUP BY checked_by_owner
 
         return response()->json(['status' => false, 'details' => 'no pay found']);
     }
+
+    public function get_customer_details_for_fast_charge(Request $request, $id)
+    {
+        // $emp = $request->user();
+        // if ($emp->rank != 'super') {
+        //     return response()->json(['status' => false,'details'=>'no permission']);
+        // }
+
+        $renew = Renews::where('customer_id', $id)->pluck('service_id')->last();
+        $total = Services::where('id', $renew)->pluck('price')->first();
+        if ($renew) {
+            return response()->json(['status' => true,'total' => $total,'id'=>$renew]);
+        }
+
+
+        return response()->json(['status' => false, 'details' => 'no result']);
+    }
+
+
 }
