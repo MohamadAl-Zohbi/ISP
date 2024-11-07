@@ -1,5 +1,5 @@
 <template>
-    
+
     <div v-if="opened" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
             <div class="flex justify-between items-center">
@@ -148,8 +148,8 @@ export default {
             return new Date(year, month, 0).getDate();
         },
         async getInfo() {
-            this.isDone();
-            console.log(this.id)
+            console.log(this.id);
+            this.closeDialog();
             let token = localStorage.getItem('token');
             try {
                 const response = await axios.get(`http://localhost:8000/api/get_customer_details_for_fast_charge/` + this.id, {
@@ -166,7 +166,7 @@ export default {
 
         },
         async renew(action /*paid or unpaid parameter */) {
-            this.opened = false;
+
             let info = await this.getInfo();
             let paid = 0;
             if (action == 'unpaid') {
@@ -177,30 +177,54 @@ export default {
             console.log(info);
             let to = this.getNextMonthDate();
             let token = localStorage.getItem('token');
-            try {
-                const response = await axios.post('http://localhost:8000/api/create_renew', {
-                    from: this.expiry,
-                    to: to,
-                    cheked_by_owner: 'waiting',
-                    total: info.total,
-                    paid: paid,
-                    service_id: info.id,
-                    customer_id: this.id,
-                    note: 'fast charge',
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+            // try {
+            //     const response = await axios.post('http://localhost:8000/api/create_renew', {
+            //         from: this.expiry,
+            //         to: to,
+            //         cheked_by_owner: 'waiting',
+            //         total: info.total,
+            //         paid: paid,
+            //         service_id: info.id,
+            //         customer_id: this.id,
+            //         note: 'fast charge',
+            //     }, {
+            //         headers: {
+            //             Authorization: `Bearer ${token}`
+            //         }
+            //     });
+            //     this.is_loading = false
+            //     this.done = true
+            //     console.log('Post created:', response.data);
+            // } catch (error) {
+            //     this.is_loading = false
+            //     this.is_closed_warning = true
+            //     this.details = response.data.details
+            //     console.error("There was an error creating the post:", error);
+            // };
+
+            axios.post('http://localhost:8000/api/create_renew', {
+                from: this.expiry,
+                to: to,
+                cheked_by_owner: 'waiting',
+                total: info.total,
+                paid: paid,
+                service_id: info.id,
+                customer_id: this.id,
+                note: 'fast charge',
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    this.isDone();
+                    
+                    console.log('Response:', response.data);
+                    // location.reload()
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
-                this.is_loading = false
-                this.done = true
-                console.log('Post created:', response.data);
-            } catch (error) {
-                this.is_loading = false
-                this.is_closed_warning = true
-                this.details = response.data.details
-                console.error("There was an error creating the post:", error);
-            }
 
         }
     },
