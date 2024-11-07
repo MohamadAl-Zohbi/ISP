@@ -62,7 +62,7 @@
                 <input type="text" v-model="note"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-            <h2 class="text-1xl font-bold mb-6 text-center">Payment</h2>
+            <!-- <h2 class="text-1xl font-bold mb-6 text-center">Payment</h2>
 
             <div>
                 <label for="amount" class="block text-sm font-medium text-gray-700">Payment Amount: $$</label>
@@ -88,7 +88,7 @@
                 <label for="note" class="block text-sm font-medium text-gray-700">Note:</label>
                 <input type="text" v-model="description"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-            </div>
+            </div> -->
 
 
             <button type="submit" @click="submit()"

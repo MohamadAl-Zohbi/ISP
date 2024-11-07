@@ -1,8 +1,9 @@
 <template>
     <div class="p-4" style="display: inline-block;position: fixed;right: 0px; top: 50px">
         <transition name="slide-right">
-            <div v-if="success"  @after-enter="startTimeout()" class="bg-green-100 border border-green-300 text-green-700 p-4 rounded mb-4">
-                <p>Item successfully deleted!</p>
+            <div v-if="success" @after-enter="startTimeout()"
+                class="bg-green-100 border border-green-300 text-green-700 p-4 rounded mb-4">
+                <p>{{ details }}</p>
             </div>
         </transition>
     </div>
@@ -15,12 +16,17 @@ export default {
             success: this.done,
         }
     },
-    props:{
+    props: {
         done: {
             type: Boolean,
             // default: false,
-        },    },
-    methods:{
+        },
+        details: {
+            type: String,
+            // default: false,
+        },
+    },
+    methods: {
         startTimeout() {
             // Hide the message after 2 seconds
             setTimeout(() => {
@@ -31,7 +37,7 @@ export default {
         },
 
     },
-    mounted(){
+    mounted() {
         this.startTimeout()
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-gray-800 p-4 shadow-md">
+    <nav class="bg-gray-800 p-4 shadow-md" style="position: fixed;width: 100%;top: 0;">
         <div class="container mx-auto flex items-center justify-between">
             <div>
                 <button @click="toggleMenu" class="text-white focus:outline-none mr-10">
@@ -50,7 +50,7 @@
             'bg-gray-800 text-white w-64 space-y-6 py-7 px-2 inset-y-0 left-0 transform',
             isOpen ? 'translate-x-0' : '-translate-x-full',
             'transition-transform duration-300 ease-in-out shadow-2xl w-64 p-4 overflow-y-auto'
-        ]" style="position: absolute; margin-top: 73.6px; ">
+        ]" style="position: fixed; margin-top: 73.6px; ">
             <!-- Logo -->
 
             <div class="text-white text-2xl font-bold text-center block">

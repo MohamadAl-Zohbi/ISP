@@ -45,11 +45,11 @@
                 <td class="p-1">{{ renew.paid }}</td>
                 <td class="p-1">{{ renew.note }}</td>
                 <td class="p-1">
-                    <button
+                    <a :href="'create-payment?id=' + renew.id"
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="margin-right: 1px;">
                         Pay
-                    </button>
+                    </a>
                     <button
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="color: red;margin-right: 1px;">

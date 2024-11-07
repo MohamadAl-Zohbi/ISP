@@ -1,14 +1,14 @@
     <template>
         <!-- ############## -->
-         <!-- <LiteSuccessBox v-if="success"/> -->
-         <LiteSuccessBox v-if="done"/>
+        <!-- <LiteSuccessBox v-if="success"/> -->
+        <LiteSuccessBox v-if="done" :details="details" />
         <LoadingBox v-if="is_loading" />
         <!-- <CustomerDetailsBox v-if="true" :name="name" :created_at="created_at" :expiry="expiry"
             :description="description" :location="location" :nationality="nationality" :number="number" :user="user" :password="password"/> -->
         <CustomerDetailsBox v-if="isOpenDetailsCustomer" :isOpen="true" :name="name"
             :closeFunction="closeCustomerDetailsBox" :created_at="created_at" :expiry="expiry"
             :description="description" :location="location" :nationality="nationality" :number="number" :user="user"
-            :password="password" :id="id" :isDone="isDone"/>
+            :password="password" :id="id" :isDone="isDone" :reload="search" />
         <div class="mx-auto mt-4" style="padding: 10px;">
             <!-- Search Input -->
             <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" autofocus />
@@ -47,13 +47,12 @@
                         <td class="p-1">{{ customer.pass }}</td>
                         <td class="p-1">
                             <button
-                                @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass,customer.id)"
+                                @click="showCustomerDetails(customer.created_at, customer.name, customer.expiry, customer.description, customer.location, customer.nationality, customer.number, customer.user, customer.pass, customer.id)"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="margin-right: 1px;">
                                 Show
                             </button>
-                            <a 
-                            :href="'create-renew?id='+customer.id"
+                            <a :href="'create-renew?id=' + customer.id"
                                 class="text-blue-600 px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="margin-right: 1px;">
                                 Renew
@@ -63,9 +62,7 @@
                                 style="color: red;margin-right: 1px;">
                                 Edit
                             </button>
-                            <a 
-                            :href="'customer-details?id='+customer.id"
-
+                            <a :href="'customer-details?id=' + customer.id"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: green;">
                                 Details
@@ -108,9 +105,10 @@ export default {
             number: '',
             user: '',
             password: '',
-            id:'',
+            id: '',
+            details: '',
             isOpenDetailsCustomer: false,
-            done:false
+            done: false
         };
     },
     computed: {
@@ -171,7 +169,7 @@ export default {
 
             this.is_loading = false;
         },
-        showCustomerDetails(created_at, name, expiry, description, location, nationality, number, user, password,id) {
+        showCustomerDetails(created_at, name, expiry, description, location, nationality, number, user, password, id) {
             this.created_at = created_at;
             this.name = name;
             this.expiry = expiry;
@@ -199,12 +197,16 @@ export default {
             window.open('create-renew?id=' + id);
         },
         editCustomer(id) {
-            window.location.assign('edit-customer?id='+id);
+            window.location.assign('edit-customer?id=' + id);
         },
-        isDone() {
+        isDone(details) {
+            this.details = details
             setTimeout(() => {
                 this.done = !this.done
-            }, 1000);
+            }, 10);
+            setTimeout(() => {
+                this.done = !this.done
+            }, 3000);
             this.done = false;
         }
     },

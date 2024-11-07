@@ -103,6 +103,9 @@ export default {
         isDone: {
             type: Function
         },
+        reload: {
+            type: Function
+        },
     },
 
     data() {
@@ -168,6 +171,10 @@ export default {
         async renew(action /*paid or unpaid parameter */) {
 
             let info = await this.getInfo();
+            if (info.status == false) {
+                alert('user cannot be charged please create a manual renew and try this later !!!')
+                return false
+            }
             let paid = 0;
             if (action == 'unpaid') {
                 paid = 0;
@@ -216,9 +223,11 @@ export default {
                     Authorization: `Bearer ${token}`
                 }
             })
-                .then(response => {
-                    this.isDone();
-                    
+                .then(async response => {
+                    await this.isDone("Success");
+                    setTimeout(() => {
+                        this.reload()
+                    }, 3000);
                     console.log('Response:', response.data);
                     // location.reload()
                 })
