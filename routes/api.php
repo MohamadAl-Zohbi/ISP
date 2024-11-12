@@ -50,5 +50,5 @@ Route::get('/get_renews_details_from_to',[RenewsController::class, 'get_renews_d
 Route::get('/get_unrenewed_customers',[CustomersController::class, 'get_unrenewed_customers'])->middleware('auth:sanctum');
 Route::get('/get_expired_frozen_customers',[CustomersController::class, 'get_expired_frozen_customers'])->middleware('auth:sanctum');
 
-
+Route::get('/check',[EmployeesController::class, 'check'])->middleware('auth:sanctum');
 Route::post('/login',[EmployeesController::class,'login']);

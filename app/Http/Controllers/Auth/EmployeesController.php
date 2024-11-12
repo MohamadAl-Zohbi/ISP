@@ -42,7 +42,7 @@ class EmployeesController extends Controller
         return $new_employee;
     }
 
-    public function update_employee(Request $request,$id)
+    public function update_employee(Request $request, $id)
     {
         $emp = $request->user();
         if ($emp->rank != 'super') {
@@ -57,53 +57,58 @@ class EmployeesController extends Controller
             $employee->rank = $request->input('rank');
             $employee->is_frozen = $request->input('is_frozen');
             $employee->save();
-            return response()->json(['status'=>true,'details'=>$employee]);
+            return response()->json(['status' => true, 'details' => $employee]);
         }
-        
     }
 
-    public function delete_employee(Request $request,$id)
+    public function delete_employee(Request $request, $id)
     {
         $emp = $request->user();
         if ($emp->rank != 'super') {
-            return response()->json(['status' => false,'details'=>'no permission']);
+            return response()->json(['status' => false, 'details' => 'no permission']);
         }
 
         $employee = Employees::where('id', $id);
         if ($employee) {
             $employee->delete();
             // $employee->save();
-            return response()->json(['status'=>true,'details'=>$employee]);
+            return response()->json(['status' => true, 'details' => $employee]);
         }
-        
     }
 
     public function show_all(Request $request)
     {
         $emp = $request->user();
         if ($emp->rank != 'super') {
-            return response()->json(['status' => false,'details'=>'no permission']);
+            return response()->json(['status' => false, 'details' => 'no permission']);
         }
 
         $employees = Employees::all();
         if ($employees) {
-            return response()->json(['status'=>true,'details'=>$employees]);
+            return response()->json(['status' => true, 'details' => $employees]);
         }
-        
     }
 
-    public function show(Request $request,$id)
+    public function show(Request $request, $id)
     {
         $emp = $request->user();
         if ($emp->rank != 'super') {
-            return response()->json(['status' => false,'details'=>'no permission']);
+            return response()->json(['status' => false, 'details' => 'no permission']);
         }
 
         $employee = Employees::find($id);
         if ($employee) {
-            return response()->json(['status'=>true,'details'=>$employee]);
+            return response()->json(['status' => true, 'details' => $employee]);
         }
-        return response()->json(['status'=>false,'details'=>'no user found']);
-        
+        return response()->json(['status' => false, 'details' => 'no user found']);
+    }
+
+    public function check(Request $request)
+    {
+        $emp = $request->user();
+        if ($emp->is_frozen == false) {
+            return response()->json(['status' => false]);
+        }
+        return response()->json(['status' => true]);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-gray-800 p-4 shadow-md" style="position: fixed;width: 100%;top: 0;">
+    <nav class="bg-gray-800 p-4 shadow-md" style="position: sticky;z-index: 4; width: 100%;top: 0;">
         <div class="container mx-auto flex items-center justify-between">
             <div>
                 <button @click="toggleMenu" class="text-white focus:outline-none mr-10">
@@ -67,6 +67,8 @@
                 <details style="margin-bottom: 10px;">
                     <summary style="cursor: pointer;">
                         &nbsp;&nbsp;
+                        <img width="30" src="@/assets/customer.svg" style="display: inline-block;" alt="customer">
+                        &nbsp;
                         Customer
                     </summary>
                     <a href="create-customer" style="padding-left:50px ;"
@@ -81,6 +83,8 @@
                 <details style="margin-bottom: 10px;">
                     <summary style="cursor: pointer;">
                         &nbsp;&nbsp;
+                        <img width="30" src="@/assets/employee.svg" style="display: inline-block;" alt="customer">
+                        &nbsp;
                         Employees
                     </summary>
                     <a href="create-employee" style="padding-left:50px ;"
@@ -96,6 +100,8 @@
                 <details style="margin-bottom: 10px;">
                     <summary style="cursor: pointer;">
                         &nbsp;&nbsp;
+                        <img width="30" src="@/assets/services.svg" style="display: inline-block;" alt="customer">
+                        &nbsp;
                         Services
                     </summary>
                     <a href="create-service" style="padding-left:50px ;"
@@ -118,6 +124,8 @@
                 <details style="margin-bottom: 10px;">
                     <summary style="cursor: pointer;">
                         &nbsp;&nbsp;
+                        <img width="30" src="@/assets/renews.svg" style="display: inline-block;" alt="customer">
+                        &nbsp;
                         Renews
                     </summary>
                     

@@ -1,6 +1,7 @@
 <script setup>
-import {RouterView} from 'vue-router';
-import {ref} from 'vue';
+import { RouterView } from 'vue-router';
+import { ref } from 'vue';
+import axios from 'axios';
 import Navigation from './components/Navigation.vue';
 // import 'vuetify/dist/vuetify.min.css';
 // 
@@ -9,8 +10,27 @@ const position = ref(location.pathname);
 
 if (!localStorage.getItem('token')) {
   if (location.pathname != '/login') {
-    location.replace('/login')
+    location.replace('/login');
   }
+} else {
+  setInterval(async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/check`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (response.data.status) {
+        localStorage.clear()
+        location.replace('/')
+      }
+    } catch (error) {
+      localStorage.clear()
+      location.replace('/')
+      console.error("There was an error during the search:", error);
+    }
+  }, 10000);
 }
 
 components: {
@@ -20,7 +40,7 @@ components: {
 </script>
 
 <template>
-  <Navigation v-if="login_nav" :position="position"/>
+  <Navigation v-if="login_nav" :position="position" />
   <!-- <div style="position: absolute;float: left;width: 200px;height: 400px; background-color: red;">
     
   </div> -->
@@ -29,7 +49,7 @@ components: {
   <RouterView />
 </template>
 <style scoped>
-*{
+* {
   padding: 10px;
 }
 </style>
