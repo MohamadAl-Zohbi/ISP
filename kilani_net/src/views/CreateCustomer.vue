@@ -50,7 +50,7 @@
 
             <div>
                 <label for="location" class="block text-sm font-medium text-gray-700">Location:</label>
-                <textarea required type="text" v-model="location" style="border: none; background-color: #f7f7f7"
+                <textarea type="text" v-model="location" style="border: none; background-color: #f7f7f7"
                     class="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
             </div>
 
@@ -89,7 +89,7 @@ export default {
         },
 
         async submit() {
-            if (!this.name || !this.number || !this.location || !this.nationality || !this.username || !this.password) {
+            if (!this.name || !this.number || !this.nationality || !this.username || !this.password) {
                 return false;
             }
             let token = localStorage.getItem('token');

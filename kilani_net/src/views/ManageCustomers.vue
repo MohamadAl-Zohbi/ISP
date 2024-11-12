@@ -120,7 +120,7 @@ export default {
                     customer.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.expiry.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     // customer.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.location.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    // customer.location.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.nationality.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.number.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     customer.user.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -140,6 +140,7 @@ export default {
 
             return filteredData;
         },
+
     },
     methods: {
 
@@ -212,7 +213,12 @@ export default {
     },
     mounted() {
         this.searchQuery = this.getParam();
-        this.search()
+        this.search();
+        document.body.addEventListener('keypress', (key) => {
+            if (key.key === 'Enter') {
+                this.isOpenDetailsCustomer = false
+            }
+        });
     },
     components: {
         LoadingBox,

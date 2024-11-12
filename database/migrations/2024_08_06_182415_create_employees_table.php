@@ -27,7 +27,7 @@ return new class extends Migration
         });
 
         DB::table('employees')->insert([
-            'name' => 'John Doe',
+            'name' => 'super',
             'username' => 'super',
             'password' => 'super',
             'rank' => 'super',

@@ -70,6 +70,7 @@ export default {
     methods: {
         async submit() {
             if (!this.service || this.price == '' || !this.package) {
+                alert('wrong data')
                 return false;
             }
             let token = localStorage.getItem('token');
@@ -88,6 +89,7 @@ export default {
                 });
                 this.is_loading = false
                 console.log('Post created:', response.data);
+                location.replace('/')
             } catch (error) {
                 this.is_loading = false
 

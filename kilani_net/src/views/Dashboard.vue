@@ -1,13 +1,15 @@
 <template>
   <div style="width: 40%;height: 500px; display:inline-block;align-items: center; float: left;padding:20px;">
-    <Charts2 v-if="is_loaded" :items="data" />
-    <div v-if="!is_loaded" style="width: 500px; height: 500px;border-radius:50%;" class='animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid'>
+    <Charts2 v-if="is_loaded" :items="diagramme" />
+    <div v-if="!is_loaded" style="width: 500px; height: 500px;border-radius:50%;"
+      class='animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid'>
 
     </div>
   </div>
 
-  <div style="width: 40%;height: 500px;display:inline-block; float: right;align-items: center;display:flex;padding: 20px;">
-    <Charts1 />
+  <div
+    style="width: 40%;height: 500px;display:inline-block; float: right;align-items: center;display:flex;padding: 20px;">
+    <Charts1 v-if="is_loaded" :items="courbe" />
   </div>
 </template>
 
@@ -18,13 +20,15 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      data: [],
+      diagramme: [],
+      courbe: [[],[]],
       is_loaded: false
 
     }
   },
   mounted() {
     this.getDataFroDiagramme();
+    this.getDataForCourbe();
   },
   methods: {
     async getDataFroDiagramme() {
@@ -40,19 +44,24 @@ export default {
             to: this.date2(),
           },
         });
-        console.log(response.data)
-        let results = response.data.details;
-        this.is_loading = false
-        for (let index = 0; index < results.length; index++) {
-          this.data.push(results[index])
-        }
-        // if (this.results == 'no result') {
-        //     this.results = []
-        // }
-        if(response.data.details == 'no permission'){
-          location.replace('no-permission')
 
+
+        console.log(response.data);
+        if (response.data.status) {
+          let results = response.data.details;
+          this.is_loading = false
+          for (let index = 0; index < results.length; index++) {
+            this.diagramme.push(results[index])
+          }
+          // if (this.results == 'no result') {
+          //     this.results = []
+          // }
+          if (response.data.details == 'no permission') {
+            location.replace('no-permission')
+
+          }
         }
+
 
 
       } catch (error) {
@@ -68,32 +77,60 @@ export default {
 
         });
         console.log(response.data)
-        let results = response.data.details;
-        this.is_loading = false
-        for (let index = 0; index < results.length; index++) {
-          this.data.push(results[index])
-        }
-        // if (this.results == 'no result') {
-        //     this.results = []
-        // }
-        if(response.data.details == 'no permission'){
-          location.replace('no-permission')
+        if (response.data.status) {
+          let results = response.data.details;
+          this.is_loading = false
+          for (let index = 0; index < results.length; index++) {
+            this.diagramme.push(results[index])
+          }
+          if (response.data.details == 'no permission') {
+            location.replace('no-permission')
 
+          }
         }
-
       } catch (error) {
         console.log(error)
       }
-console.log(this.data,"ss")
-let total_customers =0;
-for (let index = 0; index < this.data.length; index++) {
-  total_customers += this.data[index].count;
-  
-}
-console.log(total_customers)
-// waiting // checked // expired // frozen (*)
+      // console.log(this.data, "ss")
+      let total_customers = 0;
+      for (let index = 0; index < this.diagramme.length; index++) {
+        total_customers += this.diagramme[index].count;
 
-      this.is_loaded = true
+      }
+      // console.log(total_customers)
+      // waiting // checked // expired // frozen (*)
+
+      // this.is_loaded = true
+    },
+    async getDataForCourbe() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/get_renews_from_to', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          params: {
+            from: this.date1(),
+            to: this.date2(),
+          },
+        });
+        console.log(response.data)
+        /* to be added later on ..!!!! */
+        // if (!response.data.status) {
+        //   alert('courbe Alert!! no renews yet ..!');
+        //   return false;
+        // }
+        for (let index = 0; index < response.data.details.length; index++) {
+          this.courbe[0].push(response.data.details[index].service)
+          this.courbe[1].push(response.data.details[index].count)
+          // this.courbe.count.push(response.data.count)
+        }
+        // console.log(this.courbe)
+        this.is_loaded = true
+
+      } catch (error) {
+
+        console.log(error)
+      }
     },
     date1() {
       let date1 = new Date();

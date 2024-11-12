@@ -23,7 +23,11 @@ class ServicesController extends Controller
                 'description' => $request->input('description'),
             ]
         );
-        return $new_service;
+
+        if ($new_service) {
+            return $new_service;
+        }
+        return response()->json(['status'=>false,'details'=>'service can not be added']);  
     }
 
     public function show_all_services(Request $request)

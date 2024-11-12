@@ -6,12 +6,18 @@
 <script setup>
 import Chart from 'chart.js/auto';
 import { onMounted } from 'vue';
-const labels = ['1Mb','2Mb','3MB', '4Mb', '5Mb'];
+const props = defineProps({
+  items: {
+    type: Array,
+    required: true,
+  },
+});
+const labels = props.items[0];
 const data = {
   labels: labels,
   datasets: [{
     label: 'test',
-    data: [250,100,150,10,5],// 500
+    data: props.items[1],// 500
   }]
 };
 const config = {
@@ -30,5 +36,6 @@ onMounted(()=>{
         document.getElementById('chart'),
         config
     )
+    console.log(props.items)
 })
 </script>

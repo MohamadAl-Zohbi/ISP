@@ -12,7 +12,6 @@ class Services extends Model
         'service',
         'price',
         'package',
-        'customer_id',
         'description',
     ];
 }
