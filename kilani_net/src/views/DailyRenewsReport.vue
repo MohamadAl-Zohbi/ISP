@@ -89,7 +89,7 @@ import LoadingBox from '@/components/LoadingBox.vue';
 import axios from 'axios';
 import AlertBox from '@/components/AlertBox.vue';
 import { host } from '@/host';
-
+import ExportExcel from '@/components/ExportExcel.vue';
 
 export default {
     data() {
@@ -310,7 +310,8 @@ export default {
     },
     components: {
         LoadingBox,
-        AlertBox
+        AlertBox,
+        ExportExcel
     }
 };
 </script>
