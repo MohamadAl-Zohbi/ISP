@@ -79,6 +79,7 @@
 
 
 <script>
+import { host } from '@/host';
 import LoadingBox from '@/components/LoadingBox.vue';
 // import RenewsDetailsCard from '@/components/RenewsDetailsCard.vue';
 import axios from 'axios';
@@ -113,7 +114,7 @@ export default {
             this.is_loading = true
             // let token = localStorage.getItem('token');
             try {
-                const response = await axios.get(`http://localhost:8000/api/get_customer_renews/${id}`, {
+                const response = await axios.get(`http://${host}:8000/api/get_customer_renews/${id}`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
@@ -139,7 +140,7 @@ export default {
         },
         // getRenewPayments(renew_id) {
 
-        //     axios.get('http://localhost:8000/api/get_payments/1', {
+        //     axios.get('http://${host}:8000/api/get_payments/1', {
         //         headers: {
         //             Authorization: `Bearer ${this.token}`,
         //         },
@@ -172,7 +173,7 @@ export default {
                 this.title = 'Alert';
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
-                axios.put('http://localhost:8000/api/check_renews/',
+                axios.put(`http://${host}:8000/api/check_renews/`,
                     {
                         data: this.ids
                     },
@@ -197,7 +198,7 @@ export default {
                 this.title = 'Alert';
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
-                axios.delete('http://localhost:8000/api/delete_renews_as_checked', {
+                axios.delete(`http://${host}:8000/api/delete_renews_as_checked`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // Include the token in headers
                         Accept: 'application/json'

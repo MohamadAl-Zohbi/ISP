@@ -84,6 +84,7 @@
     </div>
 </template>
 <script>
+import { host } from '@/host';
 import axios from 'axios';
 import LoadingBox from '@/components/LoadingBox.vue';
 export default {
@@ -114,7 +115,7 @@ export default {
             try {
                 this.is_loading = true;
 
-                const response = await axios.get('http://localhost:8000/api/get_renew_for_payment/' + id, {
+                const response = await axios.get(`http://${host}:8000/api/get_renew_for_payment/` + id, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -157,7 +158,7 @@ export default {
             // }
             try {
                 this.is_loading = true;
-                const payment_response = await axios.post('http://localhost:8000/api/create_payment/' + this.getParam(),
+                const payment_response = await axios.post(`http://${host}:8000/api/create_payment/` + this.getParam(),
                     {
                         amount: this.amount,
                         phone_number: this.number,

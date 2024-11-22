@@ -254,7 +254,7 @@ export default {
             // // this.is_loading = true;
             // let token = localStorage.getItem('token');
             // try {
-            //     const response = await axios.get(`http://localhost:8000/api/search`, {
+            //     const response = await axios.get(`http://${host}:8000/api/search`, {
             //         headers: {
             //             Authorization: `Bearer ${token}`,
             //             // Accept:'application/json' // Include the token in the Authorization header

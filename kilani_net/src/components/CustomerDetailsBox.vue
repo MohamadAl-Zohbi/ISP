@@ -38,7 +38,7 @@
                             Paid
                         </div>
                     </div>
-                    
+
 
                 </div>
                 <br><br>
@@ -60,6 +60,7 @@
 
 <script>
 import LiteSuccessBox from '@/components/LiteSuccessBox.vue';
+import { host } from '@/host';
 
 import axios from 'axios';
 export default {
@@ -157,7 +158,7 @@ export default {
             this.closeDialog();
             let token = localStorage.getItem('token');
             try {
-                const response = await axios.get(`http://localhost:8000/api/get_customer_details_for_fast_charge/` + this.id, {
+                const response = await axios.get(`http://${host}:8000/api/get_customer_details_for_fast_charge/` + this.id, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -177,46 +178,17 @@ export default {
                 alert('user cannot be charged please create a manual renew and try this later !!!')
                 return false
             }
-            let paid = 0;
-            if (action == 'unpaid') {
-                paid = 0;
-            } else {
-                paid = info.total
-            }
+
             console.log(info);
             let to = this.getNextMonthDate();
             let token = localStorage.getItem('token');
-            // try {
-            //     const response = await axios.post('http://localhost:8000/api/create_renew', {
-            //         from: this.expiry,
-            //         to: to,
-            //         cheked_by_owner: 'waiting',
-            //         total: info.total,
-            //         paid: paid,
-            //         service_id: info.id,
-            //         customer_id: this.id,
-            //         note: 'fast charge',
-            //     }, {
-            //         headers: {
-            //             Authorization: `Bearer ${token}`
-            //         }
-            //     });
-            //     this.is_loading = false
-            //     this.done = true
-            //     console.log('Post created:', response.data);
-            // } catch (error) {
-            //     this.is_loading = false
-            //     this.is_closed_warning = true
-            //     this.details = response.data.details
-            //     console.error("There was an error creating the post:", error);
-            // };
 
-            axios.post('http://localhost:8000/api/create_renew', {
+            axios.post(`http://${host}:8000/api/create_renew`, {
                 from: this.expiry,
                 to: to,
                 cheked_by_owner: 'waiting',
                 total: info.total,
-                paid: paid,
+                // paid: paid,
                 service_id: info.id,
                 customer_id: this.id,
                 note: 'fast charge',
@@ -226,11 +198,33 @@ export default {
                 }
             })
                 .then(async response => {
+                    if (action == 'paid') {
+                        try {
+                            const payment_response = await axios.post(`http://${host}:8000/api/create_payment/` + response.data.id,
+                                {
+                                    amount: info.total,
+                                    payment_method: 'cash',
+                                }, {
+                                headers: {
+                                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                                }
+                            });
+
+                            console.log('Post created:', payment_response.data);
+                            if (payment_response.data.status == false) {
+                                alert(payment_response.data.details)
+                            }
+
+                        } catch (error) {
+                            console.error("There was an error creating the post:", error);
+                        }
+                    }
+                    console.log('Response:', response.data);
+
                     await this.isDone("Success");
                     setTimeout(() => {
                         this.reload()
                     }, 3000);
-                    console.log('Response:', response.data);
                     // location.reload()
                 })
                 .catch(error => {

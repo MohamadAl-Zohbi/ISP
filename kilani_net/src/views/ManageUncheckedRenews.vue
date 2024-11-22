@@ -4,7 +4,11 @@
         :check="check" :delete="delete" :action="action" />
     <div class="containar">
         <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" autofocus />
-
+        <h1 style="text-align: center">
+            <ExportExcel
+                :headers="['created_at', 'from', 'to', 'employee_name', 'customer_name', 'service', 'status', 'total', 'paid','note']"
+                :contents="filteredSortedData" />
+        </h1>
         <table class="table-auto w-full bg-white shadow-md rounded" style="text-align: center;">
 
             <thead>
@@ -19,7 +23,9 @@
                     <th class="cursor-pointer p-4" @click="sortBy('total')">Total</th>
                     <th class="cursor-pointer p-4" @click="sortBy('paid')">Paid</th>
                     <th class="cursor-pointer p-4" @click="sortBy('note')">Note</th>
-                    <th class="cursor-pointer p-4">Action <button
+                    <th class="cursor-pointer p-4">Action
+                        <!-- <ExportExcel :headers="['name','created_at','expiry','description','location','nationality','number','user','pass']" :contents="filteredSortedData"/> -->
+                        <button
                             style="float: right; margin-right: 2%; color:blue;font-size: 15px;text-decoration: underline;"
                             @click="openAlertBox('check')">check</button>
 
@@ -80,9 +86,10 @@
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
 // import RenewsDetailsCard from '@/components/RenewsDetailsCard.vue';
+import { host } from '@/host';
 import axios from 'axios';
 import AlertBox from '@/components/AlertBox.vue';
-
+import ExportExcel from '@/components/ExportExcel.vue';
 
 export default {
     data() {
@@ -97,9 +104,9 @@ export default {
             title: '',
             message: '',
             action: '',
-            searchQuery:'',
-            sortKey: '', 
-            sortDirection:''
+            searchQuery: '',
+            sortKey: '',
+            sortDirection: ''
         };
     },
     methods: {
@@ -113,11 +120,11 @@ export default {
             // today = today.toISOString().split('T')[0];
 
             // tomorrow = tomorrow.toISOString().split('T')[0];
-         
+
 
 
             try {
-                const response = await axios.get(`http://localhost:8000/api/get_unchecked_renews`, {
+                const response = await axios.get(`http://${host}:8000/api/get_unchecked_renews`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
@@ -161,7 +168,7 @@ export default {
                 this.title = 'Alert';
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
-                axios.put('http://localhost:8000/api/check_renews/',
+                axios.put(`http://${host}:8000/api/check_renews/`,
                     {
                         data: this.ids
                     },
@@ -188,7 +195,7 @@ export default {
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
                 console.log(token)
-                axios.delete('http://localhost:8000/api/delete_renews_as_checked', {
+                axios.delete(`http://${host}:8000/api/delete_renews_as_checked`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // Include the token in headers
                         Accept: 'application/json'
@@ -229,7 +236,7 @@ export default {
 
         },
         getDateTime(data) {
-            
+
             return data.split(' ');
         },
         getTotal() {
@@ -267,7 +274,8 @@ export default {
                     renew.customer_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     renew.service.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     // renew.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    renew.status.toLowerCase().includes(this.searchQuery.toLowerCase()) 
+                    renew.status.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    (renew.note == null ? '' : renew.note).includes(this.searchQuery.toLowerCase())
                     // renew.note.includes(this.searchQuery.toLowerCase())
                 );
             });
@@ -297,7 +305,8 @@ export default {
     },
     components: {
         LoadingBox,
-        AlertBox
+        AlertBox,
+        ExportExcel
     }
 };
 </script>

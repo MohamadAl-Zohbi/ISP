@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { host } from '@/host';
 export default {
   data() {
     return {

@@ -44,6 +44,7 @@
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
 import { search } from '@/utils';
+import { host } from '@/host';
 // import RenewsDetailsCard from '@/components/RenewsDetailsCard.vue';
 import axios from 'axios';
 
@@ -75,7 +76,7 @@ console.log(this.date1,this.date2)
 
             let token = localStorage.getItem('token')
             try {
-                const response = await axios.get('http://localhost:8000/api/get_renews_from_to', {
+                const response = await axios.get(`http://${host}:8000/api/get_renews_from_to`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

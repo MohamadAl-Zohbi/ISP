@@ -4,7 +4,11 @@
         :check="check" :delete="delete" :action="action" />
     <div class="containar">
         <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" autofocus />
-
+        <h1 style="text-align: center">
+            <ExportExcel
+                :headers="['created_at', 'from', 'to', 'employee_name', 'customer_name', 'service', 'status', 'total', 'paid','note']"
+                :contents="filteredSortedData" />
+        </h1>
         <table class="table-auto w-full bg-white shadow-md rounded" style="text-align: center;">
 
             <thead>
@@ -84,6 +88,7 @@ import LoadingBox from '@/components/LoadingBox.vue';
 // import RenewsDetailsCard from '@/components/RenewsDetailsCard.vue';
 import axios from 'axios';
 import AlertBox from '@/components/AlertBox.vue';
+import { host } from '@/host';
 
 
 export default {
@@ -109,6 +114,7 @@ export default {
         filteredSortedData() {
             // Filter based on the search query
             let filteredData = this.renews.filter((renew) => {
+                
                 return (
                     renew.employee_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     renew.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -117,8 +123,8 @@ export default {
                     renew.customer_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     renew.service.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     // renew.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    renew.status.toLowerCase().includes(this.searchQuery.toLowerCase())
-                    // renew.note.includes(this.searchQuery.toLowerCase())
+                    renew.status.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    (renew.note == null ? '' : renew.note).includes(this.searchQuery.toLowerCase())
                 );
             });
 
@@ -161,7 +167,7 @@ export default {
 
 
             try {
-                const response = await axios.get(`http://localhost:8000/api/get_renews_details_from_to`, {
+                const response = await axios.get(`http://${host}:8000/api/get_renews_details_from_to`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
                     },
@@ -207,7 +213,7 @@ export default {
                 this.title = 'Alert';
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
-                axios.put('http://localhost:8000/api/check_renews/',
+                axios.put(`http://${host}:8000/api/check_renews/`,
                     {
                         data: this.ids
                     },
@@ -234,7 +240,7 @@ export default {
                 this.message = 'We Are Redirecting you !!!';
                 let token = localStorage.getItem('token');
                 console.log(token)
-                axios.delete('http://localhost:8000/api/delete_renews_as_checked', {
+                axios.delete(`http://${host}:8000/api/delete_renews_as_checked`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // Include the token in headers
                         Accept: 'application/json'
@@ -279,14 +285,14 @@ export default {
         },
         getTotal() {
             let total = 0;
-            for (let index = 0; index < this.renews.length; index++) {
+            for (let index = 0; index < this.filteredSortedData.length; index++) {
                 total += this.renews[index].total;
             }
             return total;
         },
         getPaid() {
             let paid = 0;
-            for (let index = 0; index < this.renews.length; index++) {
+            for (let index = 0; index < this.filteredSortedData.length; index++) {
                 paid += this.renews[index].paid;
             }
             return paid;

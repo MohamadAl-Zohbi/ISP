@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('number')->nullable();
             $table->text('location')->nullable();
             $table->text('description')->nullable();
-            $table->date('expiry');
+            $table->date('expiry')->default(now());
             $table->enum('nationality', ['lebanon', 'syria', 'pelastine', 'other'])->nullable();
             $table->string('user');
             $table->string('pass');

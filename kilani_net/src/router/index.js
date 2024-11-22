@@ -22,6 +22,7 @@ import NoPermission from '@/views/NoPermission.vue'
 import CreatePayment from '@/views/CreatePayment.vue'
 import EditRenew from '@/views/EditRenew.vue'
 import RenewDetails from '@/views/RenewDetails.vue'
+import PrintPayment from '@/views/PrintPayment.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,11 @@ const router = createRouter({
       path: '/renew-details',
       name: 'renew-details',
       component: RenewDetails
+    }, 
+    {
+      path: '/print-payment',
+      name: 'print-payment',
+      component: PrintPayment
     }, 
     {
       path: '/manage-customers',

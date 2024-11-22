@@ -57,6 +57,7 @@
 
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
+import { host } from '@/host';
 // import Vuetify from 'vuetify';
 import axios from 'axios';
 
@@ -118,7 +119,7 @@ export default {
             this.is_loading = true;
             let token = localStorage.getItem('token');
             try {
-                const response = await axios.get(`http://localhost:8000/api/show_all_services`, {
+                const response = await axios.get(`http://${host}:8000/api/show_all_services`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

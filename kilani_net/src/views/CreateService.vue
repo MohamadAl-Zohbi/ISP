@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { host } from '@/host';
 import axios from 'axios';
 import LoadingBox from '@/components/LoadingBox.vue';
 export default {
@@ -77,7 +78,7 @@ export default {
             try {
                 this.is_loading = true;
 
-                const response = await axios.post('http://localhost:8000/api/create_service', {
+                const response = await axios.post(`http://${host}:8000/api/create_service`, {
                     service: this.service,
                     price: this.price,
                     package: this.package,

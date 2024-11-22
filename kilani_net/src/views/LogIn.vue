@@ -1,4 +1,5 @@
 <script>
+import { host } from '@/host';
 import axios from 'axios';
 import WarningMessage from '../components/WarningMessage.vue';
 import Loading from '../components/LoadingBox.vue';
@@ -20,7 +21,7 @@ export default {
     async login() {
       this.is_loading = true;
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+        const response = await axios.post(`http://${host}:8000/api/login`, {
           username: this.username,
           password: this.password,
         });

@@ -65,6 +65,7 @@
 
 <script>
 import axios from 'axios';
+import { host } from '@/host';
 import LoadingBox from '@/components/LoadingBox.vue';
 export default {
     data() {
@@ -96,7 +97,7 @@ export default {
             try {
                 this.is_loading = true;
 
-                const response = await axios.post('http://localhost:8000/api/create_customer', {
+                const response = await axios.post(`http://${host}:8000/api/create_customer`, {
                     name: this.name,
                     number: this.number,
                     location: this.location,

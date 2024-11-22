@@ -3,6 +3,7 @@
         <!-- <LiteSuccessBox v-if="success"/> -->
         <LiteSuccessBox v-if="done" :details="details" />
         <LoadingBox v-if="is_loading" />
+        
         <!-- <CustomerDetailsBox v-if="true" :name="name" :created_at="created_at" :expiry="expiry"
             :description="description" :location="location" :nationality="nationality" :number="number" :user="user" :password="password"/> -->
         <CustomerDetailsBox v-if="isOpenDetailsCustomer" :isOpen="true" :name="name"
@@ -26,7 +27,9 @@
                         <th @click="sortBy('number')" class="cursor-pointer p-4">Number</th>
                         <th @click="sortBy('user')" class="cursor-pointer p-4">User</th>
                         <th @click="sortBy('pass')" class="cursor-pointer p-4">Password</th>
-                        <th class="cursor-pointer p-4">Action</th>
+                        <th class="cursor-pointer p-4">Action
+                            <ExportExcel :headers="['name','created_at','expiry','description','location','nationality','number','user','pass']" :contents="filteredSortedData"/>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,9 +80,12 @@
     </template>
 
 <script>
+import ExportExcel from '@/components/ExportExcel.vue';
+
 import LoadingBox from '@/components/LoadingBox.vue';
 import CustomerDetailsBox from '@/components/CustomerDetailsBox.vue';
 // import Vuetify from 'vuetify';
+import { host } from '@/host';
 
 import { search } from '@/utils.js';
 // import CustomerDetails from './CustomerDetails.vue';
@@ -223,7 +229,8 @@ export default {
     components: {
         LoadingBox,
         CustomerDetailsBox,
-        LiteSuccessBox
+        LiteSuccessBox,
+        ExportExcel
     }
 };
 

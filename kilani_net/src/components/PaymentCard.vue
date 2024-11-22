@@ -3,6 +3,7 @@
         style="margin:20px auto;max-width: 350px;box-sizing: border-box;box-shadow: 4px 4px 10px 0px black;border-radius: 5px;">
         <div>
             <img style="margin: auto;" width="150" src="../assets/cloudsp.jpg" alt="CloudSp">
+            <pre style="text-align: center;">{{ id }}</pre>
 
             <div>
                 <!-- <div>
@@ -18,7 +19,7 @@
                             <td>Amount</td>
                             <td colspan="2"><b>{{ amount }}$</b></td>
                         </tr>
-                       
+
                         <tr>
                             <td>service</td>
                             <td colspan="2">{{ service }}</td>
@@ -31,7 +32,9 @@
                             <td>to</td>
                             <td colspan="2"><span>{{ to }}<sub>yyyy/mm/dd</sub></span></td>
                         </tr>
-                        <tr><td colspan="3">{{ note }}</td></tr>
+                        <tr>
+                            <td colspan="3">{{ note }}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <!-- <p style="padding: 10px;">
@@ -55,7 +58,8 @@
                 </div>
                 <div style="text-align: center; font-weight: bold; font-size: 13px;">
                     <!-- 30/10/2024 &nbsp;14:23:21 -->
-                     {{ created_at.toString().split('T')[0] }} &nbsp;{{ created_at.toString().split('T')[1].split('.')[0] }}
+                    <!-- {{ created_at.toString().split('T')[0] }} &nbsp;{{ created_at.toString().split('T')[1].split('.')[0] }} -->
+                    {{ new Date(created_at).toLocaleString("en-US", { timeZone: "Asia/Beirut" }) }}
                     <!-- <div style="display: inline-block; float: left; margin: 0px 0px" >ccc</div> -->
                     <!-- <div style="display: inline-block; float: right; margin: 0px 0px" >ccc</div> -->
                 </div>
@@ -63,11 +67,12 @@
         </div>
         <br>
         <div class="action">
-            <button style="width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: orange"
+            <button style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: orange"
                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Edit</button>
-            <button style="width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: red"
+            <button @click="openAlertBox(id)" style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: red"
                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Delete</button>
-            <button style="width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: green"
+            <button @click="print()"
+                style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: green"
                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Print</button>
 
 
@@ -114,10 +119,33 @@ export default {
         id: {
             type: Number,
             required: true
+        },
+        open: {
+            type: Function,
         }
     },
     methods: {
-
+        print() {
+            let data = {
+                name: this.name,
+                note: this.note,
+                amount: this.amount,
+                service: this.service,
+                from: this.from,
+                to: this.to,
+                created_at: this.created_at,
+                id: this.id
+            };
+            sessionStorage.setItem('data', JSON.stringify(data));
+            window.open(
+                "print-payment",  // URL
+                "PopupWindow",          // Window name
+                "width=400,height=400,resizable=yes,scrollbars=yes"
+            );
+        },
+        openAlertBox(id){
+            this.open(id);
+        }
     },
     mounted() {
 
@@ -133,6 +161,6 @@ export default {
 
 td {
     text-align: center;
-    border: 1px solid;
+    border-bottom: 1px solid;
 }
 </style>

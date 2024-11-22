@@ -33,7 +33,7 @@ class RenewsController extends Controller
                 'service_id' => $request->input('service_id'),
                 'checked_by_owner' => $request->input('cheked_by_owner'),
                 'total' => $request->input('total'),
-                'paid' => $request->input('paid'),
+                // 'paid' => $request->input('paid'),
                 'customer_id' => $request->input('customer_id'),
                 'note' => $request->input('note'),
             ]
@@ -198,10 +198,10 @@ renews.customer_id = $id
         if ($renews) {
             return response()->json(['status' => true, 'details' => $renews]);
         }
-        return response()->json(['status' => false, 'details' => 'no pay found']);
+        return response()->json(['status' => false, 'details' => 'no result']);
     }
 
-    public function get_checked_renews(Request $request)
+    public function get_unchecked_renews(Request $request)
     {
         $emp = $request->user();
         // if ($emp->rank != 'super') {

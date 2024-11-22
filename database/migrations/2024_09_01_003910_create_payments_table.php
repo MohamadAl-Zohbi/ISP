@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('phone_number')->nullable();
             $table->string('description')->nullable();
-            $table->string('who'); // who is the payer
+            $table->string('who')->nullable(); // who is the payer
             $table->enum('payment_method', ['wish_money', 'cash', 'other']);
 
             $table->unsignedBigInteger('employee_id');

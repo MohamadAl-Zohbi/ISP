@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import { host } from '@/host';
 import axios from 'axios';
 import LoadingBox from '@/components/LoadingBox.vue';
 export default {
@@ -157,7 +158,7 @@ export default {
             let token = localStorage.getItem('token');
             let service_id = document.getElementById('service').value.split(',')[1];
             try {
-                const response_renew = await axios.post('http://localhost:8000/api/create_renew', {
+                const response_renew = await axios.post(`http://${host}:8000/api/create_renew`, {
                     from: this.expiry,
                     to: this.to,
                     cheked_by_owner: 'waiting',
@@ -177,7 +178,7 @@ export default {
                 if (this.paid > 0) {
                     try {
                         // console.log(this.paid)
-                        let response_payment = await axios.post('http://localhost:8000/api/create_payment/' + response_renew.data.id, {
+                        let response_payment = await axios.post(`http://${host}:8000/api/create_payment/` + response_renew.data.id, {
                             amount: this.paid,
                             phone_number: this.number,
                             description: this.description,
@@ -218,7 +219,7 @@ export default {
             let token = localStorage.getItem('token');
 
             try {
-                const response = await axios.get(`http://localhost:8000/api/get_renew_for_edit/${this.getParam()}`, {
+                const response = await axios.get(`http://${host}:8000/api/get_renew_for_edit/${this.getParam()}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }
@@ -245,7 +246,7 @@ export default {
             try {
                 this.is_loading = true
                 let token = localStorage.getItem("token");
-                const response = await axios.get(`http://localhost:8000/api/show_all_services`, {
+                const response = await axios.get(`http://${host}:8000/api/show_all_services`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     }

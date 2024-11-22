@@ -41,7 +41,7 @@ return new class extends Migration
             // $table->enum('status',['done','waiting']);
             $table->enum('checked_by_owner',['checked','waiting','refuised']);
             $table->float('total',8,2);
-            $table->float('paid',8,2);
+            $table->float('paid',8,2)->default(0);
             $table->string('note')->nullable();
         });
     }

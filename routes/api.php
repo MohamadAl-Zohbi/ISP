@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\ServicesController;
 use App\Models\Renews;
 use App\Models\Services;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExcelExportController;
+
 
 Route::post('/create_employee',[EmployeesController::class, 'create_employee'])->middleware('auth:sanctum');
 Route::post('/create_customer',[CustomersController::class, 'create_customer'])->middleware('auth:sanctum');
@@ -43,7 +45,7 @@ Route::get('/get_payments/{id}',[PaymentsController::class, 'get_payments'])->mi
 Route::get('/get_renew_for_edit/{id}',[RenewsController::class, 'get_renew_for_edit'])->middleware('auth:sanctum');
 Route::get('/get_customer_details_for_fast_charge/{id}',[RenewsController::class, 'get_customer_details_for_fast_charge'])->middleware('auth:sanctum');
 Route::get('/get_unpaid_renews',[RenewsController::class, 'get_unpaid_renews'])->middleware('auth:sanctum');
-Route::get('/get_unchecked_renews',[RenewsController::class, 'get_checked_renews'])->middleware('auth:sanctum');
+Route::get('/get_unchecked_renews',[RenewsController::class, 'get_unchecked_renews'])->middleware('auth:sanctum');
 Route::get('/get_customer_renews/{id}',[RenewsController::class, 'get_customer_renews'])->middleware('auth:sanctum');
 Route::get('/get_renew_for_payment/{id}',[RenewsController::class, 'get_renew_for_payment'])->middleware('auth:sanctum');
 Route::get('/get_renews_details_from_to',[RenewsController::class, 'get_renews_details_from_to'])->middleware('auth:sanctum');
@@ -52,3 +54,5 @@ Route::get('/get_expired_frozen_customers',[CustomersController::class, 'get_exp
 
 Route::get('/check',[EmployeesController::class, 'check'])->middleware('auth:sanctum');
 Route::post('/login',[EmployeesController::class,'login']);
+
+

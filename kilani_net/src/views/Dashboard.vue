@@ -16,6 +16,7 @@
 <script>
 import Charts1 from '@/components/Charts1.vue';
 import Charts2 from '@/components/Charts2.vue';
+import { host } from '@/host';
 import axios from 'axios';
 export default {
   data() {
@@ -35,7 +36,7 @@ export default {
       this.is_loading = true;
       let token = localStorage.getItem('token')
       try {
-        const response = await axios.get('http://localhost:8000/api/get_renews_waiting_checked_from_to', {
+        const response = await axios.get(`http://${host}:8000/api/get_renews_waiting_checked_from_to`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +71,7 @@ export default {
       }
 
       try {
-        const response = await axios.get('http://localhost:8000/api/get_expired_frozen_customers', {
+        const response = await axios.get(`http://${host}:8000/api/get_expired_frozen_customers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -104,7 +105,7 @@ export default {
     },
     async getDataForCourbe() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get_renews_from_to', {
+        const response = await axios.get(`http://${host}:8000/api/get_renews_from_to`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

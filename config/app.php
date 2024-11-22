@@ -68,12 +68,7 @@ return [
     | ahead and set this to a sensible default for you out of the box.
     |
     */
-
-    // 'timezone' => 'UTC',
     'timezone' => 'Asia/Beirut',
-
-    // 'timezone' => 'America/New_York',
-
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

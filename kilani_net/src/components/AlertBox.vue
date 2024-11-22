@@ -47,8 +47,11 @@ export default {
         check: {
             type: Function
         },
-        delete:{
-            type:Function
+        delete: {
+            type: Function
+        },
+        id: {
+            type: Number
         }
     },
 
@@ -69,6 +72,9 @@ export default {
 
             if (this.action == 'delete')
                 this.delete()
+
+            if (this.action == 'payment')
+                this.delete(this.id)
 
         },
     },

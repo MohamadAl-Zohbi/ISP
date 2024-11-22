@@ -12,6 +12,9 @@ class EmployeesController extends Controller
     {
         $employee = Employees::where('username', $request->input('username'))->first();
         if ($employee) {
+            if ($employee->is_frozen) {
+                return response()->json(['status' => false, 'details' => 'your account is frozen!!!']);
+            }
             if ($employee->password == $request->input('password')) {
                 $token = $employee->createToken('auth_token');
                 return response()->json(['status' => true, 'details' => $employee, 'token' => $token->plainTextToken]);

@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import { host } from '@/host';
 import axios from 'axios';
 import LoadingBox from '@/components/LoadingBox.vue';
 export default {
@@ -134,7 +135,7 @@ export default {
             try {
                 this.is_loading = true;
 
-                const response = await axios.put('http://localhost:8000/api/update_customer/'+this.getParam(), {
+                const response = await axios.put(`http://${host}:8000/api/update_customer/`+this.getParam(), {
                     name: this.name,
                     number: this.number,
                     location: this.location,
@@ -175,7 +176,7 @@ export default {
         this.is_loading = true
         let token = localStorage.getItem('token');
         try {
-            const response = await axios.get(`http://localhost:8000/api/get_customer/${this.getParam()}`, {
+            const response = await axios.get(`http://${host}:8000/api/get_customer/${this.getParam()}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
