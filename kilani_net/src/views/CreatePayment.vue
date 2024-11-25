@@ -3,7 +3,7 @@
     <div class="p-4" style="display: inline-block;position: fixed;right: 0px; top: 50px">
         <transition name="slide-right" @after-enter="startTimeout">
             <div v-if="success" class="bg-green-100 border border-green-300 text-green-700 p-4 rounded mb-4">
-                <p>Item successfully deleted!</p>
+                <p>success</p>
             </div>
         </transition>
     </div>

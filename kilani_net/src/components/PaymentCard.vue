@@ -1,4 +1,5 @@
 <template>
+    <EditPayment v-if="is_editing" :id="id"/>
     <div
         style="margin:20px auto;max-width: 350px;box-sizing: border-box;box-shadow: 4px 4px 10px 0px black;border-radius: 5px;">
         <div>
@@ -67,9 +68,11 @@
         </div>
         <br>
         <div class="action">
-            <button style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: orange"
+            <button @click="edit()"
+                style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: orange"
                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Edit</button>
-            <button @click="openAlertBox(id)" style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: red"
+            <button @click="openAlertBox(id)"
+                style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: red"
                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none">Delete</button>
             <button @click="print()"
                 style="background-color: white; width: 33.33%; box-shadow: 1px 1px 10px 0px black; color: green"
@@ -81,10 +84,11 @@
 
 </template>
 <script>
+import EditPayment from './EditPayment.vue';
 export default {
     data() {
         return {
-
+            is_editing: false,
         };
     },
     props: {
@@ -143,13 +147,19 @@ export default {
                 "width=400,height=400,resizable=yes,scrollbars=yes"
             );
         },
-        openAlertBox(id){
+        openAlertBox(id) {
             this.open(id);
+        },
+        edit() {
+            this.is_editing = !this.is_editing;
         }
     },
     mounted() {
 
     },
+    components: {
+        EditPayment
+    }
 
 };
 </script>

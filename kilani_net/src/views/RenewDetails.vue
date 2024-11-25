@@ -5,7 +5,7 @@
 
     <div class="p-4" style="display: inline-block;position: fixed;right: 0px; top: 50px">
         <transition name="slide-right" @after-enter="startTimeout">
-            <div v-if="success" class="bg-green-100 border border-green-300 text-green-700 p-4 rounded mb-4">
+            <div v-if="success" style="z-index: 2;"class="bg-red-100 border border-green-300 text-green-700 p-4 rounded mb-4">
                 <p>Item successfully deleted!</p>
             </div>
         </transition>
@@ -100,7 +100,7 @@ export default {
                 .then(response => {
                     console.log('Response:', response.data);
                     this.success = true;
-                    
+                    this.getPayments();
                     this.payments.slice(response.data.details, 1);
                 })
                 .catch(error => {
