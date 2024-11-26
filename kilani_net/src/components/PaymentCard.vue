@@ -1,5 +1,5 @@
 <template>
-    <EditPayment v-if="is_editing" :id="id"/>
+    <EditPayment v-if="is_editing" :close="edit" :id="id" :amount="amount"/>
     <div
         style="margin:20px auto;max-width: 350px;box-sizing: border-box;box-shadow: 4px 4px 10px 0px black;border-radius: 5px;">
         <div>
