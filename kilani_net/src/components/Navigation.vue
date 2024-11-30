@@ -187,7 +187,7 @@
                 </div>
               
                 <a href="#" class="block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                    Contact
+                    Invoice
                 </a>
                 <a href="#" class="block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                     Help

@@ -53,18 +53,16 @@ class PaymentsController extends Controller
 
         $payment = Payments::where('id', $id)->first();
         $old_amount = $payment->amount; // 20 /     35 
+        //3
+        // 10 
+        // {}=>13
         // 7 - 20 = -13 
         $current_amount = $request->input('amount') - $old_amount;
         if ($payment) {
             $payment->amount = $request->input('amount');
-            $payment->phone_number = $request->input('phone_number');
             $payment->description = $request->input('description');
-            $payment->who = $request->input('who');
-            $payment->payment_method = $request->input('payment_method');
-            $payment->employee_id = $request->input('employee_id');
-            $payment->renew_id = $request->input('renew_id');
             $payment->save();
-            $renew = Renews::where('id', $request->input('renew_id'))->first();
+            $renew = Renews::where('id', $payment->renew_id)->first();
             $renew->paid += $current_amount;
             $renew->save();
             return response()->json(['status' => true, 'details' => $payment]);
