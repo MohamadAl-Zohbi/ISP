@@ -122,15 +122,20 @@ export default {
             // Filter based on the search query
             let filteredData = this.customers.filter((customer) => {
                 return (
-                    customer.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.expiry.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    // customer.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    // customer.location.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.nationality.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.number.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.user.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    customer.pass.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    customer.created_at.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    customer.name.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    customer.expiry.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    // customer.description.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) 
+                    (customer.description == null ? '' : customer.description).includes(this.searchQuery.toLowerCase().trim()) ||
+                    (customer.location == null ? '' : customer.location).includes(this.searchQuery.toLowerCase().trim()) ||
+                    (customer.nationality == null ? '' : customer.nationality).includes(this.searchQuery.toLowerCase().trim()) ||
+                    (customer.description == null ? '' : customer.description).includes(this.searchQuery.toLowerCase().trim()) ||
+                    (customer.number == null ? '' : customer.number).includes(this.searchQuery.toLowerCase().trim()) ||
+                    // customer.location.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    // customer.nationality.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    // customer.number.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    customer.user.toLowerCase().includes(this.searchQuery.toLowerCase().trim()) ||
+                    customer.pass.toLowerCase().includes(this.searchQuery.toLowerCase().trim())
                 );
             });
 
