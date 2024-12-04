@@ -139,7 +139,7 @@ export default {
             // Hide the message after 2 seconds
             setTimeout(() => {
                 this.success = false;
-                location.replace('/')
+                location.replace('/super')
             }, 1000);
         },
         async submit() {

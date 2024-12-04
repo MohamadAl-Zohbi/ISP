@@ -33,7 +33,7 @@ Route::get('/show_all',[EmployeesController::class, 'show_all'])->middleware('au
 Route::get('/show_all_customers',[CustomersController::class, 'show_all_customers'])->middleware('auth:sanctum');
 Route::get('/show_all_services',[ServicesController::class, 'show_all_services'])->middleware('auth:sanctum');
 Route::get('/search',[CustomersController::class, 'search_customer'])->middleware('auth:sanctum');
-Route::get('/get_renews_from_to',[RenewsController::class, 'get_renews_from_to'])->middleware('auth:sanctum');
+Route::get('/get_services_renews_from_to',[ServicesController::class, 'get_services_renews_from_to'])->middleware('auth:sanctum');
 Route::get('/get_renews_waiting_checked_from_to',[RenewsController::class, 'get_renews_waiting_checked_from_to'])->middleware('auth:sanctum');
 Route::get('/get_service/{id}',[ServicesController::class, 'get_service'])->middleware('auth:sanctum');
 

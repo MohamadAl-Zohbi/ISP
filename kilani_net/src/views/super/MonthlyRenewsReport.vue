@@ -2,94 +2,111 @@
     <LoadingBox v-if="is_loading" />
     <AlertBox v-if="isAlertBox" :isOpen="true" :title="title" :message="message" :closeFunction="closeAlertBox"
         :check="check" :delete="delete" :action="action" />
-    <div class="containar">
+
+    <div style="padding: 10px;">
         <input v-model="searchQuery" type="text" placeholder="Search..." class="border p-2 mb-4 w-full" autofocus />
-        <h1 style="text-align: center">
-            <ExportExcel
-                :headers="['created_at', 'from', 'to', 'employee_name', 'customer_name', 'service', 'status', 'total', 'paid','note']"
-                :contents="filteredSortedData" />
-        </h1>
-        <table class="table-auto w-full bg-white shadow-md rounded" style="text-align: center;">
+        <div style="text-align: center;">
+            <div style="border-radius: 5px; border: 1px solid;display: inline-block;">
+                <label for="fromDate" class="text-sm font-medium text-gray-700" style="margin-right: 20px;">From Date:
+                    mm/dd/yyyy</label>
+                <input type="date" v-model="date1"
+                    class="mt-1   border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
 
-            <thead>
-                <tr style="border-bottom: 1px solid black;">
-                    <th class="cursor-pointer p-4" @click="sortBy('created_at')">Created<br>yyyy-mm-dd</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('from')">From</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('to')">To</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('employee_name')">Created By</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('customer_name')">Customer Name</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('service')">Service</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('status')">Status</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('total')">Total</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('paid')">Paid</th>
-                    <th class="cursor-pointer p-4" @click="sortBy('note')">Note</th>
-                    <th class="cursor-pointer p-4">Action
-                        <!-- <ExportExcel :headers="['name','created_at','expiry','description','location','nationality','number','user','pass']" :contents="filteredSortedData"/> -->
-                        <button
-                            style="float: right; margin-right: 2%; color:blue;font-size: 15px;text-decoration: underline;"
-                            @click="openAlertBox('check')">check</button>
+            </div>
+            <div style="border-radius: 5px; border: 1px solid;display: inline-block; margin: 10px;">
+                <label for="to" class=" text-sm font-medium text-gray-700" style="margin-right: 20px;">To Date:
+                    mm/dd/yyyy</label>
+                <input type="date" v-model="date2"
+                    class="mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
 
-                        <button
-                            style="float: right; margin-right: 2%; color:blue;font-size: 15px;text-decoration: underline;"
-                            @click="openAlertBox('delete')">delete</button>
-                    </th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(renew, index) in filteredSortedData" :key="index"
-                    :class="['border-b', renew.status == 'checked' ? '' : 'bg-red-200', parseInt(renew.total) > parseInt(renew.paid) ? 'text-red-500' : '', 'hover:bg-gray-700', 'hover:!text-white']">
-
-                    <td class="p-1">{{ getDateTime(renew.created_at)[0]
-                        }} <br> {{ getDateTime(renew.created_at)[1] }}</td>
-
-                    <td class="p-1 center">{{ renew.from }}</td>
-
-                    <td class="p-1">{{ renew.to }}</td>
-
-                    <td class="p-1">{{ renew.employee_name }}</td>
-                    <td class="p-1">{{ renew.customer_name }}</td>
-                    <td class="p-1">{{ renew.service }}</td>
-                    <td class="p-1">{{ renew.status }}</td>
-                    <td class="p-1">{{ renew.total }}</td>
-                    <td class="p-1">{{ renew.paid }}</td>
-                    <td class="p-1">{{ renew.note }}</td>
-                    <td class="p-1">
-                        <a :href="'create-payment?id=' + renew.id"
-                            class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                            style="margin-right: 1px;">
-                            Pay
-                        </a>
-                        <button
-                            class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                            style="color: red;margin-right: 1px;">
-                            Edit
-                        </button>
-                        <button
-                            class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
-                            style="color: green;">
-                            Details
-                        </button>
-                        <input type="checkbox" @click="prepareIdsForCheck(renew.id)">
-                    </td>
-                </tr>
-
-
-            </tbody>
-
-        </table>
+            </div>
+        </div>
+        <button @click="search()"
+            class="w-full py-2 px-4 bg-gray-600 text-white font-semibold rounded-md shadow hover:bg-gray-700 transition duration-200">
+            Search
+        </button>
     </div>
-    <p v-if="no_renew" class="mt-4 text-gray-500">No results found.</p>
-    <p class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
-    <p class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
+    <h1 style="text-align: center">
+        <ExportExcel
+            :headers="['created_at', 'from', 'to', 'employee_name', 'customer_name', 'service', 'status', 'total', 'paid', 'note']"
+            :contents="filteredSortedData" />
+    </h1>
+    <table class="table-auto w-full bg-white shadow-md rounded" style="text-align: center;">
+        <thead>
+            <tr style="border-bottom: 1px solid black;">
+                <th class="cursor-pointer p-4" @click="sortBy('created_at')">Created<br>yyyy-mm-dd</th>
+                <th class="cursor-pointer p-4" @click="sortBy('from')">From</th>
+                <th class="cursor-pointer p-4" @click="sortBy('to')">To</th>
+                <th class="cursor-pointer p-4" @click="sortBy('employee_name')">Created By</th>
+                <th class="cursor-pointer p-4" @click="sortBy('customer_name')">Customer Name</th>
+                <th class="cursor-pointer p-4" @click="sortBy('service')">Service</th>
+                <th class="cursor-pointer p-4" @click="sortBy('status')">Status</th>
+                <th class="cursor-pointer p-4" @click="sortBy('total')">Total</th>
+                <th class="cursor-pointer p-4" @click="sortBy('paid')">Paid</th>
+                <th class="cursor-pointer p-4" @click="sortBy('note')">Note</th>
+                <th class="cursor-pointer p-4">Action <button
+                        style="float: right; margin-right: 2%; color:blue;font-size: 15px;text-decoration: underline;"
+                        @click="openAlertBox('check')">check</button>
+                    <button
+                        style="float: right; margin-right: 2%; color:blue;font-size: 15px;text-decoration: underline;"
+                        @click="openAlertBox('delete')">delete</button>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(renew, index) in filteredSortedData" :key="index"
+                :class="['border-b', renew.status == 'checked' ? '' : 'bg-red-200', parseInt(renew.total) > parseInt(renew.paid) ? 'text-red-500' : '', 'hover:bg-gray-700', 'hover:!text-white']">
+
+                <td class="p-1">{{ getDateTime(renew.created_at)[0]
+                    }} <br> {{ getDateTime(renew.created_at)[1] }}</td>
+
+                <td class="p-1 center">{{ renew.from }}</td>
+
+                <td class="p-1">{{ renew.to }}</td>
+
+                <td class="p-1">{{ renew.employee_name }}</td>
+                <td class="p-1">{{ renew.customer_name }}</td>
+                <td class="p-1">{{ renew.service }}</td>
+                <td class="p-1">{{ renew.status }}</td>
+                <td class="p-1">{{ renew.total }}</td>
+                <td class="p-1">{{ renew.paid }}</td>
+                <td class="p-1">{{ renew.note }}</td>
+                <td class="p-1">
+                    <a :href="'/super/create-payment?id=' + renew.id"
+                        class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                        style="margin-right: 1px;">
+                        Pay
+                    </a>
+                    <button
+                        class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                        style="color: red;margin-right: 1px;">
+                        Edit
+                    </button>
+                    <button
+                        class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
+                        style="color: green;">
+                        Details
+                    </button>
+                    <input type="checkbox" @click="prepareIdsForCheck(renew.id)">
+                </td>
+            </tr>
+            <p v-if="!renews.length" class="mt-4 text-gray-500">No results found.</p>
+            <p v-if="renews.length" class="mt-4 text-gray-500">Total :{{ getTotal() }}</p>
+            <p v-if="renews.length" class="mt-4 text-gray-500">Paid :{{ getPaid() }}</p>
+
+        </tbody>
+    </table>
 </template>
+
+
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
 // import RenewsDetailsCard from '@/components/RenewsDetailsCard.vue';
-import { host } from '@/host';
 import axios from 'axios';
 import AlertBox from '@/components/AlertBox.vue';
 import ExportExcel from '@/components/ExportExcel.vue';
+import { host } from '@/host';
 
 export default {
     data() {
@@ -104,6 +121,8 @@ export default {
             title: '',
             message: '',
             action: '',
+            date1: this.getDate1(),
+            date2: this.getDate2(),
             searchQuery: '',
             sortKey: '',
             sortDirection: ''
@@ -120,22 +139,25 @@ export default {
             // today = today.toISOString().split('T')[0];
 
             // tomorrow = tomorrow.toISOString().split('T')[0];
-
+            console.log(this.date1)
+            console.log(this.costomizeDate2(this.date2))
 
 
             try {
-                const response = await axios.get(`http://${host}:8000/api/get_unchecked_renews`, {
+                const response = await axios.get(`http://${host}:8000/api/get_renews_details_from_to`, {
                     headers: {
                         Authorization: `Bearer ${this.token}`,
+                    },
+                    params: {
+                        from: this.date1,
+                        to: this.date2
                     },
                 });
                 this.is_loading = false
 
                 console.log(response.data);
                 if (response.data.details == 'no result') {
-                    this.no_renew = true;
-                    this.renews = [];
-
+                    this.renews = []
                 } else {
                     this.renews = response.data.details;
                 }
@@ -149,6 +171,11 @@ export default {
 
             // console.log(this.getDateTime(this.renews[0].created_at))
 
+        },
+        costomizeDate2(date) {
+            let fixed_date = date.split('-');
+            // this.date2 =  `${fixed_date[0]}-${fixed_date[1]}-${fixed_date[2] -1}`
+            return `${fixed_date[0]}-${fixed_date[1]}-${parseInt(fixed_date[2]) + 1}`
         },
 
         prepareIdsForCheck(id) {
@@ -236,7 +263,6 @@ export default {
 
         },
         getDateTime(data) {
-
             return data.split(' ');
         },
         getTotal() {
@@ -253,6 +279,22 @@ export default {
             }
             return paid;
         },
+        getDate1() {
+            let date1 = new Date();
+            date1.setDate(5);
+            date1.setMonth(date1.getMonth() - 1);
+            date1 = date1.toISOString().split('T')[0];
+            console.log(date1)
+            return date1
+        },
+        getDate2() {
+            let date2 = new Date();
+            date2.setDate(6); // 6 the 6 day will not be because the interval between [5:6[
+            date2.setMonth(date2.getMonth());
+            date2 = date2.toISOString().split('T')[0];
+            console.log(date2)
+            return date2
+        },
         sortBy(key) {
             if (this.sortKey === key) {
                 // Toggle sort direction
@@ -263,7 +305,6 @@ export default {
                 this.sortDirection = 1;
             }
         },
-
     },
     computed: {
         filteredSortedData() {
@@ -271,6 +312,9 @@ export default {
             let filteredData = this.renews.filter((renew) => {
                 return (
                     renew.employee_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    renew.created_at.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    renew.from.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    renew.to.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     renew.customer_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     renew.service.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                     // renew.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||

@@ -49,20 +49,20 @@
                 <td class="p-1">{{ renew.note }}</td>
                 <td class="p-1">
                     <a
-                    :href="'create-payment?id='+renew.id"
+                    :href="'/super/create-payment?id='+renew.id"
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="margin-right: 1px;">
                         Pay
                     </a>
                     <a
-                    :href="'edit-renew?id='+renew.id"
+                    :href="'/super/edit-renew?id='+renew.id"
 
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="color: red;margin-right: 1px;">
                         Edit
                     </a>
                     <a
-                    :href="'renew-details?id='+renew.id"
+                    :href="'/super/renew-details?id='+renew.id"
 
                         class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                         style="color: green;">

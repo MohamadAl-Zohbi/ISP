@@ -118,7 +118,7 @@ export default {
                 console.error("There was an error creating the post:", error);
             }
 
-            location.replace('manage-employees')
+            location.replace('/super/manage-employees')
         },
 
         getParam() {

@@ -27,7 +27,7 @@
                 </svg>
             </div>
             <div class="text-white text-2xl font-bold">
-                <a href="/" class="hover:text-gray-400 location">{{ name.substring(0, 5) }}...</a>
+                <a href="/super" class="hover:text-gray-400 location">{{ name.substring(0, 5) }}...</a>
             </div>
             <button @click="handleLogout" class="flex items-center p-2 text-gray-600 hover:text-red-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -50,7 +50,7 @@
             'bg-gray-800 text-white w-64 space-y-6 py-7 px-2 inset-y-0 left-0 transform',
             isOpen ? 'translate-x-0' : '-translate-x-full',
             'transition-transform duration-300 ease-in-out shadow-2xl w-64 p-4 overflow-y-auto'
-        ]" style="position: fixed; margin-top: 73.6px; ">
+        ]" style="position: fixed; margin-top: 60px; ">
             <!-- Logo -->
 
             <div class="text-white text-2xl font-bold text-center block">
@@ -71,10 +71,10 @@
                         &nbsp;
                         Customer
                     </summary>
-                    <a href="create-customer" style="padding-left:50px ;"
+                    <a href="/super/create-customer" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Customer
-                    </a><a href="manage-customers?search=" style="padding-left:50px ;"
+                    </a><a href="/super/manage-customers?search=" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Customers
                     </a>
@@ -87,10 +87,10 @@
                         &nbsp;
                         Employees
                     </summary>
-                    <a href="create-employee" style="padding-left:50px ;"
+                    <a href="/super/create-employee" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Employee
-                    </a><a href="manage-employees" style="padding-left:50px ;"
+                    </a><a href="/super/manage-employees" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Employees
                     </a>
@@ -104,18 +104,18 @@
                         &nbsp;
                         Services
                     </summary>
-                    <a href="create-service" style="padding-left:50px ;"
+                    <a href="/super/create-service" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Add Service
-                    </a><a href="manage-services" style="padding-left:50px ;"
+                    </a><a href="/super/manage-services" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Manage Services
                     </a>
-                    <a href="daily-services-report" style="padding-left:50px ;"
+                    <a href="/super/daily-services-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Daily Services
                     </a>
-                    <a href="monthly-services-report" style="padding-left:50px ;"
+                    <a href="/super/monthly-services-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Monthly Services
                     </a>
@@ -129,19 +129,19 @@
                         Renews
                     </summary>
                     
-                    <a href="daily-renews-report" style="padding-left:50px ;"
+                    <a href="/super/daily-renews-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Daily Report
                     </a>
-                    <a href="monthly-renews-report" style="padding-left:50px ;"
+                    <a href="/super/monthly-renews-report" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Monthly Report
                     </a>
-                    <a href="unpaid-renews" style="padding-left:50px ;"
+                    <a href="/super/unpaid-renews" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         Unpaid Renews
                     </a>
-                    <a href="unchecked-renews" style="padding-left:50px ;"
+                    <a href="/super/unchecked-renews" style="padding-left:50px ;"
                         class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
                         UnChecked Renews
                     </a>
@@ -149,27 +149,6 @@
                     
                 </details>
 
-                <!-- <details style="margin-bottom: 10px;">
-                    <summary style="cursor: pointer;">
-                        &nbsp;&nbsp;
-                        Payments
-                    </summary>
-                    <a href="#" style="padding-left:50px ;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        Add Payment
-                    </a>
-                    <a href="#" style="padding-left:50px ;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        Daily Payments
-                    </a>
-                    <a href="#" style="padding-left:50px ;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        Administration
-                    </a><a href="#" style="padding-left:50px;"
-                        class=" block py-1 px-4 rounded transition duration-200 hover:bg-gray-700">
-                        Yearly Report
-                    </a>
-                </details> -->
                 <details style="margin-bottom: 10px;">
                     <summary style="cursor: pointer;color: red;">
                         &nbsp;&nbsp;

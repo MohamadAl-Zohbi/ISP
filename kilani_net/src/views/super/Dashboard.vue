@@ -58,7 +58,7 @@ export default {
           //     this.results = []
           // }
           if (response.data.details == 'no permission') {
-            location.replace('no-permission')
+            location.replace('/super/no-permission')
 
           }
         }
@@ -85,7 +85,7 @@ export default {
             this.diagramme.push(results[index])
           }
           if (response.data.details == 'no permission') {
-            location.replace('no-permission')
+            location.replace('/super/no-permission')
 
           }
         }

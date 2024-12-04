@@ -41,7 +41,7 @@ class CustomersController extends Controller
     public function update_customer(Request $request, $id)
     {
         $emp = $request->user();
-        if ($emp->rank != 'super' && $emp->rank != 'admin') {
+        if ($emp->rank != 'super') {
             return response()->json(['status' => 'no permession']);
         }
 

@@ -76,7 +76,7 @@ console.log(this.date1,this.date2)
 
             let token = localStorage.getItem('token')
             try {
-                const response = await axios.get(`http://${host}:8000/api/get_renews_from_to`, {
+                const response = await axios.get(`http://${host}:8000/api/get_service_renews_from_to`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

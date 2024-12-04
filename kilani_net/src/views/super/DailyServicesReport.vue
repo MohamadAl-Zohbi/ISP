@@ -44,7 +44,7 @@ export default {
             console.log(tomorrow);
             let token = localStorage.getItem('token')
             try {
-                const response = await axios.get(`http://${host}:8000/api/get_renews_from_to`, {
+                const response = await axios.get(`http://${host}:8000/api/get_services_renews_from_to`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

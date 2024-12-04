@@ -90,14 +90,13 @@ export default {
                 });
                 this.is_loading = false
                 console.log('Post created:', response.data);
-                location.replace('/')
+                location.replace('/super')
             } catch (error) {
                 this.is_loading = false
 
                 console.error("There was an error creating the post:", error);
             }
 
-            // location.replace('manage-customers?search=')
         },
 
 

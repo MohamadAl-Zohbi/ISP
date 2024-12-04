@@ -55,7 +55,7 @@
                                 style="margin-right: 1px;">
                                 Show
                             </button>
-                            <a :href="'create-renew?id=' + customer.id"
+                            <a :href="'/super/create-renew?id=' + customer.id"
                                 class="text-blue-600 px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="margin-right: 1px;">
                                 Renew
@@ -65,7 +65,7 @@
                                 style="color: red;margin-right: 1px;">
                                 Edit
                             </button>
-                            <a :href="'customer-details?id=' + customer.id"
+                            <a :href="'/super/customer-details?id=' + customer.id"
                                 class="px-4 py-2 rounded-lg transition-transform duration-200 transform hover:scale-105 active:scale-95 focus:outline-none"
                                 style="color: green;">
                                 Details

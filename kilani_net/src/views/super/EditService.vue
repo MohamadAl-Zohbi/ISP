@@ -95,7 +95,7 @@ export default {
                 console.error("There was an error creating the post:", error);
             }
 
-            location.replace('manage-services')
+            location.replace('/super/manage-services')
         },
 
         getParam() {

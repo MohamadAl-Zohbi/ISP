@@ -15,9 +15,9 @@ class PaymentsController extends Controller
     {
         $emp = $request->user();
 
-        if ($emp->rank != 'super' && $emp->rank != 'admin') {
-            return response()->json(['status' => 'no permession']);
-        }
+        // if ($emp->rank != 'super' && $emp->rank != 'admin') {
+        //     return response()->json(['status' => 'no permession']);
+        // }
         $renew = Renews::find($id);
         if (($request->input('amount') + $renew['paid']) > $renew['total']) {
             return response()->json(['status' => false, 'details' => 'the amount is too higher then the total please pay as the total']);

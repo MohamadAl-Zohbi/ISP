@@ -1,8 +1,8 @@
 <script>
 import { host } from '@/host';
 import axios from 'axios';
-import WarningMessage from '../components/WarningMessage.vue';
-import Loading from '../components/LoadingBox.vue';
+import WarningMessage from '@/components/WarningMessage.vue';
+import Loading from '@/components/LoadingBox.vue';
 export default {
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
         if (response.data.status == true) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('name', response.data.details.name);
-          location.replace('/');
+          location.replace('/super');
         } else {
           this.is_closed_warning = true
           this.details = response.data.details

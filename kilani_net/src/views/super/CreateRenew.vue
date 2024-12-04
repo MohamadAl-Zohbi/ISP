@@ -5,7 +5,7 @@
         <h2 class="text-2xl font-bold mb-6 text-center">Renewal Form</h2>
         <div>
             <label for="customer" class="block text-sm font-medium text-gray-700">Customer:</label>
-            <input type="text" v-model="name"
+            <input type="text" v-model="name" required
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 readonly>
         </div>
@@ -13,7 +13,7 @@
         <form @submit.prevent="submitForm" class="space-y-4">
             <div>
                 <label for="fromDate" class="block text-sm font-medium text-gray-700">From Date:mm/dd/yyyy</label>
-                <input type="date" @change="getTotal(service)" v-model="from" required
+                <input type="date" @change="getNextMonthDate()" v-model="expiry" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
 
@@ -30,14 +30,14 @@
                 }" v-model="service" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <option disabled value="">Select an option</option>
-                    <option v-for="service in services" :key="service.id" :value="service.service">{{
+                    <option v-for="service in services" :key="service.id" :value="[service.price, service.id]">{{
                         service.service }}
                     </option>
                 </select>
             </div>
             <br>
             <div>
-                <label for="total" class="block text-sm font-medium text-gray-700">Total: $$</label>
+                <label for="total" class="block text-sm font-medium text-gray-700">Total Amount: $$</label>
                 <input type="text" @keypress="(event) => {
                     const char = String.fromCharCode(event.keyCode); // Get the pressed key
                     if (!/^\d$/.test(char) && char != '.') {  // Check if the character is not a digit
@@ -46,32 +46,22 @@
                 }" v-model="total" required
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-            <div>
-                <label for="paid" class="block text-sm font-medium text-gray-700">Paid: $$</label>
-                <input type="text" @keypress="(event) => {
-                    const char = String.fromCharCode(event.keyCode); // Get the pressed key   
-                    if (!/^\d$/.test(char) && char != '.') {  // Check if the character is not a digit
-                        event.preventDefault();  // Prevent non-digit input
-                    }
-                }" v-model="paid" readonly
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-            </div>
 
             <div>
                 <label for="note" class="block text-sm font-medium text-gray-700">Note:</label>
                 <input type="text" v-model="note"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-            <!-- <h2 class="text-1xl font-bold mb-6 text-center">Payment</h2>
+            <h2 class="text-1xl font-bold mb-6 text-center">Payment</h2>
 
             <div>
-                <label for="amount" class="block text-sm font-medium text-gray-700">Payment Amount: $$</label>
+                <label for="paid" class="block text-sm font-medium text-gray-700">Payment Amount: $$</label>
                 <input type="text" @keypress="(event) => {
                     const char = String.fromCharCode(event.keyCode); // Get the pressed key
                     if (!/^\d$/.test(char) && char != '.') {  // Check if the character is not a digit
                         event.preventDefault();  // Prevent non-digit input
                     }
-                }" v-model.number="amount"
+                }" v-model.number="paid"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
             <div>
@@ -88,7 +78,7 @@
                 <label for="note" class="block text-sm font-medium text-gray-700">Note:</label>
                 <input type="text" v-model="description"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-            </div> -->
+            </div>
 
 
             <button type="submit" @click="submit()"
@@ -115,28 +105,72 @@ import LoadingBox from '@/components/LoadingBox.vue';
 export default {
     data() {
         return {
+            name: '',
+            total: 0.00,
+            expiry: '',
             service: '',
-            services: '',
             description: ' ',
             note: ' ',
-            from: '',
-            total:'',
-            amount:'',
             to: '',
             who: '',
             customer: '',
-            name: '',
             number: '',
+            number_of_days: '',
             paid: 0.00,
-            renew: '',
+            services: [],
             is_loading: false,
         };
     },
     methods: {
+
+        getNextMonthDate() {
+            let expiry = this.expiry;
+            // Add one month
+            let date = new Date(this.expiry);
+            expiry = expiry.toString().split('T')[0].split('-'); // month 0 -> 11
+            console.log(expiry)
+            console.log(parseInt(expiry[2]), parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 2}`)))
+            console.log(`${parseInt(expiry[1]) + 1}`)
+            console.log('hello: ', this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`));
+            if (parseInt(expiry[2]) <= parseInt(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`))) {
+                date.setMonth(expiry[1]) // next month (to)
+                this.to = date.toISOString().split('T')[0];
+            } else {
+                date.setDate(this.getLastDayOfMonth(expiry[0], `${parseInt(expiry[1]) + 1}`));
+                date.setMonth(expiry[1]);
+                this.to = date.toISOString().split('T')[0];
+            }
+
+        },
+
+        getLastDayOfMonth(year, month) {
+            // Month is 0-based in JavaScript, so January is 0, December is 11
+            return new Date(year, month, 0).getDate();
+        },
+        getTotal(value) {
+            if (!value) {
+                return false;
+            }
+            let date1 = new Date(this.expiry);
+            let date2 = new Date(this.to);
+
+            let timeDifference = date2 - date1;
+            let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+            console.log(value)
+            //  20$ ===> 30day
+            //  ??  <===  1
+            this.total = (daysDifference * parseInt(value) / 30).toFixed(2);
+            if (daysDifference == 29 || daysDifference == 30 || daysDifference == 31) {
+                this.total = parseFloat(value);
+            }
+            return true;
+        },
         getParam() {
             let queryString = window.location.search;
             let urlParams = new URLSearchParams(queryString);
             let value = urlParams.get('id');
+
             return value;
         },
         async submit() {
@@ -156,7 +190,7 @@ export default {
 
             this.is_loading = true;
             let token = localStorage.getItem('token');
-            let service_id = document.getElementById('service').value.split(',')[1];
+            let service_id = document.getElementById('service').value.split(',')[1];// 203-dd-fdde [202,dd,fdde]  dd
             try {
                 const response_renew = await axios.post(`http://${host}:8000/api/create_renew`, {
                     from: this.expiry,
@@ -212,60 +246,52 @@ export default {
                 console.error("There was an error creating the post:", error);
             }
 
-            location.replace('manage-customers?search=')
-        },
-        async getInfo(id) {
-            this.is_loading = true;
-            let token = localStorage.getItem('token');
-
-            try {
-                const response = await axios.get(`http://${host}:8000/api/get_renew_for_edit/${this.getParam()}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                });
-                this.is_loading = false
-
-                this.customer = response.data.customer;
-                this.renew = response.data.renew;
-                // this.service = response.data.service;
-                this.name = this.customer.name
-                this.from = this.renew.from
-                this.to = this.renew.to
-                this.total = this.renew.total
-                this.paid = this.renew.paid
-                this.note = this.renew.note
-                this.service = response.data.service.service;
-            } catch (error) {
-                this.is_loading = false;
-
-                console.error("There was an error during the search:", error);
-            };
-        },
-        async getServices() {
-            try {
-                this.is_loading = true
-                let token = localStorage.getItem("token");
-                const response = await axios.get(`http://${host}:8000/api/show_all_services`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                });
-                this.is_loading = false
-                this.services = response.data.details
-
-            } catch (error) {
-                this.is_loading = false
-
-                console.error("There was an error during the search:", error);
-            };
+            location.replace('/super/manage-customers?search=')
         }
 
     },
     async mounted() {
-        this.getInfo()
-        this.getServices()
-        
+        this.is_loading = true
+        let token = localStorage.getItem('token');
+        try {
+            const response = await axios.get(`http://${host}:8000/api/get_customer/${this.getParam()}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            this.is_loading = false
+
+
+            // console.log(response.data);
+            this.customer = response.data.details;
+            this.name = this.customer.name;
+            this.expiry = this.customer.expiry;
+            this.getNextMonthDate()
+        } catch (error) {
+            this.is_loading = false
+
+            console.error("There was an error during the search:", error);
+        };
+
+        try {
+            this.is_loading = true
+
+            const response = await axios.get(`http://${host}:8000/api/show_all_services`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            this.is_loading = false
+
+
+            // console.log(response.data);
+            this.services = response.data.details
+
+        } catch (error) {
+            this.is_loading = false
+
+            console.error("There was an error during the search:", error);
+        };
     },
     components: {
         LoadingBox

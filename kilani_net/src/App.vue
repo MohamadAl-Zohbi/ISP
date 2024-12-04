@@ -3,7 +3,7 @@ import { RouterView } from 'vue-router';
 import { ref } from 'vue';
 import axios from 'axios';
 import { host } from './host';
-import Navigation from './components/Navigation.vue';
+import Navigation from '@/components/Navigation.vue';
 // import 'vuetify/dist/vuetify.min.css';
 // 
 const login_nav = ref(location.pathname != '/login' && location.pathname != '/print-payment');

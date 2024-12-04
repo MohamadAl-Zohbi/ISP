@@ -17,9 +17,9 @@ class RenewsController extends Controller
     public function create_renew(Request $request)
     {
         $emp = $request->user();
-        if ($emp->rank != 'super' && ($request->input('cheked_by_owner') == 'checked' || $request->input('cheked_by_owner') == 'refuised')) {
-            return response()->json(['status' => 'no permession']);
-        }
+        // if ($emp->rank != 'super' && ($request->input('cheked_by_owner') == 'checked' || $request->input('cheked_by_owner') == 'refuised')) {
+        //     return response()->json(['status' => 'no permession']);
+        // }
 
 
         $customer = Customers::where('id', $request->input('customer_id'))->first();
@@ -57,7 +57,7 @@ class RenewsController extends Controller
     public function update_renew(Request $request, $id)
     {
         $emp = $request->user();
-        if ($emp->rank != 'super' && $emp->rank != 'admin') {
+        if ($emp->rank != 'super') {
             return response()->json(['status' => 'no permession']);
         }
 
@@ -103,27 +103,7 @@ class RenewsController extends Controller
         }
     }
 
-    public function get_renews_from_to(Request $request)
-    {
-        $emp = $request->user();
-        if ($emp->rank != 'super') {
-            return response()->json(['status' => false, 'details' => 'no permission']);
-        }
-
-        $from = request('from');
-        $to = request('to');
-        // $renews = Renews::query()
-        //     ->whereBetween('created_at', [request('from'), request('to')])
-        //     ->get();
-
-        $renews = DB::select(DB::raw("  
-        SELECT COUNT(service) as count,service from renews,services WHERE services.id = renews.service_id AND renews.checked_by_owner = 'checked' AND renews.created_at BETWEEN '$from' AND '$to' GROUP BY service
-"));
-        if ($renews) {
-            return response()->json(['status' => true, 'details' => $renews]);
-        }
-        return response()->json(['status' => false, 'details' => 'no result']);
-    }
+    
 
     public function get_renews_details_from_to(Request $request)
     {
@@ -204,9 +184,9 @@ renews.customer_id = $id
     public function get_unchecked_renews(Request $request)
     {
         $emp = $request->user();
-        // if ($emp->rank != 'super') {
-        //     return response()->json(['status' => false, 'details' => 'no permission']);
-        // }
+        if ($emp->rank != 'super') {
+            return response()->json(['status' => false, 'details' => 'no permission']);
+        }
 
         // $renews = Renews::query()
         //     ->whereBetween('created_at', [request('from'), request('to')])

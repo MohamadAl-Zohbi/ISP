@@ -115,7 +115,7 @@ export default {
                 this.is_loading = false
                 console.log('Post created:', response.data);
                 if (response.data.details == 'no permission') {
-                    location.replace('no-permission')
+                    location.replace('/super/no-permission')
 
                 }
             } catch (error) {
@@ -126,7 +126,7 @@ export default {
                 console.error("There was an error creating the post:", error);
             }
 
-            location.replace('manage-customers?search=')
+            location.replace('/super/manage-customers?search=')
         },
 
 

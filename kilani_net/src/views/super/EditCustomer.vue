@@ -158,7 +158,7 @@ export default {
                 console.error("There was an error creating the post:", error);
             }
 
-            location.replace('manage-customers?search=')
+            location.replace('/super/manage-customers?search=')
         },
         getParam() {
             let queryString = window.location.search;
