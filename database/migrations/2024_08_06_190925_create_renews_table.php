@@ -23,21 +23,21 @@ return new class extends Migration
             $table->foreign('employee_id')
                 ->references('id')
                 ->on('employees')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             // customers
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             // services
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')
                 ->references('id')
                 ->on('services')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
             // $table->enum('status',['done','waiting']);
             $table->enum('checked_by_owner',['checked','waiting','refuised']);
             $table->float('total',8,2);

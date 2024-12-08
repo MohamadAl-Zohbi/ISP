@@ -109,9 +109,9 @@ class EmployeesController extends Controller
     public function check(Request $request)
     {
         $emp = $request->user();
-        if ($emp->is_frozen == false) {
+        if ($emp->is_frozen) {
             return response()->json(['status' => false]);
         }
-        return response()->json(['status' => true]);
+        return response()->json(['status' => true,'rank'=>$emp->rank]);
     }
 }

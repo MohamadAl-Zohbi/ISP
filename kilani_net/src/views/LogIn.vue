@@ -31,7 +31,13 @@ export default {
         if (response.data.status == true) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('name', response.data.details.name);
-          location.replace('/super');
+
+
+          if (response.data.details.rank == 'super')
+            location.replace('/super');
+          else if (response.data.details.rank == 'admin')
+            location.replace('/admin');
+
         } else {
           this.is_closed_warning = true
           this.details = response.data.details
@@ -40,7 +46,7 @@ export default {
       } catch (error) {
         this.is_loading = false
         this.is_closed_warning = true
-          this.details = response.data.details
+        this.details = response.data.details
 
         console.error("There was an error creating the post:", error);
       }
@@ -54,7 +60,7 @@ export default {
 </script>
 
 <template>
-  <Loading v-if="is_loading"/>
+  <Loading v-if="is_loading" />
 
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -78,19 +84,14 @@ export default {
         <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-500">
           Login
         </button>
-  
+
       </form>
-      <transition
-      enter-active-class="transition-opacity ease-out duration-500"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition-opacity ease-in duration-500"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-  <WarningMessage v-if="is_closed_warning" :msg="closeWarning" :details="details" />
-</transition>
+      <transition enter-active-class="transition-opacity ease-out duration-500" enter-from-class="opacity-0"
+        enter-to-class="opacity-100" leave-active-class="transition-opacity ease-in duration-500"
+        leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <WarningMessage v-if="is_closed_warning" :msg="closeWarning" :details="details" />
+      </transition>
     </div>
-    
+
   </div>
 </template>

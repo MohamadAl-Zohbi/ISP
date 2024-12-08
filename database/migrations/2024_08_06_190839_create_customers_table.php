@@ -36,7 +36,7 @@ return new class extends Migration
             $table->foreign('created_by')
                 ->references('id')
                 ->on('employees')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

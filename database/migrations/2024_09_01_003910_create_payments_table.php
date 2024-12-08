@@ -26,13 +26,13 @@ return new class extends Migration
             $table->foreign('employee_id')
                 ->references('id')
                 ->on('employees')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
 
             $table->unsignedBigInteger('renew_id');
             $table->foreign('renew_id')
                 ->references('id')
                 ->on('renews')
-                ->onDelete('cascade');
+                ->onDelete('restrict');
         });
     }
 

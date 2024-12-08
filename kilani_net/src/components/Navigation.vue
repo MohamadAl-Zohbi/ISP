@@ -50,7 +50,7 @@
             'bg-gray-800 text-white w-64 space-y-6 py-7 px-2 inset-y-0 left-0 transform',
             isOpen ? 'translate-x-0' : '-translate-x-full',
             'transition-transform duration-300 ease-in-out shadow-2xl w-64 p-4 overflow-y-auto'
-        ]" style="position: fixed; margin-top: 60px; ">
+        ]" style="position: fixed;z-index: 3; margin-top: 60px; ">
             <!-- Logo -->
 
             <div class="text-white text-2xl font-bold text-center block">

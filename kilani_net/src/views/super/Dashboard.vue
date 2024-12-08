@@ -105,7 +105,7 @@ export default {
     },
     async getDataForCourbe() {
       try {
-        const response = await axios.get(`http://${host}:8000/api/get_renews_from_to`, {
+        const response = await axios.get(`http://${host}:8000/api/get_services_renews_from_to`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
